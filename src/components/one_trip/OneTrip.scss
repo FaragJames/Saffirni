@@ -1,0 +1,102 @@
+:root{
+  --PrimeryColor: hsl(199,100%,33%);
+  --SecenderyColor: hsl(187,85%,43%);
+  --gradientColor: linear-gradient(to right,hsl(187,85%,43%),hsl(199,100%,33%) );
+  --WhiteColor:hsl(0,0%,100%);
+  --blackColor:hsl(201,33%,16%);
+  --textColor: hsl(240,4%,36%);
+  --WhiteColorDeam:hsl(0,0%,93%);
+  --greyText: rgb(190,190,190);
+  --inpotColor:rgb(239,239,239);
+  --bodyColor:rgb(240,240,246);
+  --cardBG:rgb(255,255,235);
+
+}
+
+.trip-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 2rem 5rem;
+    .imresalt {
+      position: relative;
+      width: 20%;
+      min-width: 10rem;
+      align-items: center;
+      text-align: center;
+      padding-top: 2rem;
+  
+      .imageDiv {
+        height: 100px;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 15px;
+        img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+          transition: 2s ease;
+        }
+        &:hover {
+          img {
+            transform: scale(1.1);
+          }
+        }
+      }
+  
+      .ratingDiv{  
+        align-items: center;
+        justify-content: center;
+
+        .btn {
+          align-items: center;
+          color: var(--WhiteColor);
+          font-weight: 700;
+          margin: 1rem auto;
+        }
+        .boxRating{
+          background-color:var(--WhiteColor) ;
+          border-radius: 45px;
+          position: absolute;
+          z-index: 100;
+        }
+      }
+    }
+  
+    .Hresult {
+      p {
+        margin: 5px 0;
+        direction: rtl;
+      }
+  
+      .btn {
+        margin-left: 3rem;
+        align-items: center;
+        color: var(--WhiteColor);
+        font-weight: 700;
+      }
+      .price {
+        font-size: 1.5rem;
+        color: var(--blackColor);
+        text-align: center;
+      }
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .trip-result {
+      display: flex;
+      align-items: center;
+      flex-direction: column-reverse;
+    }
+  }
+  @media screen and (max-width: 700px) {
+    .trip-result {
+      padding: 2rem 3rem;
+    }
+  }
+  @media screen and (min-width: 900px) {
+    .trip-result {
+      padding: 2rem 7rem;
+    }
+  }
