@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Seat from "../seat/Seat";
 import "./bus.css";
 import Footer from "../footer/Footer";
+import { GiSteeringWheel } from "react-icons/gi";
+
 
 const Bus = ({ seatsData, handleBusSubmit, handleUpdateFakeData }) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -36,8 +38,11 @@ const Bus = ({ seatsData, handleBusSubmit, handleUpdateFakeData }) => {
   return (
     <>
       <div className="busLayout">
-        <h2>باص</h2>
+        <h2 className="title">إختر مقاعد الجلوس</h2>
+        <div className="busSeat">
+        <GiSteeringWheel className="icon" />
         <div className="seatsContainer">
+
           {seatsData.map((seat, index) => (
             <div key={seat.number} className="seatWrapper">
               <Seat
@@ -49,6 +54,7 @@ const Bus = ({ seatsData, handleBusSubmit, handleUpdateFakeData }) => {
               />
             </div>
           ))}
+        </div>
         </div>
         <div className="seatInfo">
           <p>المقاعد المحجوزة: {selectedSeats.length}</p>

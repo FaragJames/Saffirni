@@ -17,6 +17,72 @@
 }
 
 .busLayout {
-  width: 500px;
+  width: 600px;
   margin: auto;
-}/*# sourceMappingURL=bus.css.map */
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.busLayout .title {
+  position: relative;
+  color: var(--textColor);
+  margin: 1rem 0;
+  z-index: 2;
+  font-size: xx-large;
+}
+
+.busLayout .busSeat {
+  border: 2px solid black;
+  border-radius: 15px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  text-align: left;
+}
+
+.busLayout .busSeat .icon {
+  margin-left: 1rem;
+}
+
+.busLayout .busSeat .seatsContainer {
+  margin-top: 1rem;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 3fr  3fr 1fr;
+      grid-template-columns: 1fr 3fr  3fr 1fr;
+  -ms-grid-rows: (25px)[10];
+      grid-template-rows: repeat(10, 25px);
+  gap: 10px 1px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+.busLayout .seatWrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.busLayout .seatInfo {
+  margin-top: 1rem;
+}
+
+.busLayout .buttonContainer {
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+}
+
+.busLayout .buttonContainer .btn {
+  border: none;
+  color: #fff;
+  margin: 0 0.5rem;
+}
+/*# sourceMappingURL=bus.css.map */
