@@ -16,7 +16,57 @@
   --cardBG: rgb(255, 255, 235);
 }
 
-.busLayout{
-  width: 500px;
+.busLayout {
+  width: 600px;
   margin: auto;
+  text-align: center;
+  margin-top: 1rem;
+  .title {
+    position: relative;
+    color: var(--textColor);
+    margin: 1rem 0;
+    z-index: 2;
+    font-size: xx-large;
+  }
+.busSeat{
+  border: 2px solid black;
+    border-radius: 15px;
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: left;
+    .icon{
+margin-left: 1rem;
+    }
+  .seatsContainer {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 3fr  3fr 1fr; 
+    grid-template-rows: repeat(10, 25px);
+    gap:10px 1px ;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    
+  }
+}
+
+  .seatWrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .seatInfo {
+    margin-top: 1rem;
+  }
+
+  .buttonContainer {
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+
+    .btn {
+      border: none;
+      color: #fff;
+      margin: 0 0.5rem;
+    }
+  }
 }

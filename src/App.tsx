@@ -144,7 +144,7 @@ export default function App() {
             element: (
                 <>
                     {" "}
-                    <div>Fuck you</div>
+                    <div>Error 404</div>
                     <Footer />
                     {" "}
                 </>
