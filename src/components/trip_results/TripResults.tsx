@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./TripResults.css";
 import img from "../../assets/img.jpg";
 import Rating from "@mui/material/Rating";
@@ -16,8 +16,9 @@ const TripResults = ({ flight }) => {
                 <p>وقت الوصول المتوقع: {flight.arrivalTime}</p>
                 <p>عدد المقاعد المتبقية: {flight.seatsAvailable}</p>
                 <h5 className="price">{flight.price} S.P</h5>
-                <button className="btn flex" onClick={handleNextClick}>
-                    احجز الآن
+
+                <button className="btn flex">
+                    <Link to="/Bus">احجز الآن</Link>
                 </button>
             </div>
             <div className="Hresult">
