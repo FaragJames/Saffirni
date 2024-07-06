@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { MdChair } from "react-icons/md";
 
 // عرض المقعد الواحد
 const Seat = ({ seatNumber, isSelected, isReserved, onClick }) => {
-  let seatColor = 'blue';
+  let seatColor = 'var(--PrimeryColor)';
   let cursorStyle = 'pointer';
-
+ 
   if (isSelected) {
     seatColor = 'green'; // مقعد محدد
   } else if (isReserved) {

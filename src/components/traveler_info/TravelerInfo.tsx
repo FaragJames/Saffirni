@@ -1,15 +1,16 @@
-import React from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Footer from "../footer/Footer";
 import "./TravelerInfo.css";
 
-const TravelerInfo = ({ numReservedSeats }) => {
+const TravelerInfo = ({ numReservedSeats }:any) => {
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const {  selectedSeats ,flight} = location.state;
+ 
   const validationSchema = Yup.object().shape({
     travelers: Yup.array().of(
       Yup.object().shape({
@@ -30,8 +31,8 @@ const TravelerInfo = ({ numReservedSeats }) => {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
-      navigate("/check-in");
+      console.log( { state: { flight, selectedSeats, travelers: values.travelers } })
+      navigate("/bill", { state: { flight, selectedSeats, travelers: values.travelers } });
     }
   });
 
@@ -102,7 +103,7 @@ const TravelerInfo = ({ numReservedSeats }) => {
                 marginTop: "1rem",
               }}
             >
-              <span>التالي</span>
+              التالي
             </button>
           </div>
         </form>

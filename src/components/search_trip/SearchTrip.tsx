@@ -32,6 +32,9 @@ const SearchTrip = ({ clickSubmitting }) => {
     return (
         <div id="SearchTrip">
             {clickSubmitting && searchResults.map((flight) => (
+
+                 
+                
                 <TripResults key={flight.idsearch} flight={flight} />
             ))}
         </div>

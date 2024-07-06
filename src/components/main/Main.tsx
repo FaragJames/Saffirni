@@ -14,7 +14,7 @@ const Data = [
     {
         id: 1,
         imgsrc: img1,
-        desTitel: "بورا بورا",
+        desTitel: "شركة طرودة",
         location: "نيوزيلندا",
         grade: "استرخاء ثقافي",
         fees: "$700",
@@ -72,8 +72,7 @@ const Main = () => {
         <section className="main container section">
             <div className="secTitle">
                 <h3 data-aos="fade-up" className="title">
-                    أكثر الوجهات زيارة
-                </h3>
+شركات النقل الأفضل </h3>
                 <div className="seContent grid">
                     {Data.map(
                         ({

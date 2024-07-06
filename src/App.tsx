@@ -14,6 +14,7 @@ import Main from "./components/main/Main.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
 import SearchTrip from "./components/search_trip/SearchTrip.tsx";
 import TravelerInfo from "./components/traveler_info/TravelerInfo.tsx";
+import Bill from "./components/bill/Bill.tsx";
 import MyTrips from "./components/my_trips/MyTrips.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -69,22 +70,26 @@ export default function App() {
     const [clickSubmitting, setClickSubmitting] = useState(false);
     const [numReservedSeats, setNumReservedSeats] = useState(0);
     const [hideMain, setHideMain] = useState(false);
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    const [selectedFlight, setSelectedFlight] = useState(null);
 
-    const handleBusSubmit = (numSeats: number) => {
-        setNumReservedSeats(numSeats);
-    };
-
+    const handleBusSubmit = (selectedSeats) => {
+        setNumReservedSeats(selectedSeats.length);
+        setSelectedSeats(selectedSeats);
+      };
+      
     const handleSearchClick = () => {
         setClickSubmitting(true);
         setHideMain(true);
+        console.log(20);
+        
+       // setSelectedFlight(flight);
     };
 
     // just memorizing the updated data
     const handleUpdateFakeData = (seatNumber: number) => {
         fakeSeatsData[seatNumber - 1].selected = true;
-        console.log(fakeSeatsData);
     };
-    console.log(fakeSeatsData);
     const router = createBrowserRouter([
         {
             path: "/",
@@ -124,11 +129,11 @@ export default function App() {
         {
             path: "Bus",
             element: (
-                <Bus
-                    seatsData={fakeSeatsData}
-                    handleBusSubmit={handleBusSubmit}
-                    handleUpdateFakeData={handleUpdateFakeData}
-                />
+<Bus
+  seatsData={fakeSeatsData}
+  handleBusSubmit={handleBusSubmit}
+  handleUpdateFakeData={handleUpdateFakeData}
+/>
             ),
         },
         {
@@ -138,6 +143,10 @@ export default function App() {
         {
             path: "TravelerInfo",
             element: <TravelerInfo numReservedSeats={numReservedSeats} />,
+        },
+        {
+            path: "bill",
+            element: <Bill />,
         },
         {
             path: "check-in",

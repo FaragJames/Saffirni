@@ -111,11 +111,11 @@ const Home = ({ setClickSubmitting }) => {
                             </div>
                         </div>
                         <button
-                            className="searchOptions flex"
+                            className="searchOptions btn flex"
                             style={{ border: "none", color: "#fff" }}
                             type="submit"
                         >
-                            <span>ابحث</span>
+                           ابحث 
                             <FaSearch className="icon" color="#fff" />
                         </button>
                     </div>
