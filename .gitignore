@@ -4,3 +4,5 @@ src/testing
 src/state
 
 Required Changes.txt
+package-lock.json
+package.json
