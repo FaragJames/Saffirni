@@ -2,10 +2,10 @@
   --PrimeryColor: hsl(199, 100%, 33%);
   --SecenderyColor: hsl(187, 85%, 43%);
   --gradientColor: linear-gradient(
-      to right,
-      hsl(187, 85%, 43%),
-      hsl(199, 100%, 33%)
-  );
+        to right,
+        hsl(187, 85%, 43%),
+        hsl(199, 100%, 33%)
+    );
   --WhiteColor: hsl(0, 0%, 100%);
   --blackColor: hsl(201, 33%, 16%);
   --textColor: hsl(240, 4%, 36%);
@@ -18,30 +18,43 @@
 
 .header {
   position: fixed;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   background: var(--WhiteColorDeam);
   width: 100%;
   padding: 1rem;
   z-index: 1000;
-  box-shadow: 0 2px 4px rgba(2, 15, 29, 0.24);
+  -webkit-box-shadow: 0 2px 4px rgba(2, 15, 29, 0.24);
+          box-shadow: 0 2px 4px rgba(2, 15, 29, 0.24);
 }
 .header .logo {
   color: var(--blackColor);
   font-weight: 600;
   cursor: pointer;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 .header .logo .mainicon {
   width: 125px;
-  transform: translateY(5px);
+  -webkit-transform: translateY(5px);
+          transform: translateY(5px);
 }
 @media screen and (max-width: 768px) {
   .header .navBar {
     position: absolute;
     background: var(--WhiteColorDeam);
+    height: -webkit-max-content;
     height: -moz-max-content;
     height: max-content;
     width: 80%;
@@ -49,14 +62,22 @@
     top: -500rem;
     left: 50%;
     padding: 1rem;
-    transform: translate(-50%);
+    -webkit-transform: translate(-50%);
+            transform: translate(-50%);
     z-index: 2000;
-    box-shadow: 0 2px 4px rgba(2, 15, 29, 0.904);
+    -webkit-box-shadow: 0 2px 4px rgba(2, 15, 29, 0.904);
+            box-shadow: 0 2px 4px rgba(2, 15, 29, 0.904);
+    -webkit-transition: 0.5s ease-in-out;
     transition: 0.5s ease-in-out;
   }
   .header .navBar .navLists {
-    flex-direction: column;
-    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     width: 100%;
     margin: auto;
     padding: 0.5rem 0;
@@ -109,10 +130,19 @@
     padding: 1.5rem 2rem;
   }
   .header .navBar .navLists {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
   }
   .header .navBar .navLists .navItem .navLink {
     color: var(--textColor);
@@ -130,4 +160,5 @@
     color: var(--WhiteColor);
     font-weight: 500;
   }
-}/*# sourceMappingURL=navbar.css.map */
+}
+/*# sourceMappingURL=navbar.css.map */

@@ -1,46 +1,67 @@
 .flight-result {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   border: 1px solid #ccc;
   padding: 2rem 5rem;
 }
+
 .flight-result .imresalt {
   width: 20%;
   min-width: 10rem;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   text-align: center;
 }
+
 .flight-result .imresalt .imageDiv {
   height: 100px;
   width: 100%;
   overflow: hidden;
+  border-radius: 15px;
 }
+
 .flight-result .imresalt .imageDiv img {
   height: 100%;
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  -webkit-transition: 2s ease;
   transition: 2s ease;
 }
+
 .flight-result .imresalt .imageDiv:hover img {
-  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
 }
+
 .flight-result .imresalt .price {
   font-size: 1.5rem;
   color: var(--blackColor);
   text-align: center;
 }
+
 .flight-result .Hresult p {
   margin: 5px 0;
   direction: rtl;
 }
+
 .flight-result .Hresult .btn {
   margin-left: 3rem;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   color: var(--WhiteColor);
   font-weight: 700;
 }
+
 .flight-result .Hresult .price {
   font-size: 1.5rem;
   color: var(--blackColor);
@@ -49,18 +70,28 @@
 
 @media screen and (max-width: 600px) {
   .flight-result {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    flex-direction: column-reverse;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
   }
 }
+
 @media screen and (max-width: 700px) {
   .flight-result {
     padding: 2rem 3rem;
   }
 }
+
 @media screen and (min-width: 900px) {
   .flight-result {
     padding: 2rem 7rem;
   }
-}/*# sourceMappingURL=TripResults.css.map */
+}
+/*# sourceMappingURL=TripResults.css.map */
