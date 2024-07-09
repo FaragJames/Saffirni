@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Seat from "../seat/Seat";
 import "./bus.css";
 import Footer from "../footer/Footer";
@@ -8,37 +8,43 @@ import { GiSteeringWheel } from "react-icons/gi";
 const Bus = ({ seatsData = [], handleBusSubmit, handleUpdateFakeData }) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [updatedSeatsData, setUpdatedSeatsData] = useState(seatsData);
+  const [showWarning, setShowWarning] = useState(false); // State for warning message
   const navigate = useNavigate();
   const lo = useLocation();
-  let {flight}=lo.state;
-  
- 
-  
+  let { flight } = lo.state;
+
   useEffect(() => {
-    const numSelected = seatsData
+    const numSelected = updatedSeatsData
       .filter((seat) => seat.selected)
       .map((seat) => seat.number);
     setSelectedSeats(numSelected);
-    calculateTotalPrice(seatsData);  // Calculate initial total price
-  }, [seatsData]);
+    calculateTotalPrice(updatedSeatsData); // Calculate initial total price
+  }, [updatedSeatsData]);
 
   const handleSeatClick = (seatNumber) => {
-    const updatedSeats = seatsData.map((seat) =>
+    const updatedSeats = updatedSeatsData.map((seat) =>
       seat.number === seatNumber ? { ...seat, selected: !seat.selected } : seat
     );
 
+    setUpdatedSeatsData(updatedSeats);
     setSelectedSeats(
       updatedSeats.filter((seat) => seat.selected).map((seat) => seat.number)
     );
-    handleUpdateFakeData(seatNumber);
     calculateTotalPrice(updatedSeats);
   };
 
   const handleNextClick = () => {
+    if (selectedSeats.length === 0) {
+      setShowWarning(true);
+      return;
+    }
+
     console.log('handleNextClick called'); // Debugging statement
     console.log('Selected seats:', selectedSeats); // Debugging statement
     handleBusSubmit(selectedSeats);
-    navigate("/travelerInfo", { state: { selectedSeats ,flight:flight} });  };
+    navigate("/travelerInfo", { state: { selectedSeats, flight } });
+  };
 
   const calculateTotalPrice = (seats) => {
     const selectedSeats = seats.filter((seat) => seat.selected);
@@ -53,7 +59,7 @@ const Bus = ({ seatsData = [], handleBusSubmit, handleUpdateFakeData }) => {
         <div className="busSeat">
           <GiSteeringWheel className="icon" />
           <div className="seatsContainer">
-            {seatsData.map((seat) => (
+            {updatedSeatsData.map((seat) => (
               <div key={seat.number} className="seatWrapper">
                 <Seat
                   key={seat.number}
@@ -72,13 +78,22 @@ const Bus = ({ seatsData = [], handleBusSubmit, handleUpdateFakeData }) => {
           <p>إجمالي السعر: {totalPrice} د.إ</p>
         </div>
         <div className="buttonContainer">
-          <button className="btn" onClick={handleNextClick}>
+          <button
+            className="btn"
+            onClick={handleNextClick}
+            disabled={selectedSeats.length === 0}
+          >
             <span>التالي</span>
           </button>
           <button className="btn" onClick={() => navigate('/')}>
             <span>العودة</span>
           </button>
         </div>
+        {showWarning && (
+          <div className="warning">
+            <p>الرجاء اختيار مقعد قبل المتابعة</p>
+          </div>
+        )}
       </div>
       <Footer />
     </>

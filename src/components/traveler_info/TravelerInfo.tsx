@@ -37,7 +37,7 @@ const TravelerInfo = ({ numReservedSeats }:any) => {
   });
 
   const handleBackClick = () => {
-    navigate("/bus");
+    navigate("/bus",{state:{flight:flight}});
   };
 
   return (

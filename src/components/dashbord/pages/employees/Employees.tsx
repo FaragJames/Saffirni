@@ -1,5 +1,5 @@
-import React from "react";
 import Box from '@mui/material/Box';
+import { useNavigate } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 const columns = [
   { field: 'id', headerName: 'ID', width: 90 },
@@ -44,10 +44,12 @@ const rows = [
 ];
 
 const employees = () => {
+  const navigate = useNavigate();
   
   return (
     <>
     <button
+    onClick={() => {navigate("/dashboard/addemployee");}}
         className="btn"
         style={{ border: "none", color: "#fff", marginBottom: "2rem", marginTop: "0.2rem" , direction :"rtl" }}
       >

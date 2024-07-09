@@ -88,6 +88,7 @@ const TopBar = ({ open, handleDrawerOpen, setMode }) => {
             position="fixed"
             // @ts-ignore
             open={open}
+            style={{direction:"ltr"}}
         >
             <Toolbar>
                 <IconButton
