@@ -6,7 +6,8 @@ import SignIn from "./components/signIn/SignIn.tsx";
 import Bus from "./components/bus_layout/Bus.tsx";
 import AppDashboard from "./components/dashbord/AppDashbord.tsx";
 import Trips from "./components/dashbord/pages/trips/Trips.tsx";
-import Dashboard from "./components/dashbord/pages/dashboard/Dashboard.tsx";
+import AddBus from "./components/dashbord/pages/addBus/AddBus.tsx";
+import Buses from "./components/dashbord/pages/buses/Buses.tsx";
 import Sitting from "./components/dashbord/pages/sitting/Sitting.tsx";
 import Employees from "./components/dashbord/pages/employees/Employees.tsx";
 import Home from "./components/home/Home.tsx";
@@ -166,8 +167,12 @@ export default function App() {
             element: <AppDashboard />,
             children: [
                 {
-                    path: "",
-                    element: <Dashboard />,
+                    path: "buses",
+                    element: <Buses />,
+                },
+                {
+                    path: "addBus",
+                    element: <AddBus />,
                 },
                 {
                     path: "trips",

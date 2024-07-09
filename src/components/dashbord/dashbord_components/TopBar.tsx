@@ -1,24 +1,19 @@
+import { useState } from "react";
 import {
     Box,
     IconButton,
-    InputBase,
     Stack,
     Toolbar,
-    Typography,
     styled,
     useTheme,
+    Menu,
+    MenuItem,
 } from "@mui/material";
-import React from "react";
-import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
-import { alpha } from "@mui/material/styles";
-import { Delete } from "@mui/icons-material";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 const drawerWidth = 240;
 
@@ -41,55 +36,23 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-const Search = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(3),
-        width: "auto",
-    },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create("width"),
-        width: "100%",
-        [theme.breakpoints.up("md")]: {
-            width: "20ch",
-        },
-    },
-}));
-
 const TopBar = ({ open, handleDrawerOpen, setMode }) => {
     const theme = useTheme();
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClickMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const openMen = Boolean(anchorEl); // Check if anchorEl is truthy
+
     return (
-        <AppBar
-            position="fixed"
-            // @ts-ignore
-            open={open}
-            style={{direction:"ltr"}}
-        >
+        <AppBar position="fixed" open={open}>
             <Toolbar>
                 <IconButton
                     color="inherit"
@@ -106,7 +69,7 @@ const TopBar = ({ open, handleDrawerOpen, setMode }) => {
 
                 <Box flexGrow={1} />
 
-                <Stack direction={"row"}>
+                <Stack direction="row">
                     {theme.palette.mode === "light" ? (
                         <IconButton
                             onClick={() => {
@@ -143,9 +106,34 @@ const TopBar = ({ open, handleDrawerOpen, setMode }) => {
                         </IconButton>
                     )}
 
-                    <IconButton color="inherit">
+                    <IconButton
+                        color="inherit"
+                        id="basic-button"
+                        aria-controls={openMen ? "basic-menu" : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={openMen ? "true" : undefined}
+                        onClick={handleClickMenu}
+                    >
                         <Person2OutlinedIcon />
                     </IconButton>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={openMen} // Use openMen to control menu visibility
+                        onClose={handleClose}
+                        MenuListProps={{
+                            "aria-labelledby": "basic-button",
+                        }}
+                    >
+                        <MenuItem
+                            onClick={() => {
+                                // Handle logout logic
+                                handleClose();
+                            }}
+                        >
+                            Logout
+                        </MenuItem>
+                    </Menu>
                 </Stack>
             </Toolbar>
         </AppBar>

@@ -72,7 +72,7 @@ const Array1 = [
     path: "/dashboard/employees",
   },
   { text: "Trips", icon: <CardTravelIcon />, path: "/dashboard/trips" },
-  { text: "Dashboard", icon: <DirectionsBusIcon />, path: "/dashboard" },
+  { text: "buses", icon: <DirectionsBusIcon />, path: "/dashboard/Buses" },
   {
     text: "Sitting",
     icon: <SettingsIcon />,
