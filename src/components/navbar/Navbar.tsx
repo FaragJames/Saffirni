@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./navbar.css";
 import MainIcon from "../../assets/tour and travel.svg";
@@ -9,57 +9,25 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { DataContext, User } from "../../utilities/Context";
 
-function stringToColor(string: string) {
-    let hash = 0;
-    let i;
-    for (i = 0; i < string.length; i++) {
-        hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    let color = "#";
-    for (i = 0; i < 3; i++) {
-        const value = (hash >> (i * 8)) & 0xff;
-        color += `00${value.toString(16)}`.slice(-2);
-    }
-    return color;
-}
-
-function stringAvatar(name: string) {
+function stringAvatar(firstName: string, lastName: string) {
     return {
-        sx: {
-            bgcolor: stringToColor(name),
-        },
-        children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+        children: `${firstName[0]}${lastName[0]}`,
     };
 }
 
-const Navbar = () => {
+export default function Navbar() {
+    const context = useContext(DataContext);
     const [active, setActive] = useState("navBar");
-    const [auth, setAuth] = useState(false);
+    const [signedIn, setSignedIn] = useState(false);
+    const [anchorEl, setAnchorEl] = useState<(EventTarget & HTMLButtonElement) | null>(null);
+    const open = Boolean(anchorEl);
 
     useEffect(() => {
-        const storedAuth = localStorage.getItem("auth");
-        if (storedAuth === "true") {
-            setAuth(true);
-        }
+        if (context.state.id)
+            setSignedIn(true);
     }, []);
-
-    const showNav = () => {
-        setActive("navBar activeNavbar");
-    };
-
-    const removeNav = () => {
-        setActive("navBar");
-    };
-
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-    const handleClickMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     return (
         <section className="navBarSection">
@@ -85,13 +53,13 @@ const Navbar = () => {
                             <a className="navLink">تواصل معنا</a>
                         </li>
 
-                        {!auth && (
+                        {!signedIn && (
                             <button className="btn">
-                                <a href="./SignUp">تسجيل الدخول</a>
+                                <a href="./SignIn">تسجيل الدخول</a>
                             </button>
                         )}
 
-                        {auth && (
+                        {signedIn && (
                             <>
                                 <Button
                                     id="basic-button"
@@ -100,30 +68,33 @@ const Navbar = () => {
                                     }
                                     aria-haspopup="true"
                                     aria-expanded={open ? "true" : undefined}
-                                    onClick={handleClickMenu}
+                                    onClick={(event) =>
+                                        setAnchorEl(event.currentTarget)
+                                    }
                                 >
                                     <Avatar
                                         style={{ marginLeft: "1rem" }}
-                                        {...stringAvatar("Kent Dodds")}
+                                        {...stringAvatar(context.state.firstName as string,
+                                            context.state.lastName as string)}
                                     />
                                 </Button>
                                 <Menu
                                     id="basic-menu"
                                     anchorEl={anchorEl}
                                     open={open}
-                                    onClose={handleClose}
+                                    onClose={() => setAnchorEl(null)}
                                     MenuListProps={{
                                         "aria-labelledby": "basic-button",
                                     }}
                                 >
                                     <MenuItem
                                         onClick={() => {
-                                            setAuth(false);
-                                            localStorage.setItem(
-                                                "auth",
-                                                "false"
-                                            );
-                                            handleClose();
+                                            if(!context.dispatcher) {
+                                                throw new Error("Dispatcher is undefined!");
+                                            }
+                                            context.dispatcher({type: "reset", payload: new User()})
+                                            setSignedIn(false);
+                                            setAnchorEl(null);
                                         }}
                                     >
                                         Logout
@@ -132,16 +103,20 @@ const Navbar = () => {
                             </>
                         )}
                     </ul>
-                    <div onClick={removeNav} className="closeNavbar">
+                    <div
+                        onClick={() => setActive("navBar")}
+                        className="closeNavbar"
+                    >
                         <AiFillCloseCircle className="icon" />
                     </div>
                 </div>
-                <div onClick={showNav} className="toggleNavbar">
+                <div
+                    onClick={() => setActive("navBar activeNavbar")}
+                    className="toggleNavbar"
+                >
                     <TbGridDots className="icon" />
                 </div>
             </header>
         </section>
     );
-};
-
-export default Navbar;
+}

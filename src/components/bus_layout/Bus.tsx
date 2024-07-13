@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Seat from "../seat/Seat";
 import "./bus.css";
@@ -7,6 +7,7 @@ import { GiSteeringWheel } from "react-icons/gi";
 
 const Bus = ({ seatsData = [], handleBusSubmit, handleUpdateFakeData }) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedflight, setSelectedflight] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [updatedSeatsData, setUpdatedSeatsData] = useState(seatsData);
   const [showWarning, setShowWarning] = useState(false); // State for warning message
@@ -46,9 +47,9 @@ const Bus = ({ seatsData = [], handleBusSubmit, handleUpdateFakeData }) => {
     navigate("/travelerInfo", { state: { selectedSeats, flight } });
   };
 
-  const calculateTotalPrice = (seats) => {
-    const selectedSeats = seats.filter((seat) => seat.selected);
-    const price = selectedSeats.reduce((total, seat) => total + seat.price, 0);
+  const calculateTotalPrice = (flight) => {
+    const selectedflight = flight.filter((flight) => flight.selected);
+    const price = selectedflight.reduce((total, flight) => total + flight.price, 0);
     setTotalPrice(price);
   };
 
@@ -75,7 +76,7 @@ const Bus = ({ seatsData = [], handleBusSubmit, handleUpdateFakeData }) => {
         <div className="seatInfo">
           <p>المقاعد المحجوزة: {selectedSeats.length}</p>
           <p>المقاعد المحجوزة: {selectedSeats.join(", ")}</p>
-          <p>إجمالي السعر: {totalPrice} د.إ</p>
+          <p>إجمالي السعر: {totalPrice} ل.س </p>
         </div>
         <div className="buttonContainer">
           <button

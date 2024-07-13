@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./home.css";
 import { GrLocation } from "react-icons/gr";
 import { FiFacebook } from "react-icons/fi";
@@ -11,7 +11,11 @@ import video from "../../assets/video.mp4";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
-const Home = ({ setClickSubmitting }) => {
+type ParamsType = {
+    setClickSubmitting(): void
+};
+
+const Home = (params: ParamsType) => {
     const [check, setCheck] = useState(false);
     const refInput = useRef();
 
@@ -21,7 +25,7 @@ const Home = ({ setClickSubmitting }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setClickSubmitting();
+        params.setClickSubmitting();
         const targetElement = document.getElementById("SearchTrip");
         if (targetElement) {
             targetElement.scrollIntoView({ behavior: "smooth" });
@@ -85,7 +89,7 @@ const Home = ({ setClickSubmitting }) => {
                                     value={arrivalProvince}
                                     onChange={(e) =>
                                         setArrivalProvince(e.target.value)
-                                    }   
+                                    }
                                 >
                                     <option value="">--</option>
                                     {provinces.map((province) => (

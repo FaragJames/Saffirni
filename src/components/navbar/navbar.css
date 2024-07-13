@@ -34,7 +34,6 @@
   -webkit-box-shadow: 0 2px 4px rgba(2, 15, 29, 0.24);
           box-shadow: 0 2px 4px rgba(2, 15, 29, 0.24);
 }
-
 .header .logo {
   color: var(--blackColor);
   font-weight: 600;
@@ -46,13 +45,11 @@
       -ms-flex-pack: center;
           justify-content: center;
 }
-
 .header .logo .mainicon {
   width: 125px;
   -webkit-transform: translateY(5px);
           transform: translateY(5px);
 }
-
 @media screen and (max-width: 768px) {
   .header .navBar {
     position: absolute;
@@ -116,12 +113,10 @@
     top: 7rem;
   }
 }
-
 .header .toggleNavbar .icon {
   font-size: 25px;
   color: var(--PrimeryColor);
 }
-
 .header .toggleNavbar:hover.icon {
   color: var(--SecenderyColor);
 }

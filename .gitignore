@@ -3,6 +3,6 @@ node_modules
 src/testing
 src/state
 
-Requierd Changes.text
-package-lock.json 
+Required Changes.txt
+package-lock.json
 package.json

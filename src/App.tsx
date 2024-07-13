@@ -1,4 +1,4 @@
-import { useState } from "react";
+ import { useReducer, useState } from "react";
 import "./App.css";
 import Footer from "./components/footer/Footer.tsx";
 import SignUp from "./components/singUp/SignUp.tsx";
@@ -20,6 +20,8 @@ import AddEmployee from "./components/dashbord/pages/addEmplowee/AddEmployee.tsx
 import AddTrip from "./components/dashbord/pages/addTrip/AddTrip.tsx";
 import MyTrips from "./components/my_trips/MyTrips.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { DataContext, reducer, User } from "./utilities/Context";
+import axios from "axios";
 
 type FakeSeat = {
     number: number,
@@ -69,7 +71,19 @@ const fakeSeatsData: Array<FakeSeat> = [
     { number: 40, selected: false, reserved: false },
 ];
 
+export const apiClient = axios.create({
+    baseURL: "http://localhost:5058/",
+    timeout: 10000,
+    headers: {
+        "Content-Type": "application/json"
+    },
+    validateStatus: () => true
+})
+
 export default function App() {
+    const [state, dispatcher] = useReducer(reducer, new User());
+
+
     const [clickSubmitting, setClickSubmitting] = useState(false);
     const [numReservedSeats, setNumReservedSeats] = useState(0);
     const [hideMain, setHideMain] = useState(false);
@@ -198,5 +212,9 @@ export default function App() {
         },
     ]);
 
-    return <RouterProvider router={router} fallbackElement={<></>} />;
+    return (
+        <DataContext.Provider value={{ state: state, dispatcher: dispatcher }}>
+            <RouterProvider router={router} fallbackElement={<></>} />
+        </DataContext.Provider>
+    );
 }

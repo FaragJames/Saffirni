@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate, Link } from "react-router-dom";
 import "./TripResults.css";
 import img from "../../assets/img.jpg";
 import Rating from "@mui/material/Rating";
