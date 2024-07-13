@@ -21,8 +21,8 @@ function toastOptions(): ToastOptions {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
-        {!true && <App />}
-        <Test2 />
+        {true && <App />}
+        {/* <Test2 /> */}
         <ToastContainer {...toastOptions()} />
     </React.StrictMode>
 );

@@ -13,90 +13,62 @@
 }
 
 .trip-result {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
   border: 1px solid #ccc;
   padding: 2rem 5rem;
 }
-
 .trip-result .imresalt {
   position: relative;
   width: 20%;
   min-width: 10rem;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   text-align: center;
   padding-top: 2rem;
 }
-
 .trip-result .imresalt .imageDiv {
   height: 100px;
   width: 100%;
   overflow: hidden;
   border-radius: 15px;
 }
-
 .trip-result .imresalt .imageDiv img {
   height: 100%;
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-  -webkit-transition: 2s ease;
   transition: 2s ease;
 }
-
 .trip-result .imresalt .imageDiv:hover img {
-  -webkit-transform: scale(1.1);
-          transform: scale(1.1);
+  transform: scale(1.1);
 }
-
 .trip-result .imresalt .ratingDiv {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
-
 .trip-result .imresalt .ratingDiv .btn {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   color: var(--WhiteColor);
   font-weight: 700;
   margin: 1rem auto;
 }
-
 .trip-result .imresalt .ratingDiv .boxRating {
   background-color: var(--WhiteColor);
   border-radius: 45px;
   position: absolute;
   z-index: 100;
 }
-
 .trip-result .Hresult p {
   margin: 5px 0;
   direction: rtl;
 }
-
 .trip-result .Hresult .btn {
   margin-left: 3rem;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   color: var(--WhiteColor);
   font-weight: 700;
 }
-
 .trip-result .Hresult .price {
   font-size: 1.5rem;
   color: var(--blackColor);
@@ -105,28 +77,18 @@
 
 @media screen and (max-width: 600px) {
   .trip-result {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-        -ms-flex-direction: column-reverse;
-            flex-direction: column-reverse;
+    align-items: center;
+    flex-direction: column-reverse;
   }
 }
-
 @media screen and (max-width: 700px) {
   .trip-result {
     padding: 2rem 3rem;
   }
 }
-
 @media screen and (min-width: 900px) {
   .trip-result {
     padding: 2rem 7rem;
   }
-}
-/*# sourceMappingURL=OneTrip.css.map */
+}/*# sourceMappingURL=OneTrip.css.map */

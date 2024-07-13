@@ -15,7 +15,7 @@ type State = {
 };
 
 export default function SearchForm(props: { isHomePage:boolean }) {
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const states = useRef<Array<State>>([{ id: 0, name: "" }]);
     useEffect(() => {
         Aos.init({ duration: 2000 });
@@ -35,8 +35,8 @@ export default function SearchForm(props: { isHomePage:boolean }) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         if(props.isHomePage){
-            navigate("/Trips?")
-            return;
+            //navigate("Trips")
+            //return;
         }
         const payload = {
             sourceStateId: parseInt(

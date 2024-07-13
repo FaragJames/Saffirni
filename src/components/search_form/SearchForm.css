@@ -19,29 +19,21 @@
 .home {
   width: 100%;
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   margin: auto;
 }
-
 .home .overlay {
   position: absolute;
   height: 100%;
   width: 100%;
-  background: #2f6a7f;
+  background: rgb(47, 106, 127);
   top: 0;
   bottom: 0;
   z-index: 1;
   mix-blend-mode: hard-light;
 }
-
 .home video {
   position: absolute;
   height: 100%;
@@ -51,48 +43,33 @@
   -o-object-fit: cover;
      object-fit: cover;
 }
-
 .home .homeContent {
   width: 100%;
-  height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
   padding: 8rem 1.5rem 3rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   row-gap: 3rem;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
   text-align: right;
   margin: auto;
   color: var(--WhiteColor);
   z-index: 100;
 }
-
 .home .homeContent .textDiv {
   padding: 2rem 0;
   text-align: right;
 }
-
 .home .homeContent .textDiv .smallText {
   font-size: 13px;
   text-transform: uppercase;
 }
-
 .home .homeContent .textDiv .homeTitel {
   position: relative;
   font-size: 1.8rem;
 }
-
 .home .homeContent .cardDiv {
   position: relative;
   padding: 2rem 1rem;
@@ -100,11 +77,9 @@
   border-radius: 10px;
   gap: 1rem;
 }
-
 .home .homeContent .cardDiv .error {
   background-color: red !important;
 }
-
 .home .homeContent .cardDiv label {
   display: block;
   color: var(--textColor);
@@ -112,29 +87,21 @@
   font-size: 13px;
   font-weight: 500;
 }
-
 .home .homeContent .cardDiv .label_total {
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
 }
-
 .home .homeContent .cardDiv .label_total .total {
   color: var(--textColor);
   font-size: 18px;
   padding-bottom: 18px;
 }
-
 .home .homeContent .cardDiv .input {
   height: 40px;
   padding: 0 1rem;
   background: var(--inpotColor);
   border-radius: 3rem;
 }
-
 .home .homeContent .cardDiv .input input {
   background: none;
   border: none;
@@ -143,23 +110,12 @@
   font-size: 13px;
   font-weight: 500;
 }
-
-.home .homeContent .cardDiv .input input::-webkit-input-placeholder {
+.home .homeContent .cardDiv .input input::-moz-placeholder {
   font-size: 13px;
 }
-
-.home .homeContent .cardDiv .input input:-ms-input-placeholder {
-  font-size: 13px;
-}
-
-.home .homeContent .cardDiv .input input::-ms-input-placeholder {
-  font-size: 13px;
-}
-
 .home .homeContent .cardDiv .input input::placeholder {
   font-size: 13px;
 }
-
 .home .homeContent .cardDiv .input .provinceSelect {
   background: none;
   border: none;
@@ -168,79 +124,54 @@
   font-size: 13px;
   font-weight: 500;
 }
-
-.home .homeContent .cardDiv .input .provinceSelect::-webkit-input-placeholder {
+.home .homeContent .cardDiv .input .provinceSelect::-moz-placeholder {
   font-size: 13px;
 }
-
-.home .homeContent .cardDiv .input .provinceSelect:-ms-input-placeholder {
-  font-size: 13px;
-}
-
-.home .homeContent .cardDiv .input .provinceSelect::-ms-input-placeholder {
-  font-size: 13px;
-}
-
 .home .homeContent .cardDiv .input .provinceSelect::placeholder {
   font-size: 13px;
 }
-
 .home .homeContent .cardDiv .input .icon {
   font-size: 18px;
   color: var(--PrimeryColor);
   margin: 10px;
 }
-
-.home .homeContent .cardDiv .input .input[type="range"] {
+.home .homeContent .cardDiv .input .input[type=range] {
   background: blue;
 }
-
 .home .homeContent .cardDiv .searchOptions {
   position: absolute;
   background: var(--gradientColor);
-  width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
   bottom: -0.7rem;
-  -webkit-column-gap: 0.8rem;
-          column-gap: 0.8rem;
+  -moz-column-gap: 0.8rem;
+       column-gap: 0.8rem;
   padding: 5px 1rem;
   border-radius: 3rem;
   left: 50%;
-  -webkit-transform: translate(-50%);
-          transform: translate(-50%);
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  transform: translate(-50%);
+  justify-content: center;
   cursor: pointer;
 }
-
 .home .homeContent .cardDiv .searchOptions:hover {
   background: var(--PrimeryColor);
 }
-
 .home .homeContent .cardDiv .searchOptions .icon {
   font-size: 18px;
 }
-
 .home .homeContent .cardDiv .searchOptions span {
   font-size: 13px;
 }
-
 .home .homeContent .homeFooterIcons {
   width: 100%;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
 }
-
 .home .homeContent .homeFooterIcons .icon {
   font-size: 20px;
   margin: 0 5px;
   color: var(--WhiteColor);
   font-weight: 600;
 }
-
 .home .homeContent .homeFooterIcons .icon:hover {
   color: var(--PrimeryColor);
 }
@@ -252,7 +183,6 @@
   .home .homeContent .textDiv .homeTitel {
     position: relative;
     font-size: 2.3rem;
-    width: -webkit-max-content;
     width: -moz-max-content;
     width: max-content;
   }
@@ -267,27 +197,21 @@
     z-index: -1;
   }
   .home .homeContent .cardDiv {
-    -ms-grid-columns: (1fr)[2];
-        grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
-
 @media screen and (min-width: 660px) {
   .home .homeContent .cardDiv {
-    -ms-grid-columns: (1fr)[3];
-        grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
-
 @media screen and (min-width: 940px) {
   .home {
     height: 90vh;
   }
 }
-
 @media screen and (min-width: 1240px) {
   .home {
     height: 90vh;
   }
-}
-/*# sourceMappingURL=home.css.map */
+}/*# sourceMappingURL=SearchForm.css.map */
