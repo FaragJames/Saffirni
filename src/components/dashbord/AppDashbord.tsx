@@ -44,8 +44,8 @@ export default function MiniDrawer() {
     );
 
     return (
-        <ThemeProvider theme={theme}>
-            <Box sx={{ display: "flex" }}>
+        <ThemeProvider  theme={theme} >
+            <Box style={{direction:"ltr"}} sx={{ display: "flex" }}>
                 <CssBaseline />
                 <TopBar
                     open={open}

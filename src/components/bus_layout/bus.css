@@ -21,6 +21,7 @@
   margin: auto;
   text-align: center;
   margin-top: 1rem;
+  direction: ltr;
 }
 
 .busLayout .title {

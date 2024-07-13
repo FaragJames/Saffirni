@@ -1,16 +1,20 @@
-import React from "react";
 import { useLocation } from "react-router-dom";
 import "./bill.css";
 import Footer from "../footer/Footer";
 
 const Bill = () => {
     const location = useLocation();
-    const { flight, selectedSeats, travelers } = location.state;
-
+    const { flight, selectedSeats,travelers } = location.state || {};
+    if (!flight || !selectedSeats  ) {
+        return <div>Error: Missing required data. Please go back and try again.</div>;
+      }
     return (
         <>
             <div className="bill">
                 <h2 className="title">تفاصيل الرحلة</h2>
+                <p>Airline: {flight.airline}</p>
+      {/* <p>Flight Information: {flight}</p> */}
+      <p>Selected Seats: {selectedSeats.join(", ")}</p>
                 <div className="trip-info">
                     <p>اسم الشركة: {flight.airline}</p>
                     <p>نوع الرحلة: {flight.type}</p>

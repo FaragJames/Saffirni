@@ -23,6 +23,11 @@
 html {
     scroll-behavior: smooth;
 }
+body{
+    font-family: "Cairo", sans-serif!important;
+  font-optical-sizing: auto;
+    /* font-family: "cairo",sans-serif */
+}
 
 a {
     text-decoration: none;
@@ -65,6 +70,7 @@ li {
     background: var(--gradientColor);
     border-radius: 3rem;
     border: none;
+    font-family: inherit;
     outline: none;
     cursor: pointer;
 }
