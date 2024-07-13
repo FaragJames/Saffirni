@@ -9,7 +9,7 @@ import Team from "./components/dashbord/pages/team/Team.tsx";
 import Dashboard from "./components/dashbord/pages/dashboard/Dashboard.tsx";
 import Contacts from "./components/dashbord/pages/contacts/Contacts";
 import Employees from "./components/dashbord/pages/employees/Employees.tsx";
-import Home from "./components/home/Home.tsx";
+import SearchForm from "./components/search_form/SearchForm.tsx";
 import Main from "./components/main/Main.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
 import SearchTrip from "./components/search_trip/SearchTrip.tsx";
@@ -20,10 +20,10 @@ import { DataContext, reducer, User } from "./utilities/Context";
 import axios from "axios";
 
 type FakeSeat = {
-    number: number,
-    selected: boolean,
-    reserved: boolean
-}
+    number: number;
+    selected: boolean;
+    reserved: boolean;
+};
 const fakeSeatsData: Array<FakeSeat> = [
     { number: 1, selected: false, reserved: false },
     { number: 2, selected: false, reserved: false },
@@ -71,26 +71,18 @@ export const apiClient = axios.create({
     baseURL: "http://localhost:5058/",
     timeout: 10000,
     headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
     },
-    validateStatus: () => true
-})
+    validateStatus: () => true,
+});
 
 export default function App() {
     const [state, dispatcher] = useReducer(reducer, new User());
 
-
-    const [clickSubmitting, setClickSubmitting] = useState(false);
     const [numReservedSeats, setNumReservedSeats] = useState(0);
-    const [hideMain, setHideMain] = useState(false);
 
     const handleBusSubmit = (numSeats: number) => {
         setNumReservedSeats(numSeats);
-    };
-
-    const handleSearchClick = () => {
-        setClickSubmitting(true);
-        setHideMain(true);
     };
 
     // just memorizing the updated data
@@ -99,28 +91,35 @@ export default function App() {
         //console.log(fakeSeatsData);
     };
     //console.log(fakeSeatsData);
+    //Forasp.net8.0
     const router = createBrowserRouter([
         {
             path: "/",
             element: (
                 <>
                     <Navbar />
-                    <Home setClickSubmitting={handleSearchClick} />
-                    <SearchTrip clickSubmitting={clickSubmitting} />
-                    {!hideMain && <Main />}
+                    <SearchForm isHomePage={true} />
                     <Footer />
                 </>
             ),
             errorElement: <SignUp />,
         },
         {
+            path: "/Trips",
+            element: (
+                <>
+                    <Navbar />
+                    <SearchForm isHomePage={false} />
+                    <Footer />
+                </>
+            ),
+        },
+        {
             path: "SignUp",
             element: (
                 <>
-                    {" "}
                     <SignUp />
                     <Footer />
-                    {" "}
                 </>
             ),
         },
@@ -128,10 +127,8 @@ export default function App() {
             path: "SignIn",
             element: (
                 <>
-                    {" "}
                     <SignIn />
                     <Footer />
-                    {" "}
                 </>
             ),
         },
@@ -159,8 +156,7 @@ export default function App() {
                 <>
                     {" "}
                     <div>Error 404</div>
-                    <Footer />
-                    {" "}
+                    <Footer />{" "}
                 </>
             ),
         },

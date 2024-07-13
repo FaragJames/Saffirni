@@ -30,11 +30,14 @@ const SearchTrip = ({ clickSubmitting }) => {
     const [searchResults, setSearchResults] = useState(fakeSearchResults);
 
     return (
-        <div id="SearchTrip">
-            {clickSubmitting && searchResults.map((flight) => (
-                <TripResults key={flight.idsearch} flight={flight} />
-            ))}
-        </div>
+        <ul id="SearchTrip">
+            {clickSubmitting &&
+                searchResults.map((flight) => (
+                    <li key={flight.idsearch}>
+                        <TripResults flight={flight} />
+                    </li>
+                ))}
+        </ul>
     );
 };
 

@@ -86,7 +86,7 @@ export default function SignUp() {
                 password: signUpInfo.password,
             };
 
-            const response = await apiClient.post<ApiResponse>(`Security/Account/SignUp/User`, payload);
+            const response = await apiClient.post<ApiResponse>(`/Security/Account/SignUp/User`, payload);
             const apiResponse = response.data;
 
             if (apiResponse.isSuccess) {

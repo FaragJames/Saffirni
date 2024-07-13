@@ -17,7 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { apiClient } from "../../App";
 import { toast } from "react-toastify";
 import { DataContext, User } from "../../utilities/Context";
-import { GenericApiResponse } from "../../utilities/Types";
+import { ApiResponse, GenericApiResponse } from "../../utilities/Types";
+import axios from "axios";
 
 class SignInInfo {
     public constructor(
@@ -86,7 +87,7 @@ export default function SignIn() {
             };
 
             const response = await apiClient.post<GenericApiResponse<User>>(
-                `Security/Account/${
+                `/Security/Account/${
                     isEmployee.current ? "LogIn/Employee" : "LogIn/WebUser"
                 }`,
                 payload
@@ -108,6 +109,9 @@ export default function SignIn() {
                 toast.error(error);
             });
         } catch (error) {
+            // if(axios.isAxiosError<ApiResponse>(error)){
+                
+            // }
             console.error(error);
         }
     };
