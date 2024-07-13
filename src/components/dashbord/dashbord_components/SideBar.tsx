@@ -1,31 +1,18 @@
-import React from "react";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { Avatar, styled, useTheme, Typography, Tooltip } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
-import { HomeOutlined } from "@mui/icons-material";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import CardTravelIcon from '@mui/icons-material/CardTravel';
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { useLocation, useNavigate } from "react-router-dom";
 import { grey } from "@mui/material/colors";
 
@@ -79,18 +66,19 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const Array1 = [
-  { text: "Dashboard", icon: <HomeOutlinedIcon />, path: "/dashboard" },
-  { text: "Team", icon: <PeopleOutlinedIcon />, path: "/dashboard/team" },
-  {
-    text: "Contacts Information",
-    icon: <ContactsOutlinedIcon />,
-    path: "/dashboard/Contacts",
-  },
   {
     text: "employees",
     icon: <PeopleOutlinedIcon />,
     path: "/dashboard/employees",
   },
+  { text: "Trips", icon: <CardTravelIcon />, path: "/dashboard/trips" },
+  { text: "buses", icon: <DirectionsBusIcon />, path: "/dashboard/Buses" },
+  {
+    text: "Sitting",
+    icon: <SettingsIcon />,
+    path: "/dashboard/Sitting",
+  },
+  
 ];
 
 // const Array2 = [
@@ -115,10 +103,10 @@ const SideBar = ({ open, handleDrawerClose }) => {
   const navigate = useNavigate();
   const theme = useTheme();
   return (
-    <Drawer variant="permanent" open={open}>
+    <Drawer style={{direction:"ltr"}} variant="permanent" open={open}>
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
-          {theme.direction === "rtl" ? (
+          {theme.direction === "ltr" ? (
             <ChevronRightIcon />
           ) : (
             <ChevronLeftIcon />
@@ -142,7 +130,7 @@ const SideBar = ({ open, handleDrawerClose }) => {
         align="center"
         sx={{ fontSize: open ? 17 : 0, transition: "0.25s" }}
       >
-        Layla Ali
+    شركة طروادة
       </Typography>
       <Typography
         align="center"

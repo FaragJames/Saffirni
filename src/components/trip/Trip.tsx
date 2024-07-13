@@ -11,7 +11,7 @@ const Trip = ({ trip }) => {
       <p>وقت الوصول: {trip.arrivalTime}</p>
       <p>سعر التذكرة: {trip.price}</p>
       <p>عدد المقاعد المتبقية: {trip.availableSeats}</p>
-      <button>حجز</button>
+      <button >حجز</button>
     </div>
   );
 };

@@ -1,13 +1,16 @@
-import React from "react";
+
 import { useNavigate, Link } from "react-router-dom";
 import "./TripResults.css";
 import img from "../../assets/img.jpg";
 import Rating from "@mui/material/Rating";
 
-const TripResults = ({ flight }) => {
+const TripResults = ( {flight}) => {
+    
+    
     const navigate = useNavigate();
     const handleNextClick = () => {
-        navigate("/Bus");
+        
+     navigate("/Bus",{state:{flight:flight}});
     };
     return (
         <div className="flight-result">
@@ -16,9 +19,8 @@ const TripResults = ({ flight }) => {
                 <p>وقت الوصول المتوقع: {flight.arrivalTime}</p>
                 <p>عدد المقاعد المتبقية: {flight.seatsAvailable}</p>
                 <h5 className="price">{flight.price} S.P</h5>
-
-                <button className="btn flex">
-                    <Link to="/Bus">احجز الآن</Link>
+                <button className="btn  flex" onClick={handleNextClick}>
+                    احجز الآن
                 </button>
             </div>
             <div className="Hresult">
@@ -32,6 +34,7 @@ const TripResults = ({ flight }) => {
                     <img src={img} />
                 </div>
                 <Rating
+                dir="ltr"
                     name="half-rating-read"
                     defaultValue={2.5}
                     precision={0.5}

@@ -1,29 +1,30 @@
-import React from "react";
-import Box from '@mui/material/Box';
+import Header from "../../dashbord_components/Header";
+import { Box, Button } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 const columns = [
   { field: 'id', headerName: 'ID', width: 90 },
   {
     field: 'firstName',
-    headerName: 'First name',
+    headerName: 'الأسم الأول',
     width: 150,
     editable: true,
   },
   {
     field: 'lastName',
-    headerName: 'Last name',
+    headerName: 'الكنية',
     width: 150,
     editable: true,
   },
   {
     field: 'phoneNumber',
-    headerName: 'phoneNumber',
+    headerName: 'رقم الجوال',
     width: 200,
     editable: true,
   },
   {
     field: 'fullName',
-    headerName: 'Full name',
+    headerName: 'الإسم الكامل',
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
     width: 160,
@@ -44,20 +45,23 @@ const rows = [
 ];
 
 const employees = () => {
+  const navigate = useNavigate();
   
   return (
     <>
-    <button
-        className="btn"
-        style={{ border: "none", color: "#fff", marginBottom: "2rem", marginTop: "0.2rem" , direction :"rtl" }}
-      >
-        <span>إضافة موظف جديد</span>
-      </button>
+    <Header
+              title="معلومات موظفين الشركة"
+              subTitle=""
+          />
+      <Button variant="contained" color="primary" onClick={() => navigate("/dashboard/addemployee")} style={{ marginBottom: "2rem", marginTop: "0.2rem", direction: "rtl" }}>
+      <span>إضافة موظف جديد</span>
+      </Button>
     
-<Box sx={{ height: 400, width: '100%' }}>
+<Box sx={{ height: 400 }}>
       <DataGrid
         rows={rows} 
         columns={columns}
+        sx={{ width: '1250', overflowX : "scroll" }}
         initialState={{
           pagination: {
             paginationModel: {

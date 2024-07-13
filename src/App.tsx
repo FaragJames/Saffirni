@@ -1,19 +1,23 @@
-import { useReducer, useState } from "react";
+ import { useReducer, useState } from "react";
 import "./App.css";
 import Footer from "./components/footer/Footer.tsx";
 import SignUp from "./components/singUp/SignUp.tsx";
 import SignIn from "./components/signIn/SignIn.tsx";
 import Bus from "./components/bus_layout/Bus.tsx";
 import AppDashboard from "./components/dashbord/AppDashbord.tsx";
-import Team from "./components/dashbord/pages/team/Team.tsx";
-import Dashboard from "./components/dashbord/pages/dashboard/Dashboard.tsx";
-import Contacts from "./components/dashbord/pages/contacts/Contacts";
+import Trips from "./components/dashbord/pages/trips/Trips.tsx";
+import AddBus from "./components/dashbord/pages/addBus/AddBus.tsx";
+import Buses from "./components/dashbord/pages/buses/Buses.tsx";
+import Sitting from "./components/dashbord/pages/sitting/Sitting.tsx";
 import Employees from "./components/dashbord/pages/employees/Employees.tsx";
 import Home from "./components/home/Home.tsx";
 import Main from "./components/main/Main.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
 import SearchTrip from "./components/search_trip/SearchTrip.tsx";
 import TravelerInfo from "./components/traveler_info/TravelerInfo.tsx";
+import Bill from "./components/bill/Bill.tsx";
+import AddEmployee from "./components/dashbord/pages/addEmplowee/AddEmployee.tsx"
+import AddTrip from "./components/dashbord/pages/addTrip/AddTrip.tsx";
 import MyTrips from "./components/my_trips/MyTrips.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { DataContext, reducer, User } from "./utilities/Context";
@@ -83,22 +87,26 @@ export default function App() {
     const [clickSubmitting, setClickSubmitting] = useState(false);
     const [numReservedSeats, setNumReservedSeats] = useState(0);
     const [hideMain, setHideMain] = useState(false);
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    const [selectedFlight, setSelectedFlight] = useState(null);
 
-    const handleBusSubmit = (numSeats: number) => {
-        setNumReservedSeats(numSeats);
-    };
-
+    const handleBusSubmit = (selectedSeats) => {
+        setNumReservedSeats(selectedSeats.length);
+        setSelectedSeats(selectedSeats);
+      };
+      
     const handleSearchClick = () => {
         setClickSubmitting(true);
         setHideMain(true);
+        console.log(20);
+        
+       // setSelectedFlight(flight);
     };
 
     // just memorizing the updated data
     const handleUpdateFakeData = (seatNumber: number) => {
         fakeSeatsData[seatNumber - 1].selected = true;
-        //console.log(fakeSeatsData);
     };
-    //console.log(fakeSeatsData);
     const router = createBrowserRouter([
         {
             path: "/",
@@ -138,11 +146,11 @@ export default function App() {
         {
             path: "Bus",
             element: (
-                <Bus
-                    seatsData={fakeSeatsData}
-                    handleBusSubmit={handleBusSubmit}
-                    handleUpdateFakeData={handleUpdateFakeData}
-                />
+<Bus
+  seatsData={fakeSeatsData}
+  handleBusSubmit={handleBusSubmit}
+  handleUpdateFakeData={handleUpdateFakeData}
+/>
             ),
         },
         {
@@ -152,6 +160,10 @@ export default function App() {
         {
             path: "TravelerInfo",
             element: <TravelerInfo numReservedSeats={numReservedSeats} />,
+        },
+        {
+            path: "bill",
+            element: <Bill />,
         },
         {
             path: "check-in",
@@ -169,20 +181,32 @@ export default function App() {
             element: <AppDashboard />,
             children: [
                 {
-                    path: "",
-                    element: <Dashboard />,
+                    path: "buses",
+                    element: <Buses />,
                 },
                 {
-                    path: "team",
-                    element: <Team />,
+                    path: "addBus",
+                    element: <AddBus />,
                 },
                 {
-                    path: "contacts",
-                    element: <Contacts />,
+                    path: "trips",
+                    element: <Trips />,
+                },
+                {
+                    path: "Sitting",
+                    element: <Sitting />,
                 },
                 {
                     path: "employees",
                     element: <Employees />,
+                }
+                ,{
+                    path: "addEmployee",
+                    element: <AddEmployee />,
+                },
+                {
+                    path: "addtrip",
+                    element: <AddTrip />,
                 },
             ],
         },
