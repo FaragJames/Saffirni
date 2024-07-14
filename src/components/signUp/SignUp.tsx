@@ -13,7 +13,7 @@ import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import { SxProps } from "@mui/material/styles";
 import { Theme } from "@mui/material/styles";
-import { apiClient } from "../../App";
+import { apiClient } from "../../utilities/Axios";
 import { toast } from "react-toastify";
 import { ApiResponse } from "../../utilities/Types";
 
@@ -90,7 +90,8 @@ export default function SignUp() {
             const apiResponse = response.data;
 
             if (apiResponse.isSuccess) {
-                toast.success(apiResponse.message)
+                if(apiResponse.message)
+                    toast.success(apiResponse.message)
                 navigate("/SignIn");
                 return;
             }

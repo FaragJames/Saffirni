@@ -1,11 +1,11 @@
 import { useReducer, useState } from "react";
 import "./App.css";
 import Footer from "./components/footer/Footer.tsx";
-import SignUp from "./components/singUp/SignUp.tsx";
+import SignUp from "./components/signUp/SignUp.tsx";
 import SignIn from "./components/signIn/SignIn.tsx";
 import Bus from "./components/bus_layout/Bus.tsx";
 import AppDashboard from "./components/dashbord/AppDashbord.tsx";
-import Trips from "./components/dashbord/pages/trips/Trips.tsx";
+import Trips from "./components/trips/Trips.tsx";
 import AddBus from "./components/dashbord/pages/addBus/AddBus.tsx";
 import Buses from "./components/dashbord/pages/buses/Buses.tsx";
 import Sitting from "./components/dashbord/pages/sitting/Sitting.tsx";
@@ -21,7 +21,7 @@ import AddTrip from "./components/dashbord/pages/addTrip/AddTrip.tsx";
 import MyTrips from "./components/my_trips/MyTrips.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { DataContext, reducer, User } from "./utilities/Context";
-import axios from "axios";
+import Home from "./components/home/Home.tsx";
 
 type FakeSeat = {
     number: number;
@@ -71,15 +71,6 @@ const fakeSeatsData: Array<FakeSeat> = [
     { number: 40, selected: false, reserved: false },
 ];
 
-export const apiClient = axios.create({
-    baseURL: "http://localhost:5058/",
-    timeout: 10000,
-    headers: {
-        "Content-Type": "application/json",
-    },
-    validateStatus: () => true,
-});
-
 export default function App() {
     const [state, dispatcher] = useReducer(reducer, new User());
 
@@ -108,45 +99,31 @@ export default function App() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: (
-                <>
-                    <Navbar />
-                    <SearchForm isHomePage={true} />
-                    <Footer />
-                </>
-            ),
+            element: <Home />,
             errorElement: <SignUp />,
         },
         {
-            path: "Trips",
-            element: (
-                <>
-                    <Navbar />
-                    <SearchForm isHomePage={false} />
-                    <Footer />
-                </>
-            ),
+            path: "/Trips",
+            element: <Trips />,
         },
         {
-            path: "SignUp",
+            path: "/SignUp",
             element: (
                 <>
                     <SignUp />
-                    <Footer />
                 </>
             ),
         },
         {
-            path: "SignIn",
+            path: "/SignIn",
             element: (
                 <>
                     <SignIn />
-                    <Footer />
                 </>
             ),
         },
         {
-            path: "Bus",
+            path: "/Bus",
             element: (
                 <Bus
                     seatsData={fakeSeatsData}
@@ -156,19 +133,19 @@ export default function App() {
             ),
         },
         {
-            path: "MyTrips",
+            path: "/MyTrips",
             element: <MyTrips />,
         },
         {
-            path: "TravelerInfo",
+            path: "/TravelerInfo",
             element: <TravelerInfo numReservedSeats={numReservedSeats} />,
         },
         {
-            path: "bill",
+            path: "/bill",
             element: <Bill />,
         },
         {
-            path: "check-in",
+            path: "/check-in",
             element: (
                 <>
                     {" "}
@@ -178,7 +155,7 @@ export default function App() {
             ),
         },
         {
-            path: "dashboard",
+            path: "/dashboard",
             element: <AppDashboard />,
             children: [
                 {
@@ -211,7 +188,7 @@ export default function App() {
                 },
             ],
         },
-    ]);
+    ], { basename: "/App"});
 
     return (
         <DataContext.Provider value={{ state: state, dispatcher: dispatcher }}>

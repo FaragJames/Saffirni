@@ -14,11 +14,10 @@ import Container from "@mui/material/Container";
 import { SxProps } from "@mui/material/styles";
 import { Theme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { apiClient } from "../../App";
 import { toast } from "react-toastify";
 import { DataContext, User } from "../../utilities/Context";
 import { ApiResponse, GenericApiResponse } from "../../utilities/Types";
-import axios from "axios";
+import { apiClient } from "../../utilities/Axios";
 
 class SignInInfo {
     public constructor(
