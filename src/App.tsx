@@ -13,6 +13,7 @@ import Employees from "./components/dashbord/pages/employees/Employees.tsx";
 import SearchForm from "./components/search_form/SearchForm.tsx";
 import Main from "./components/main/Main.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
+import MoreFilter from "./components/moreFilters/MoreFilters.tsx";
 import SearchTrip from "./components/search_trip/SearchTrip.tsx";
 import TravelerInfo from "./components/traveler_info/TravelerInfo.tsx";
 import Bill from "./components/bill/Bill.tsx";
