@@ -4,6 +4,7 @@ import App from "./App.tsx";
 import { Bounce, ToastContainer, ToastOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Test2 from "./testing/Test2.tsx";
+import Test1 from "./testing/Test1.tsx";
 
 function toastOptions(): ToastOptions {
     const toastOptions: ToastOptions = {};
@@ -20,9 +21,9 @@ function toastOptions(): ToastOptions {
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-    <React.StrictMode>
+    <>
         {true && <App />}
-        {/* <Test2 /> */}
+        {/* <Test1 /> */}
         <ToastContainer {...toastOptions()} />
-    </React.StrictMode>
+    </>
 );

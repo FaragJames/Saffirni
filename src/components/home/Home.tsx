@@ -1,143 +1,48 @@
-// import { useEffect, useState, useRef } from "react";
-// import "./home.css";
-// import { GrLocation } from "react-icons/gr";
-// import { FiFacebook } from "react-icons/fi";
-// import { FaInstagram } from "react-icons/fa";
-// import { FaWhatsapp } from "react-icons/fa";
-// import { FaListUl } from "react-icons/fa";
-// import { TbApps } from "react-icons/tb";
-// import { FaSearch } from "react-icons/fa";
-// import video from "../../assets/video.mp4";
-// import Aos from "aos";
-// import "aos/dist/aos.css";
+import { FormEvent } from "react";
+import Footer from "../footer/Footer";
+import Navbar from "../navbar/Navbar";
+import SearchForm from "../search_form/SearchForm";
+import { useNavigate } from "react-router-dom";
 
-// type ParamsType = {
-//     setClickSubmitting(): void
-// };
+export type SearchFormObject = {
+    sourceStateId: number;
+    destinationStateId: number;
+    departTime: string;
+    filters: Filters | null
+};
+type Filters = {
+    busTypeId: number;
+    companyId: number;
+    maxPrice: number
+}
 
-// const Home = (params: ParamsType) => {
-//     const [check, setCheck] = useState(false);
-//     const refInput = useRef();
+export default function Home() {
+    const navigate = useNavigate()
+    function onSearchFormSubmit(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
 
-//     useEffect(() => {
-//         Aos.init({ duration: 2000 });
-//     }, []);
+        const payload: SearchFormObject = {
+            sourceStateId: parseInt(
+                formData.get("sourceSelect")?.toString() as string
+            ),
+            destinationStateId: parseInt(
+                formData.get("destinationSelect")?.toString() as string
+            ),
+            departTime: new Date(
+                formData.get("dateInput")?.toString() as string
+            ).toISOString(),
+            filters: null
+        };
 
-//     const handleSubmit = (e) => {
-//         e.preventDefault();
-//         params.setClickSubmitting();
-//         const targetElement = document.getElementById("SearchTrip");
-//         if (targetElement) {
-//             targetElement.scrollIntoView({ behavior: "smooth" });
-//         }
-//     };
+        navigate("/Trips", { state: { payload: payload }})
+    }
 
-//     const today = new Date();
-//     const [selectedDate, setSelectedDate] = useState(
-//         today.toISOString().split("T")[0]
-//     );
-
-//     const handleDateChange = (event) => {
-//         setSelectedDate(event.target.value);
-//     };
-
-//     const provinces = ["دمشق", "حلب", "حمص", "اللاذقية"];
-//     const [departureProvince, setDepartureProvince] = useState("");
-//     const [arrivalProvince, setArrivalProvince] = useState("");
-
-//     return (
-//         <section className="home" style={{ direction: "rtl" }}>
-//             <div className="overlay"></div>
-//             <video src={video} muted autoPlay loop type="video/mp4"></video>
-//             <div className="homeContent container">
-//                 <div className="textDiv">
-//                     <h1 data-aos="fade-up" className="homeTitel">
-//                         ابحث عن رحلتك
-//                     </h1>
-//                 </div>
-//                 <form onSubmit={handleSubmit}>
-//                     <div data-aos="fade-up" className="cardDiv grid">
-//                         <div className={`disInput `}>
-//                             <label htmlFor="city">اختر نقطة الإنطلاق</label>
-//                             <div
-//                                 className={`input flex ${check ? "error" : ""}`}
-//                             >
-//                                 <select
-//                                     id="departureProvince"
-//                                     className="provinceSelect"
-//                                     value={departureProvince}
-//                                     onChange={(e) =>
-//                                         setDepartureProvince(e.target.value)
-//                                     }
-//                                 >
-//                                     <option value="">--</option>
-//                                     {provinces.map((province) => (
-//                                         <option key={province} value={province}>
-//                                             {province}
-//                                         </option>
-//                                     ))}
-//                                 </select>
-//                                 <GrLocation className="icon" />
-//                             </div>
-//                         </div>
-//                         <div className="disInput">
-//                             <label htmlFor="city">اختر الوجهة</label>
-//                             <div className="input flex">
-//                                 <select
-//                                     id="arrivalProvince"
-//                                     className="provinceSelect"
-//                                     value={arrivalProvince}
-//                                     onChange={(e) =>
-//                                         setArrivalProvince(e.target.value)
-//                                     }
-//                                 >
-//                                     <option value="">--</option>
-//                                     {provinces.map((province) => (
-//                                         <option key={province} value={province}>
-//                                             {province}
-//                                         </option>
-//                                     ))}
-//                                 </select>
-//                                 <GrLocation className="icon" />
-//                             </div>
-//                         </div>
-//                         <div className="dataInput">
-//                             <label htmlFor="city">اختر موعد الرحلة</label>
-//                             <div className="input flex">
-//                                 <input
-//                                     type="date"
-//                                     id="futureDate"
-//                                     value={selectedDate}
-//                                     min={today.toISOString().split("T")[0]}
-//                                     onChange={handleDateChange}
-//                                     required
-//                                 />
-//                             </div>
-//                         </div>
-//                         <button
-//                             className="searchOptions btn flex"
-//                             style={{ border: "none", color: "#fff" }}
-//                             type="submit"
-//                         >
-//                            ابحث 
-//                             <FaSearch className="icon" color="#fff" />
-//                         </button>
-//                     </div>
-//                 </form>
-//                 <div data-aos="fade-up" className="homeFooterIcons flex">
-//                     <div className="rightIcons">
-//                         <FiFacebook className="icon" />
-//                         <FaInstagram className="icon" />
-//                         <FaWhatsapp className="icon" />
-//                     </div>
-//                     <div className="leftIcons">
-//                         <FaListUl className="icon" />
-//                         <TbApps className="icon" />
-//                     </div>
-//                 </div>
-//             </div>
-//         </section>
-//     );
-// };
-
-// export default Home;
+    return (
+        <>
+            <Navbar />
+            <SearchForm onSubmit={onSearchFormSubmit} />
+            <Footer />
+        </>
+    );
+}

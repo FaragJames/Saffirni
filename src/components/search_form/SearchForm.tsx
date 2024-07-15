@@ -1,57 +1,50 @@
-import { useEffect, useState, useRef, FormEvent } from "react";
+import { useEffect, FormEvent, useState } from "react";
 import "./SearchForm.css";
 import { GrLocation } from "react-icons/gr";
 import { FaSearch } from "react-icons/fa";
 import video from "../../assets/video.mp4";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import { apiClient } from "../../App";
 import { GenericApiResponse } from "../../utilities/Types";
-import { useNavigate } from "react-router";
+import { apiClient } from "../../utilities/Axios";
+import { toast } from "react-toastify";
 
 type State = {
     id: number;
     name: string;
 };
 
-export default function SearchForm(props: { isHomePage:boolean }) {
-    //const navigate = useNavigate();
-    const states = useRef<Array<State>>([{ id: 0, name: "" }]);
+export default function SearchForm(props: {
+    onSubmit(e: FormEvent<HTMLFormElement>): void;
+}) {
+    const [states, setStates] = useState<Array<State>>();
     useEffect(() => {
         Aos.init({ duration: 2000 });
         async function fetchData() {
-            const response = await apiClient.get<
-                GenericApiResponse<Array<State>>
-            >("/Api/States");
-            const apiResponse = response.data;
+            try {
+                const apiResponse = (
+                    await apiClient.get<GenericApiResponse<Array<State>>>(
+                        "/Api/State"
+                    )
+                ).data;
 
-            if (apiResponse.isSuccess)
-                states.current = apiResponse.payload as Array<State>;
+                if (apiResponse.isSuccess && apiResponse.payload) {
+                    if(apiResponse.message)
+                        toast.success(apiResponse.message)
+
+                    setStates(apiResponse.payload);
+                    return;
+                }
+
+                apiResponse.errors?.forEach((error) => toast.error(error));
+            } catch (error) {
+                console.error(error)
+            }
         }
 
         fetchData();
     }, []);
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        if(props.isHomePage){
-            //navigate("Trips")
-            //return;
-        }
-        const payload = {
-            sourceStateId: parseInt(
-                formData.get("sourceSelect")?.toString() as string
-            ),
-            destinationStateId: parseInt(
-                formData.get("destinationSelect")?.toString() as string
-            ),
-            departTime: new Date(
-                formData.get("dateInput")?.toString() as string
-            ),
-        };
 
-        const response = await apiClient.post("/", payload);
-    };
     return (
         <section className="home" style={{ direction: "rtl" }}>
             <div className="overlay"></div>
@@ -62,7 +55,7 @@ export default function SearchForm(props: { isHomePage:boolean }) {
                         ابحث عن رحلتك
                     </h1>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={props.onSubmit}>
                     <div data-aos="fade-up" className="cardDiv grid">
                         <div className={`disInput `}>
                             <label htmlFor="city">نقطة الانطلاق</label>
@@ -72,11 +65,12 @@ export default function SearchForm(props: { isHomePage:boolean }) {
                                     className="provinceSelect"
                                     name="sourceSelect"
                                     required
+                                    defaultValue=""
                                 >
-                                    <option value="" disabled selected>
+                                    <option value="" disabled>
                                         اختر محافظة
                                     </option>
-                                    {states.current.map((state) => (
+                                    {states?.map((state) => (
                                         <option key={state.id} value={state.id}>
                                             {state.name}
                                         </option>
@@ -93,11 +87,12 @@ export default function SearchForm(props: { isHomePage:boolean }) {
                                     className="provinceSelect"
                                     name="destinationSelect"
                                     required
+                                    defaultValue=""
                                 >
-                                    <option value="" disabled selected>
+                                    <option value="" disabled>
                                         اختر محافظة
                                     </option>
-                                    {states.current.map((state) => (
+                                    {states?.map((state) => (
                                         <option key={state.id} value={state.id}>
                                             {state.name}
                                         </option>

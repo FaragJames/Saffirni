@@ -1,22 +1,18 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import "./App.css";
 import Footer from "./components/footer/Footer.tsx";
-import SignUp from "./components/singUp/SignUp.tsx";
+import SignUp from "./components/signUp/SignUp.tsx";
 import SignIn from "./components/signIn/SignIn.tsx";
 import Bus from "./components/bus_layout/Bus.tsx";
 import AppDashboard from "./components/dashbord/AppDashbord.tsx";
-import Trips from "./components/dashbord/pages/trips/Trips.tsx";
+import Trips from "./components/trips/Trips.tsx";
 import AddBus from "./components/dashbord/pages/addBus/AddBus.tsx";
 import Buses from "./components/dashbord/pages/buses/Buses.tsx";
 import Sitting from "./components/dashbord/pages/sitting/Sitting.tsx";
 import Employees from "./components/dashbord/pages/employees/Employees.tsx";
-import SearchForm from "./components/search_form/SearchForm.tsx";
-import Main from "./components/main/Main.tsx";
 import SeatsOnTrip from "./components/dashbord/pages/seatsOnTrip/SeatsOnTrip.tsx";
 import AddTraveler from "./components/dashbord/pages/addTraveler/AddTraveler.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
-import MoreFilter from "./components/moreFilters/MoreFilters.tsx";
-import SearchTrip from "./components/search_trip/SearchTrip.tsx";
 import TravelerInfo from "./components/traveler_info/TravelerInfo.tsx";
 import Bill from "./components/bill/Bill.tsx";
 import AddEmployee from "./components/dashbord/pages/addEmplowee/AddEmployee.tsx";
@@ -24,7 +20,7 @@ import AddTrip from "./components/dashbord/pages/addTrip/AddTrip.tsx";
 import MyTrips from "./components/my_trips/MyTrips.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { DataContext, reducer, User } from "./utilities/Context";
-import axios from "axios";
+import Home from "./components/home/Home.tsx";
 
 type FakeSeat = {
     number: number;
@@ -74,35 +70,8 @@ const fakeSeatsData: Array<FakeSeat> = [
     { number: 40, selected: false, reserved: false },
 ];
 
-export const apiClient = axios.create({
-    baseURL: "http://localhost:5058/",
-    timeout: 10000,
-    headers: {
-        "Content-Type": "application/json",
-    },
-    validateStatus: () => true,
-});
-
 export default function App() {
     const [state, dispatcher] = useReducer(reducer, new User());
-
-    const [numReservedSeats, setNumReservedSeats] = useState(0);
-    const [hideMain, setHideMain] = useState(false);
-    const [selectedSeats, setSelectedSeats] = useState([]);
-    const [selectedFlight, setSelectedFlight] = useState(null);
-
-    const handleBusSubmit = (selectedSeats) => {
-        setNumReservedSeats(selectedSeats.length);
-        setSelectedSeats(selectedSeats);
-    };
-
-    const handleSearchClick = () => {
-        setClickSubmitting(true);
-        setHideMain(true);
-        console.log(20);
-
-        // setSelectedFlight(flight);
-    };
 
     // just memorizing the updated data
     const handleUpdateFakeData = (seatNumber: number) => {
@@ -111,46 +80,35 @@ export default function App() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: (
-                <>
-                    <Navbar />
-                    <SearchForm isHomePage={true} />
-                    <Main/>
-                    <Footer />
-                </>
-            ),
+            element: <Home />,
             errorElement: <SignUp />,
         },
         {
-            path: "Trips",
+            path: "/Trips",
+            element: <Trips />,
+        },
+        {
+            path: "/SignUp",
             element: (
                 <>
                     <Navbar />
-                    <SearchForm isHomePage={false} />
-                    <Footer />
-                </>
-            ),
-        },
-        {
-            path: "SignUp",
-            element: (
-                <>
                     <SignUp />
                     <Footer />
                 </>
             ),
         },
         {
-            path: "SignIn",
+            path: "/SignIn",
             element: (
                 <>
+                    <Navbar />
                     <SignIn />
                     <Footer />
                 </>
             ),
         },
         {
-            path: "Bus",
+            path: "/Bus",
             element: (
                 <Bus
                     seatsData={fakeSeatsData}
@@ -160,19 +118,19 @@ export default function App() {
             ),
         },
         {
-            path: "MyTrips",
+            path: "/MyTrips",
             element: <MyTrips />,
         },
         {
-            path: "TravelerInfo",
+            path: "/TravelerInfo",
             element: <TravelerInfo numReservedSeats={numReservedSeats} />,
         },
         {
-            path: "bill",
+            path: "/Bill",
             element: <Bill />,
         },
         {
-            path: "check-in",
+            path: "/Check-in",
             element: (
                 <>
                     {" "}
@@ -182,7 +140,7 @@ export default function App() {
             ),
         },
         {
-            path: "dashboard",
+            path: "/Dashboard",
             element: <AppDashboard />,
             children: [
                 {
@@ -215,11 +173,11 @@ export default function App() {
                 },
                 {
                     path: "seatsontripv",
-                    element: <SeatsOnTrip  />,
+                    element: <SeatsOnTrip />,
                 },
                 {
                     path: "addtraveler",
-                    element: <AddTraveler  />,
+                    element: <AddTraveler />,
                 },
             ],
         },
