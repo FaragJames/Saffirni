@@ -95,9 +95,9 @@ export default function SignUp() {
                 navigate("/SignIn");
                 return;
             }
-            apiResponse.errors?.forEach(error => {
-                toast.error(error);
-            })
+            apiResponse.errors?.forEach((error) => 
+                toast.error(error)
+            )
         } catch (exception) {
             console.error(exception);
         }

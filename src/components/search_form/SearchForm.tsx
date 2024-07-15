@@ -7,6 +7,7 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import { GenericApiResponse } from "../../utilities/Types";
 import { apiClient } from "../../utilities/Axios";
+import { toast } from "react-toastify";
 
 type State = {
     id: number;
@@ -20,13 +21,25 @@ export default function SearchForm(props: {
     useEffect(() => {
         Aos.init({ duration: 2000 });
         async function fetchData() {
-            const response = await apiClient.get<
-                GenericApiResponse<Array<State>>
-            >("/Api/State");
-            const apiResponse = response.data;
+            try {
+                const apiResponse = (
+                    await apiClient.get<GenericApiResponse<Array<State>>>(
+                        "/Api/State"
+                    )
+                ).data;
 
-            if (apiResponse.isSuccess)
-                setStates(apiResponse.payload as Array<State>);
+                if (apiResponse.isSuccess && apiResponse.payload) {
+                    if(apiResponse.message)
+                        toast.success(apiResponse.message)
+
+                    setStates(apiResponse.payload);
+                    return;
+                }
+
+                apiResponse.errors?.forEach((error) => toast.error(error));
+            } catch (error) {
+                console.error(error)
+            }
         }
 
         fetchData();

@@ -8,7 +8,13 @@ export type SearchFormObject = {
     sourceStateId: number;
     destinationStateId: number;
     departTime: string;
+    filters: Filters | null
 };
+type Filters = {
+    busTypeId: number;
+    companyId: number;
+    maxPrice: number
+}
 
 export default function Home() {
     const navigate = useNavigate()
@@ -26,6 +32,7 @@ export default function Home() {
             departTime: new Date(
                 formData.get("dateInput")?.toString() as string
             ).toISOString(),
+            filters: null
         };
 
         navigate("/Trips", { state: { payload: payload }})
