@@ -115,6 +115,7 @@ export default function App() {
                 <>
                     <Navbar />
                     <SearchForm isHomePage={true} />
+                    <Main/>
                     <Footer />
                 </>
             ),
