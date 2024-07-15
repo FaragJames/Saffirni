@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import "./App.css";
 import Footer from "./components/footer/Footer.tsx";
 import SignUp from "./components/signUp/SignUp.tsx";
@@ -10,6 +10,9 @@ import AddBus from "./components/dashbord/pages/addBus/AddBus.tsx";
 import Buses from "./components/dashbord/pages/buses/Buses.tsx";
 import Sitting from "./components/dashbord/pages/sitting/Sitting.tsx";
 import Employees from "./components/dashbord/pages/employees/Employees.tsx";
+import SeatsOnTrip from "./components/dashbord/pages/seatsOnTrip/SeatsOnTrip.tsx";
+import AddTraveler from "./components/dashbord/pages/addTraveler/AddTraveler.tsx";
+import Navbar from "./components/navbar/Navbar.tsx";
 import TravelerInfo from "./components/traveler_info/TravelerInfo.tsx";
 import Bill from "./components/bill/Bill.tsx";
 import AddEmployee from "./components/dashbord/pages/addEmplowee/AddEmployee.tsx";
@@ -18,7 +21,6 @@ import MyTrips from "./components/my_trips/MyTrips.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { DataContext, reducer, User } from "./utilities/Context";
 import Home from "./components/home/Home.tsx";
-import Navbar from "./components/navbar/Navbar.tsx";
 
 type FakeSeat = {
     number: number;
@@ -75,105 +77,111 @@ export default function App() {
     const handleUpdateFakeData = (seatNumber: number) => {
         fakeSeatsData[seatNumber - 1].selected = true;
     };
-    const router = createBrowserRouter(
-        [
-            {
-                path: "/",
-                element: <Home />,
-            },
-            {
-                path: "/Trips",
-                element: <Trips />,
-            },
-            {
-                path: "/SignUp",
-                element: (
-                    <>
-                        <Navbar />
-                        <SignUp />
-                        <Footer />
-                    </>
-                ),
-            },
-            {
-                path: "/SignIn",
-                element: (
-                    <>
-                        <Navbar />
-                        <SignIn />
-                        <Footer />
-                    </>
-                ),
-            },
-            // {
-            //     path: "/Bus",
-            //     element: (
-            //         <Bus
-            //             seatsData={fakeSeatsData}
-            //             handleBusSubmit={handleBusSubmit}
-            //             handleUpdateFakeData={handleUpdateFakeData}
-            //         />
-            //     ),
-            // },
-            {
-                path: "/MyTrips",
-                element: <MyTrips />,
-            },
-            // {
-            //     path: "/TravelerInfo",
-            //     element: <TravelerInfo numReservedSeats={numReservedSeats} />,
-            // },
-            {
-                path: "/bill",
-                element: <Bill />,
-            },
-            {
-                path: "/check-in",
-                element: (
-                    <>
-                        {" "}
-                        <div>Error 404</div>
-                        <Footer />{" "}
-                    </>
-                ),
-            },
-            {
-                path: "/dashboard",
-                element: <AppDashboard />,
-                children: [
-                    {
-                        path: "buses",
-                        element: <Buses />,
-                    },
-                    {
-                        path: "addBus",
-                        element: <AddBus />,
-                    },
-                    {
-                        path: "trips",
-                        element: <Trips />,
-                    },
-                    {
-                        path: "Sitting",
-                        element: <Sitting />,
-                    },
-                    {
-                        path: "employees",
-                        element: <Employees />,
-                    },
-                    {
-                        path: "addEmployee",
-                        element: <AddEmployee />,
-                    },
-                    {
-                        path: "addtrip",
-                        element: <AddTrip />,
-                    },
-                ],
-            },
-        ],
-        { basename: "/App" }
-    );
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: <Home />,
+            errorElement: <SignUp />,
+        },
+        {
+            path: "/Trips",
+            element: <Trips />,
+        },
+        {
+            path: "/SignUp",
+            element: (
+                <>
+                    <Navbar />
+                    <SignUp />
+                    <Footer />
+                </>
+            ),
+        },
+        {
+            path: "/SignIn",
+            element: (
+                <>
+                    <Navbar />
+                    <SignIn />
+                    <Footer />
+                </>
+            ),
+        },
+        {
+            path: "/Bus",
+            element: (
+                <Bus
+                    seatsData={fakeSeatsData}
+                    handleBusSubmit={handleBusSubmit}
+                    handleUpdateFakeData={handleUpdateFakeData}
+                />
+            ),
+        },
+        {
+            path: "/MyTrips",
+            element: <MyTrips />,
+        },
+        {
+            path: "/TravelerInfo",
+            element: <TravelerInfo numReservedSeats={numReservedSeats} />,
+        },
+        {
+            path: "/Bill",
+            element: <Bill />,
+        },
+        {
+            path: "/Check-in",
+            element: (
+                <>
+                    {" "}
+                    <div>Error 404</div>
+                    <Footer />{" "}
+                </>
+            ),
+        },
+        {
+            path: "/Dashboard",
+            element: <AppDashboard />,
+            children: [
+                {
+                    path: "buses",
+                    element: <Buses />,
+                },
+                {
+                    path: "addBus",
+                    element: <AddBus />,
+                },
+                {
+                    path: "trips",
+                    element: <Trips />,
+                },
+                {
+                    path: "Sitting",
+                    element: <Sitting />,
+                },
+                {
+                    path: "employees",
+                    element: <Employees />,
+                },
+                {
+                    path: "addEmployee",
+                    element: <AddEmployee />,
+                },
+                {
+                    path: "addtrip",
+                    element: <AddTrip />,
+                },
+                {
+                    path: "seatsontripv",
+                    element: <SeatsOnTrip />,
+                },
+                {
+                    path: "addtraveler",
+                    element: <AddTraveler />,
+                },
+            ],
+        },
+    ]);
 
     return (
         <DataContext.Provider value={{ state: state, dispatcher: dispatcher }}>

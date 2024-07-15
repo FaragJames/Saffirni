@@ -68,7 +68,7 @@ const columns = [
       <Button
         variant="contained"
         color="primary"
-        onClick={() => handleSeatsClick(params.row.id)}
+        onClick={() => handleViewSeats(params.row.id)}
       >
         عرض المقاعد
       </Button>
@@ -104,9 +104,8 @@ const rows = [
 const Trips = () => {
   const navigate = useNavigate();
 
-  const handleSeatsClick = (tripId) => {
-    navigate(`/seats/${tripId}`);
-  };
+  const handleViewSeats = (tripId) => {
+    navigate(`/dashboard/seatsontrip?tripId=${tripId}`);  };
 
   return (
     <Box>
