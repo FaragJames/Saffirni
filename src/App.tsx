@@ -12,6 +12,8 @@ import Sitting from "./components/dashbord/pages/sitting/Sitting.tsx";
 import Employees from "./components/dashbord/pages/employees/Employees.tsx";
 import SearchForm from "./components/search_form/SearchForm.tsx";
 import Main from "./components/main/Main.tsx";
+import SeatsOnTrip from "./components/dashbord/pages/seatsOnTrip/SeatsOnTrip.tsx";
+import AddTraveler from "./components/dashbord/pages/addTraveler/AddTraveler.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
 import MoreFilter from "./components/moreFilters/MoreFilters.tsx";
 import SearchTrip from "./components/search_trip/SearchTrip.tsx";
@@ -209,6 +211,14 @@ export default function App() {
                 {
                     path: "addtrip",
                     element: <AddTrip />,
+                },
+                {
+                    path: "seatsontripv",
+                    element: <SeatsOnTrip  />,
+                },
+                {
+                    path: "addtraveler",
+                    element: <AddTraveler  />,
                 },
             ],
         },
