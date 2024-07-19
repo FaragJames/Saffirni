@@ -3,24 +3,24 @@ import { Box, Button } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
+  { field: 'id', headerName: 'ID', width: 90 , editable: false },
   {
     field: 'firstName',
     headerName: 'الأسم الأول',
     width: 150,
-    editable: true,
+    editable: false,
   },
   {
     field: 'lastName',
     headerName: 'الكنية',
     width: 150,
-    editable: true,
+    editable: false,
   },
   {
     field: 'phoneNumber',
     headerName: 'رقم الجوال',
     width: 200,
-    editable: true,
+    editable: false,
   },
   {
     field: 'fullName',
@@ -34,7 +34,7 @@ const columns = [
     field: 'email',
     headerName: 'البريد الإلكتروني',
     width: 250,
-    editable: true,
+    editable: false,
   },
 ];
 

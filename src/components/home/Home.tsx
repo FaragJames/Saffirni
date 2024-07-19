@@ -1,8 +1,11 @@
 import { FormEvent } from "react";
 import Footer from "../footer/Footer";
 import Navbar from "../navbar/Navbar";
+import Main from "../main/Main";
+import Bus from "../bus_layout/Bus";
 import SearchForm from "../search_form/SearchForm";
 import { useNavigate } from "react-router-dom";
+import { fakeSeatsData } from "../../App";
 
 export type SearchFormObject = {
     sourceStateId: number;
@@ -42,6 +45,7 @@ export default function Home() {
         <>
             <Navbar />
             <SearchForm onSubmit={onSearchFormSubmit} />
+            <Main/>
             <Footer />
         </>
     );
