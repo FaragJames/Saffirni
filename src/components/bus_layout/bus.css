@@ -43,16 +43,349 @@
   margin: auto;
 }
 
-.busLayout .busSeat .icon {
-  margin-left: 1rem;
-}
-
 .busLayout .busSeat .seatsContainer {
   margin-top: 1rem;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[11];
-      grid-template-columns: repeat(11, 1fr);
+  -ms-grid-columns: (1fr)[13];
+      grid-template-columns: repeat(13, 1fr);
+  -ms-grid-rows: (50px)[5];
+      grid-template-rows: repeat(5, 50px);
+  gap: 10px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+.busLayout .busSeat .seatsContainer .icon {
+  -ms-grid-column: 1;
+  grid-column: 1;
+  -ms-grid-row: 5;
+  grid-row: 5;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+}
+
+.busLayout .busSeat .seatsContainer .seat-1 {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  -ms-grid-row: 5;
+  grid-row: 5;
+}
+
+.busLayout .busSeat .seatsContainer .seat-2 {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  -ms-grid-row: 4;
+  grid-row: 4;
+}
+
+.busLayout .busSeat .seatsContainer .seat-3 {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+
+.busLayout .busSeat .seatsContainer .seat-4 {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+.busLayout .busSeat .seatsContainer .seat-5 {
+  -ms-grid-column: 3;
+  grid-column: 3;
+  -ms-grid-row: 5;
+  grid-row: 5;
+}
+
+.busLayout .busSeat .seatsContainer .seat-6 {
+  -ms-grid-column: 3;
+  grid-column: 3;
+  -ms-grid-row: 4;
+  grid-row: 4;
+}
+
+.busLayout .busSeat .seatsContainer .seat-7 {
+  -ms-grid-column: 3;
+  grid-column: 3;
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+
+.busLayout .busSeat .seatsContainer .seat-8 {
+  -ms-grid-column: 3;
+  grid-column: 3;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+.busLayout .busSeat .seatsContainer .seat-9 {
+  -ms-grid-column: 4;
+  grid-column: 4;
+  -ms-grid-row: 5;
+  grid-row: 5;
+}
+
+.busLayout .busSeat .seatsContainer .seat-10 {
+  -ms-grid-column: 4;
+  grid-column: 4;
+  -ms-grid-row: 4;
+  grid-row: 4;
+}
+
+.busLayout .busSeat .seatsContainer .seat-11 {
+  -ms-grid-column: 4;
+  grid-column: 4;
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+
+.busLayout .busSeat .seatsContainer .seat-12 {
+  -ms-grid-column: 4;
+  grid-column: 4;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+.busLayout .busSeat .seatsContainer .seat-13 {
+  -ms-grid-column: 5;
+  grid-column: 5;
+  -ms-grid-row: 5;
+  grid-row: 5;
+}
+
+.busLayout .busSeat .seatsContainer .seat-14 {
+  -ms-grid-column: 5;
+  grid-column: 5;
+  -ms-grid-row: 4;
+  grid-row: 4;
+}
+
+.busLayout .busSeat .seatsContainer .seat-15 {
+  -ms-grid-column: 5;
+  grid-column: 5;
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+
+.busLayout .busSeat .seatsContainer .seat-16 {
+  -ms-grid-column: 5;
+  grid-column: 5;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+.busLayout .busSeat .seatsContainer .seat-17 {
+  -ms-grid-column: 6;
+  grid-column: 6;
+  -ms-grid-row: 5;
+  grid-row: 5;
+}
+
+.busLayout .busSeat .seatsContainer .seat-18 {
+  -ms-grid-column: 6;
+  grid-column: 6;
+  -ms-grid-row: 4;
+  grid-row: 4;
+}
+
+.busLayout .busSeat .seatsContainer .seat-19 {
+  -ms-grid-column: 6;
+  grid-column: 6;
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+
+.busLayout .busSeat .seatsContainer .seat-20 {
+  -ms-grid-column: 6;
+  grid-column: 6;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+.busLayout .busSeat .seatsContainer .seat-21 {
+  -ms-grid-column: 7;
+  grid-column: 7;
+  -ms-grid-row: 5;
+  grid-row: 5;
+}
+
+.busLayout .busSeat .seatsContainer .seat-22 {
+  -ms-grid-column: 7;
+  grid-column: 7;
+  -ms-grid-row: 4;
+  grid-row: 4;
+}
+
+.busLayout .busSeat .seatsContainer .seat-23 {
+  -ms-grid-column: 7;
+  grid-column: 7;
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+
+.busLayout .busSeat .seatsContainer .seat-24 {
+  -ms-grid-column: 7;
+  grid-column: 7;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+.busLayout .busSeat .seatsContainer .seat-25 {
+  -ms-grid-column: 8;
+  grid-column: 8;
+  -ms-grid-row: 4;
+  grid-row: 4;
+}
+
+.busLayout .busSeat .seatsContainer .seat-26 {
+  -ms-grid-column: 8;
+  grid-column: 8;
+  -ms-grid-row: 5;
+  grid-row: 5;
+}
+
+.busLayout .busSeat .seatsContainer .seat-27 {
+  -ms-grid-column: 9;
+  grid-column: 9;
+  -ms-grid-row: 5;
+  grid-row: 5;
+}
+
+.busLayout .busSeat .seatsContainer .seat-28 {
+  -ms-grid-column: 9;
+  grid-column: 9;
+  -ms-grid-row: 4;
+  grid-row: 4;
+}
+
+.busLayout .busSeat .seatsContainer .seat-29 {
+  -ms-grid-column: 9;
+  grid-column: 9;
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+
+.busLayout .busSeat .seatsContainer .seat-30 {
+  -ms-grid-column: 9;
+  grid-column: 9;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+.busLayout .busSeat .seatsContainer .seat-31 {
+  -ms-grid-column: 10;
+  grid-column: 10;
+  -ms-grid-row: 5;
+  grid-row: 5;
+}
+
+.busLayout .busSeat .seatsContainer .seat-32 {
+  -ms-grid-column: 10;
+  grid-column: 10;
+  -ms-grid-row: 4;
+  grid-row: 4;
+}
+
+.busLayout .busSeat .seatsContainer .seat-33 {
+  -ms-grid-column: 10;
+  grid-column: 10;
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+
+.busLayout .busSeat .seatsContainer .seat-34 {
+  -ms-grid-column: 10;
+  grid-column: 10;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+.busLayout .busSeat .seatsContainer .seat-35 {
+  -ms-grid-column: 11;
+  grid-column: 11;
+  -ms-grid-row: 5;
+  grid-row: 5;
+}
+
+.busLayout .busSeat .seatsContainer .seat-36 {
+  -ms-grid-column: 11;
+  grid-column: 11;
+  -ms-grid-row: 4;
+  grid-row: 4;
+}
+
+.busLayout .busSeat .seatsContainer .seat-37 {
+  -ms-grid-column: 11;
+  grid-column: 11;
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+
+.busLayout .busSeat .seatsContainer .seat-38 {
+  -ms-grid-column: 11;
+  grid-column: 11;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+.busLayout .busSeat .seatsContainer .seat-39 {
+  -ms-grid-column: 12;
+  grid-column: 12;
+  -ms-grid-row: 5;
+  grid-row: 5;
+}
+
+.busLayout .busSeat .seatsContainer .seat-40 {
+  -ms-grid-column: 12;
+  grid-column: 12;
+  -ms-grid-row: 4;
+  grid-row: 4;
+}
+
+.busLayout .busSeat .seatsContainer .seat-41 {
+  -ms-grid-column: 12;
+  grid-column: 12;
+  -ms-grid-row: 3;
+  grid-row: 3;
+}
+
+.busLayout .busSeat .seatsContainer .seat-42 {
+  -ms-grid-column: 12;
+  grid-column: 12;
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+
+.busLayout .busSeat .seatsContainer .seat-43 {
+  -ms-grid-column: 12;
+  grid-column: 12;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+.busLayout .busSeat .seatsContainer .seatWrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.busLayout .busSeat .seatsContainerVip {
+  margin-top: 1rem;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[12];
+      grid-template-columns: repeat(12, 1fr);
   -ms-grid-rows: (50px)[4];
       grid-template-rows: repeat(4, 50px);
   gap: 10px;
@@ -65,340 +398,254 @@
   position: relative;
 }
 
-.busLayout .busSeat .seatsContainer .seat-1 {
+.busLayout .busSeat .seatsContainerVip .icon {
   -ms-grid-column: 1;
   grid-column: 1;
   -ms-grid-row: 4;
   grid-row: 4;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
 }
 
-.busLayout .busSeat .seatsContainer .seat-2 {
-  -ms-grid-column: 1;
-  grid-column: 1;
-  -ms-grid-row: 3;
-  grid-row: 3;
-}
-
-.busLayout .busSeat .seatsContainer .seat-3 {
-  -ms-grid-column: 1;
-  grid-column: 1;
-  -ms-grid-row: 2;
-  grid-row: 2;
-}
-
-.busLayout .busSeat .seatsContainer .seat-4 {
-  -ms-grid-column: 1;
-  grid-column: 1;
-  -ms-grid-row: 1;
-  grid-row: 1;
-}
-
-.busLayout .busSeat .seatsContainer .seat-5 {
+.busLayout .busSeat .seatsContainerVip .seat-1 {
   -ms-grid-column: 2;
   grid-column: 2;
   -ms-grid-row: 4;
   grid-row: 4;
 }
 
-.busLayout .busSeat .seatsContainer .seat-6 {
+.busLayout .busSeat .seatsContainerVip .seat-2 {
   -ms-grid-column: 2;
   grid-column: 2;
   -ms-grid-row: 3;
   grid-row: 3;
 }
 
-.busLayout .busSeat .seatsContainer .seat-7 {
-  -ms-grid-column: 2;
-  grid-column: 2;
-  -ms-grid-row: 2;
-  grid-row: 2;
-}
-
-.busLayout .busSeat .seatsContainer .seat-8 {
+.busLayout .busSeat .seatsContainerVip .seat-3 {
   -ms-grid-column: 2;
   grid-column: 2;
   -ms-grid-row: 1;
   grid-row: 1;
 }
 
-.busLayout .busSeat .seatsContainer .seat-9 {
+.busLayout .busSeat .seatsContainerVip .seat-4 {
   -ms-grid-column: 3;
   grid-column: 3;
   -ms-grid-row: 4;
   grid-row: 4;
 }
 
-.busLayout .busSeat .seatsContainer .seat-10 {
+.busLayout .busSeat .seatsContainerVip .seat-5 {
   -ms-grid-column: 3;
   grid-column: 3;
   -ms-grid-row: 3;
   grid-row: 3;
 }
 
-.busLayout .busSeat .seatsContainer .seat-11 {
-  -ms-grid-column: 3;
-  grid-column: 3;
-  -ms-grid-row: 2;
-  grid-row: 2;
-}
-
-.busLayout .busSeat .seatsContainer .seat-12 {
+.busLayout .busSeat .seatsContainerVip .seat-6 {
   -ms-grid-column: 3;
   grid-column: 3;
   -ms-grid-row: 1;
   grid-row: 1;
 }
 
-.busLayout .busSeat .seatsContainer .seat-13 {
+.busLayout .busSeat .seatsContainerVip .seat-7 {
   -ms-grid-column: 4;
   grid-column: 4;
   -ms-grid-row: 4;
   grid-row: 4;
 }
 
-.busLayout .busSeat .seatsContainer .seat-14 {
+.busLayout .busSeat .seatsContainerVip .seat-8 {
   -ms-grid-column: 4;
   grid-column: 4;
   -ms-grid-row: 3;
   grid-row: 3;
 }
 
-.busLayout .busSeat .seatsContainer .seat-15 {
-  -ms-grid-column: 4;
-  grid-column: 4;
-  -ms-grid-row: 2;
-  grid-row: 2;
-}
-
-.busLayout .busSeat .seatsContainer .seat-16 {
+.busLayout .busSeat .seatsContainerVip .seat-9 {
   -ms-grid-column: 4;
   grid-column: 4;
   -ms-grid-row: 1;
   grid-row: 1;
 }
 
-.busLayout .busSeat .seatsContainer .seat-17 {
+.busLayout .busSeat .seatsContainerVip .seat-10 {
   -ms-grid-column: 5;
   grid-column: 5;
   -ms-grid-row: 4;
   grid-row: 4;
 }
 
-.busLayout .busSeat .seatsContainer .seat-18 {
+.busLayout .busSeat .seatsContainerVip .seat-11 {
   -ms-grid-column: 5;
   grid-column: 5;
   -ms-grid-row: 3;
   grid-row: 3;
 }
 
-.busLayout .busSeat .seatsContainer .seat-19 {
-  -ms-grid-column: 5;
-  grid-column: 5;
-  -ms-grid-row: 2;
-  grid-row: 2;
-}
-
-.busLayout .busSeat .seatsContainer .seat-20 {
+.busLayout .busSeat .seatsContainerVip .seat-12 {
   -ms-grid-column: 5;
   grid-column: 5;
   -ms-grid-row: 1;
   grid-row: 1;
 }
 
-.busLayout .busSeat .seatsContainer .seat-21 {
+.busLayout .busSeat .seatsContainerVip .seat-13 {
   -ms-grid-column: 6;
   grid-column: 6;
   -ms-grid-row: 4;
   grid-row: 4;
 }
 
-.busLayout .busSeat .seatsContainer .seat-22 {
+.busLayout .busSeat .seatsContainerVip .seat-14 {
   -ms-grid-column: 6;
   grid-column: 6;
   -ms-grid-row: 3;
   grid-row: 3;
 }
 
-.busLayout .busSeat .seatsContainer .seat-23 {
-  -ms-grid-column: 6;
-  grid-column: 6;
-  -ms-grid-row: 2;
-  grid-row: 2;
-}
-
-.busLayout .busSeat .seatsContainer .seat-24 {
+.busLayout .busSeat .seatsContainerVip .seat-15 {
   -ms-grid-column: 6;
   grid-column: 6;
   -ms-grid-row: 1;
   grid-row: 1;
 }
 
-.busLayout .busSeat .seatsContainer .seat-25 {
+.busLayout .busSeat .seatsContainerVip .seat-16 {
   -ms-grid-column: 7;
   grid-column: 7;
   -ms-grid-row: 4;
   grid-row: 4;
 }
 
-.busLayout .busSeat .seatsContainer .seat-26 {
+.busLayout .busSeat .seatsContainerVip .seat-17 {
   -ms-grid-column: 7;
   grid-column: 7;
   -ms-grid-row: 3;
   grid-row: 3;
 }
 
-.busLayout .busSeat .seatsContainer .seat-27 {
-  -ms-grid-column: 7;
-  grid-column: 7;
-  -ms-grid-row: 2;
-  grid-row: 2;
-}
-
-.busLayout .busSeat .seatsContainer .seat-28 {
+.busLayout .busSeat .seatsContainerVip .seat-18 {
   -ms-grid-column: 7;
   grid-column: 7;
   -ms-grid-row: 1;
   grid-row: 1;
 }
 
-.busLayout .busSeat .seatsContainer .seat-29 {
+.busLayout .busSeat .seatsContainerVip .seat-19 {
   -ms-grid-column: 8;
   grid-column: 8;
   -ms-grid-row: 4;
   grid-row: 4;
 }
 
-.busLayout .busSeat .seatsContainer .seat-30 {
+.busLayout .busSeat .seatsContainerVip .seat-20 {
   -ms-grid-column: 8;
   grid-column: 8;
   -ms-grid-row: 3;
   grid-row: 3;
 }
 
-.busLayout .busSeat .seatsContainer .seat-31 {
-  -ms-grid-column: 8;
-  grid-column: 8;
-  -ms-grid-row: 2;
-  grid-row: 2;
-}
-
-.busLayout .busSeat .seatsContainer .seat-32 {
+.busLayout .busSeat .seatsContainerVip .seat-21 {
   -ms-grid-column: 8;
   grid-column: 8;
   -ms-grid-row: 1;
   grid-row: 1;
 }
 
-.busLayout .busSeat .seatsContainer .seat-33 {
+.busLayout .busSeat .seatsContainerVip .seat-21 {
   -ms-grid-column: 9;
   grid-column: 9;
   -ms-grid-row: 4;
   grid-row: 4;
 }
 
-.busLayout .busSeat .seatsContainer .seat-34 {
+.busLayout .busSeat .seatsContainerVip .seat-22 {
   -ms-grid-column: 9;
   grid-column: 9;
   -ms-grid-row: 3;
   grid-row: 3;
 }
 
-.busLayout .busSeat .seatsContainer .seat-35 {
-  -ms-grid-column: 9;
-  grid-column: 9;
-  -ms-grid-row: 2;
-  grid-row: 2;
-}
-
-.busLayout .busSeat .seatsContainer .seat-36 {
+.busLayout .busSeat .seatsContainerVip .seat-23 {
   -ms-grid-column: 9;
   grid-column: 9;
   -ms-grid-row: 1;
   grid-row: 1;
 }
 
-.busLayout .busSeat .seatsContainer .seat-37 {
+.busLayout .busSeat .seatsContainerVip .seat-24 {
   -ms-grid-column: 10;
   grid-column: 10;
   -ms-grid-row: 4;
   grid-row: 4;
 }
 
-.busLayout .busSeat .seatsContainer .seat-38 {
+.busLayout .busSeat .seatsContainerVip .seat-25 {
   -ms-grid-column: 10;
   grid-column: 10;
   -ms-grid-row: 3;
   grid-row: 3;
 }
 
-.busLayout .busSeat .seatsContainer .seat-39 {
-  -ms-grid-column: 10;
-  grid-column: 10;
-  -ms-grid-row: 2;
-  grid-row: 2;
-}
-
-.busLayout .busSeat .seatsContainer .seat-40 {
+.busLayout .busSeat .seatsContainerVip .seat-26 {
   -ms-grid-column: 10;
   grid-column: 10;
   -ms-grid-row: 1;
   grid-row: 1;
 }
 
-.busLayout .busSeat .seatsContainer .seat-41 {
+.busLayout .busSeat .seatsContainerVip .seat-27 {
   -ms-grid-column: 11;
   grid-column: 11;
   -ms-grid-row: 4;
   grid-row: 4;
 }
 
-.busLayout .busSeat .seatsContainer .seat-42 {
+.busLayout .busSeat .seatsContainerVip .seat-28 {
   -ms-grid-column: 11;
   grid-column: 11;
   -ms-grid-row: 3;
   grid-row: 3;
 }
 
-.busLayout .busSeat .seatsContainer .seat-43 {
-  -ms-grid-column: 11;
-  grid-column: 11;
-  -ms-grid-row: 2;
-  grid-row: 2;
-}
-
-.busLayout .busSeat .seatsContainer .seat-44 {
-  -ms-grid-column: 11;
-  grid-column: 11;
-  -ms-grid-row: 2;
-  grid-row: 2;
-}
-
-.busLayout .busSeat .seatsContainer .seat-45 {
+.busLayout .busSeat .seatsContainerVip .seat-29 {
   -ms-grid-column: 11;
   grid-column: 11;
   -ms-grid-row: 1;
   grid-row: 1;
 }
 
-.busLayout .busSeat .seatsContainer2 {
-  margin-top: 1rem;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: (1fr)[10];
-      grid-template-columns: repeat(10, 1fr);
-  -ms-grid-rows: (50px)[1];
-      grid-template-rows: repeat(1, 50px);
-  gap: 10px;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  position: relative;
+.busLayout .busSeat .seatsContainerVip .seat-30 {
+  -ms-grid-column: 12;
+  grid-column: 12;
+  -ms-grid-row: 4;
+  grid-row: 4;
 }
 
-.busLayout .seatWrapper {
+.busLayout .busSeat .seatsContainerVip .seat-31 {
+  -ms-grid-column: 12;
+  grid-column: 12;
+  -ms-grid-row: 3;
+  grid-row: 3;
+}
+
+.busLayout .busSeat .seatsContainerVip .seat-32 {
+  -ms-grid-column: 12;
+  grid-column: 12;
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+
+.busLayout .busSeat .seatsContainerVip .seat-33 {
+  -ms-grid-column: 12;
+  grid-column: 12;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+.busLayout .busSeat .seatsContainerVip .seatWrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -407,16 +654,16 @@
           justify-content: center;
 }
 
-.busLayout .seatInfo {
+.seatInfo {
   margin-top: 1rem;
 }
 
-.busLayout .buttonContainer {
+.buttonContainer {
   margin-top: 1rem;
   margin-bottom: 3rem;
 }
 
-.busLayout .buttonContainer .btn {
+.buttonContainer .btn {
   border: none;
   color: #fff;
   margin: 0 0.5rem;

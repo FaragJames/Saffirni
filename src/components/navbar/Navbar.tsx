@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./navbar.css";
 import MainIcon from "../../assets/tour and travel.svg";
- 
 import { AiFillCloseCircle } from "react-icons/ai";
 import { TbGridDots } from "react-icons/tb";
 import Avatar from "@mui/material/Avatar";
@@ -55,7 +54,7 @@ export default function Navbar() {
 
                         {!signedIn && (
                             <button className="btn">
-                                <a href="./SignIn">تسجيل الدخول</a>
+                                <NavLink to="/SignIn">تسجيل الدخول</NavLink>
                             </button>
                         )}
 

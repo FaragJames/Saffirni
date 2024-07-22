@@ -1,3 +1,17 @@
+:root {
+  --PrimeryColor: hsl(199, 100%, 33%);
+  --SecenderyColor: hsl(187, 85%, 43%);
+  --gradientColor: linear-gradient(to right, hsl(187, 85%, 43%), hsl(199, 100%, 33%));
+  --WhiteColor: hsl(0, 0%, 100%);
+  --blackColor: hsl(201, 33%, 16%);
+  --textColor: hsl(240, 4%, 36%);
+  --WhiteColorDeam: hsl(0, 0%, 93%);
+  --greyText: rgb(190, 190, 190);
+  --inpotColor: rgb(239, 239, 239);
+  --bodyColor: rgb(240, 240, 246);
+  --cardBG: rgb(255, 255, 235);
+}
+
 .flight-result {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -9,7 +23,10 @@
       -ms-flex-align: center;
           align-items: center;
   border: 1px solid #ccc;
-  padding: 2rem 5rem;
+  border-radius: 25px;
+  margin: 0.5rem;
+  padding: 2rem 2rem;
+  gap: 2rem;
 }
 
 .flight-result .imresalt {
@@ -46,6 +63,10 @@
   font-size: 1.5rem;
   color: var(--blackColor);
   text-align: center;
+}
+
+.flight-result .Hresult {
+  margin: 0 1rem;
 }
 
 .flight-result .Hresult p {
@@ -91,7 +112,7 @@
 
 @media screen and (min-width: 900px) {
   .flight-result {
-    padding: 2rem 7rem;
+    padding: 2rem 2rem;
   }
 }
 /*# sourceMappingURL=TripResults.css.map */

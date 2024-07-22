@@ -17,6 +17,7 @@ type State = {
 export default function SearchForm(props: {
     onSubmit(e: FormEvent<HTMLFormElement>): void;
 }) {
+    
     const [states, setStates] = useState<Array<State>>();
     useEffect(() => {
         Aos.init({ duration: 2000 });

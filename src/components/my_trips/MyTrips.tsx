@@ -39,6 +39,11 @@ const MyTrips = () => {
         <Fragment>
             <Navbar />
             <div style={{ paddingTop: "80px" }}>
+            <div style={{margin:"2rem 2rem 1rem 2rem", textAlign:"center"}}>
+            <button className="btn" style={{ border: "none", color: "#fff", margin: "1rem 0.5rem"}} >رحلاتي الحالية</button>
+            <button className="btn" style={{ border: "none", color: "#fff", margin: "1rem 0.5rem"}} >رحلاتي السابقة</button>
+            </div>
+            
                 {tripsData.map((trip) => (
                     <OneTrip
                         key={trip.id}
