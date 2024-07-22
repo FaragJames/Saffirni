@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./main.css";
-import img1 from "../../assets/img.jpg";
-import img2 from "../../assets/img2.jpg";
-import img3 from "../../assets/img3.jpg";
-import img4 from "../../assets/img4.jpg";
-import img5 from "../../assets/img5.jpg";
-import { IoLocationOutline } from "react-icons/io5";
-import { FaClipboardCheck } from "react-icons/fa6";
+import Rating from '@mui/material/Rating';
+import img1 from "../../assets/img.jpeg";
+import img2 from "../../assets/img.jpeg";
+import img3 from "../../assets/img.jpeg";
+import img4 from "../../assets/img.jpeg";
+import img5 from "../../assets/img.jpeg";
+import EmailIcon from '@mui/icons-material/Email';
+import PhoneIcon from '@mui/icons-material/Phone';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Aos from "aos";
 import "aos/dist/aos.css";
 
@@ -15,51 +17,56 @@ const Data = [
         id: 1,
         imgsrc: img1,
         desTitel: "شركة طرودة",
-        location: "نيوزيلندا",
-        grade: "استرخاء ثقافي",
-        fees: "$700",
-        description:
-            "يُعتبر بورا بورا مثالاً للرومانسية، وهو أحد أفضل الوجهات السياحية.",
+        Email:"terwada@gmail.com",
+        Phone:"+963999999999",
+        location1: "حلب ,0988888888",
+        location2: "حمص ,0977777777",
+        location3: "اللاذقية ,0966666666",
+        Rrating:"5"
     },
     {
         id: 2,
         imgsrc: img2,
-        desTitel: "بورا بورا",
-        location: "نيوزيلندا",
-        grade: "استرخاء ثقافي",
-        fees: "$700",
-        description:
-            "يُعتبر بورا بورا مثالاً للرومانسية، وهو أحد أفضل الوجهات السياحية.",
+        desTitel: "شركة طرودة",
+        Email:"terwada@gmail.com",
+        Phone:"+963999999999",
+        location1: "حلب ,0988888888",
+        location2: "حمص ,0977777777",
+        location3: "اللاذقية ,0966666666",
+        Rrating:"4"
     },
     {
         id: 3,
         imgsrc: img3,
-        desTitel: "بورا بورا",
-        location: "نيوزيلندا",
-        grade: "استرخاء ثقافي",
-        fees: "$700",
-        description:
-            "يُعتبر بورا بورا مثالاً للرومانسية، وهو أحد أفضل الوجهات السياحية.",
+        desTitel: "شركة طرودة",
+        Email:"terwada@gmail.com",
+        Phone:"+963999999999",
+        location1: "حلب ,0988888888",
+        location2: "حمص ,0977777777",
+        location3: "اللاذقية ,0966666666",
+        Rrating:"3"
     },
     {
         id: 4,
         imgsrc: img4,
-        desTitel: "بورا بورا",
-        location: "نيوزيلندا",
-        grade: "استرخاء ثقافي",
-        fees: "$700",
-        description:
-            "يُعتبر بورا بورا مثالاً للرومانسية، وهو أحد أفضل الوجهات السياحية.",
+        desTitel: "شركة طرودة",
+        Email:"terwada@gmail.com",
+        Phone:"+963999999999",
+        location1: "حلب ,0988888888",
+        location2: "حمص ,0977777777",
+        location3: "اللاذقية ,0966666666",
+        Rrating:"2"
     },
     {
         id: 5,
         imgsrc: img5,
-        desTitel: "بورا بورا",
-        location: "نيوزيلندا",
-        grade: "استرخاء ثقافي",
-        fees: "$700",
-        description:
-            "يُعتبر بورا بورا مثالاً للرومانسية، وهو أحد أفضل الوجهات السياحية.",
+        desTitel: "شركة طرودة",
+        Email:"terwada@gmail.com",
+        Phone:"+963999999999",
+        location1: "حلب ,0988888888",
+        location2: "حمص ,0977777777",
+        location3: "اللاذقية ,0966666666",
+        Rrating:"1"
     },
 ];
 
@@ -79,10 +86,13 @@ const Main = () => {
                             id,
                             imgsrc,
                             desTitel,
-                            location,
-                            grade,
-                            fees,
-                            description,
+                            location1,
+                            location2,
+                            location3,
+                            Rrating,
+                            Email,
+                            Phone,
+                        
                         }) => (
                             <div
                                 data-aos="fade-up"
@@ -95,27 +105,30 @@ const Main = () => {
                                 <div className="cardInfo">
                                     <h4 className="desTital">{desTitel}</h4>
                                     <span className="continent flex">
-                                        <IoLocationOutline className="icon" />
-                                        <span className="name">{location}</span>
+                                        <EmailIcon className="icon" />
+                                        <span className="name">{Email}</span>
                                     </span>
-                                    <div className="fees flex">
-                                        <div className="grade">
-                                            <span>
-                                                {grade}
-                                                <small>+1</small>
-                                            </span>
-                                        </div>
-                                        <div className="price">
-                                            <h5>{fees}</h5>
-                                        </div>
+                                    <span className="continent flex">
+                                        <PhoneIcon className="icon" />
+                                        <span className="name">{Phone}</span>
+                                    </span>
+                                    <div className="continentlocation">
+                                    <span className="continent flex">
+                                        <LocationOnIcon className="icon" />
+                                        <span className="name">{location1}</span>
+                                    </span>
+                                    <span className="continent flex">
+                                        <LocationOnIcon className="icon" />
+                                        <span className="name">{location2}</span>
+                                    </span>
+                                    <span className="continent flex">
+                                        <LocationOnIcon className="icon" />
+                                        <span className="name">{location3}</span>
+                                    </span>
                                     </div>
-                                    <div className="desc">
-                                        <p>{description}</p>
-                                        <button className="btn flex">
-                                            التفاصيل{" "}
-                                            <FaClipboardCheck className="icon" />
-                                        </button>
-                                    </div>
+                                   <div className="rating" style={{marginTop:"0.5rem" , marginBottom:"-0.5rem" , justifyContent:"center" , alignContent:"center"}}> 
+                                   <Rating name="read-only" value={Rrating} readOnly />
+                                   </div>
                                 </div>
                             </div>
                         )

@@ -1,104 +1,97 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Seat from "../seat/Seat";
 import "./bus.css";
 import Footer from "../footer/Footer";
 import { GiSteeringWheel } from "react-icons/gi";
+import { FakeSeat } from "../../App";
+import Navbar from "../navbar/Navbar";
 
-const Bus = ({ seatsData = [], handleBusSubmit, handleUpdateFakeData }) => {
-  const [selectedSeats, setSelectedSeats] = useState([]);
-  const [selectedflight, setSelectedflight] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [updatedSeatsData, setUpdatedSeatsData] = useState(seatsData);
-  const [showWarning, setShowWarning] = useState(false); // State for warning message
-  const navigate = useNavigate();
-  const lo = useLocation();
-  let { flight } = lo.state;
+export default function Bus(props: { seatsData: Array<FakeSeat>; }) {
+    const [updatedSeatsData, setUpdatedSeatsData] = useState(props.seatsData);
 
-  useEffect(() => {
-    const numSelected = updatedSeatsData
-      .filter((seat) => seat.selected)
-      .map((seat) => seat.number);
-    setSelectedSeats(numSelected);
-    calculateTotalPrice(updatedSeatsData); // Calculate initial total price
-  }, [updatedSeatsData]);
+    const [selectedSeats, setSelectedSeats] = useState<Array<number>>();
 
-  const handleSeatClick = (seatNumber) => {
-    const updatedSeats = updatedSeatsData.map((seat) =>
-      seat.number === seatNumber ? { ...seat, selected: !seat.selected } : seat
+    const [showWarning, setShowWarning] = useState(false); // State for warning message
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const numSelected = updatedSeatsData.filter((seat) => seat.selected).map((seat) => seat.number);
+        setSelectedSeats(numSelected);
+    }, [updatedSeatsData]);
+
+    const handleSeatClick = (seatNumber: number) => {
+        const updatedSeats = updatedSeatsData.map((seat) =>
+            seat.number === seatNumber
+                ? { ...seat, selected: !seat.selected }
+                : seat
+        );
+
+        setUpdatedSeatsData(updatedSeats);
+        setSelectedSeats(
+            updatedSeats
+                .filter((seat) => seat.selected)
+                .map((seat) => seat.number)
+        );
+    };
+
+    const handleNextClick = () => {
+        if (selectedSeats && selectedSeats.length === 0) {
+            setShowWarning(true);
+            return;
+        }
+
+        console.log("handleNextClick called"); // Debugging statement
+        console.log("Selected seats:", selectedSeats); // Debugging statement
+    };
+
+    return (
+        <>
+            <Navbar />
+            <div className="busLayout">
+                <h2 className="title">إختر مقاعد الجلوس</h2>
+                <div>
+                    <div className="busSeat">
+                        <div className="seatsContainer ">
+                            <GiSteeringWheel className="icon" />
+                            {updatedSeatsData.map((seat) => (
+                                <div
+                                    key={seat.number}
+                                    className={`seatWrapper seat-${seat.number}`}
+                                >
+                                    <Seat
+                                        key={seat.number}
+                                        seatNumber={seat.number}
+                                        isSelected={selectedSeats?.includes(seat.number)}
+                                        isReserved={seat.reserved}
+                                        onClick={() => handleSeatClick(seat.number)}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="seatInfo">
+                        <p> عدد المقاعد المحجوزة: {selectedSeats?.length}</p>
+                        <p>المقاعد المحجوزة: {selectedSeats?.join(", ")}</p>
+                    </div>
+
+                </div>
+                <div className="buttonContainer">
+                    <button
+                        className="btn"
+                        onClick={handleNextClick}
+                    >
+                        التالي
+                    </button>
+                    <button className="btn">إلغاء</button>
+                </div>
+                {showWarning && ( // Render warning message if no seats are selected
+                    <div className="warning">
+                        <p>الرجاء اختيار مقعد على الأقل للمتابعة</p>
+                    </div>
+                )}
+            </div>
+            <Footer />
+        </>
     );
-
-    setUpdatedSeatsData(updatedSeats);
-    setSelectedSeats(
-      updatedSeats.filter((seat) => seat.selected).map((seat) => seat.number)
-    );
-    calculateTotalPrice(updatedSeats);
-  };
-
-  const handleNextClick = () => {
-    if (selectedSeats.length === 0) {
-      setShowWarning(true);
-      return;
-    }
-
-    console.log('handleNextClick called'); // Debugging statement
-    console.log('Selected seats:', selectedSeats); // Debugging statement
-    handleBusSubmit(selectedSeats);
-    navigate("/travelerInfo", { state: { selectedSeats, flight } });
-  };
-
-  const calculateTotalPrice = (flight) => {
-    const selectedflight = flight.filter((flight) => flight.selected);
-    const price = selectedflight.reduce((total, flight) => total + flight.price, 0);
-    setTotalPrice(price);
-  };
-
-  return (
-    <>
-      <div className="busLayout">
-        <h2 className="title">إختر مقاعد الجلوس</h2>
-        <div className="busSeat">
-          <GiSteeringWheel className="icon" />
-          <div className="seatsContainer">
-            {updatedSeatsData.map((seat) => (
-              <div key={seat.number} className="seatWrapper">
-                <Seat
-                  key={seat.number}
-                  seatNumber={seat.number}
-                  isSelected={selectedSeats.includes(seat.number)}
-                  isReserved={seat.reserved}
-                  onClick={() => handleSeatClick(seat.number)}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="seatInfo">
-          <p>المقاعد المحجوزة: {selectedSeats.length}</p>
-          <p>المقاعد المحجوزة: {selectedSeats.join(", ")}</p>
-          <p>إجمالي السعر: {totalPrice} ل.س </p>
-        </div>
-        <div className="buttonContainer">
-          <button
-            className="btn"
-            onClick={handleNextClick}
-            disabled={selectedSeats.length === 0}
-          >
-            <span>التالي</span>
-          </button>
-          <button className="btn" onClick={() => navigate('/')}>
-            <span>العودة</span>
-          </button>
-        </div>
-        {showWarning && (
-          <div className="warning">
-            <p>الرجاء اختيار مقعد قبل المتابعة</p>
-          </div>
-        )}
-      </div>
-      <Footer />
-    </>
-  );
-};
-
-export default Bus;
+}

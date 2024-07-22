@@ -4,21 +4,21 @@ import Header from "../../dashbord_components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 90 },
-  { field: "BusType", headerName: "نوع الحافلة", width: 150, editable: true },
+  { field: "id", headerName: "ID", width: 90 , editable: false },
+  { field: "BusType", headerName: "نوع الحافلة", width: 150, editable: false },
   {
     field: "plateNumber",
     headerName: "رقم اللوحة",
     width: 150,
-    editable: true,
+    editable: false,
   },
   {
     field: "NumberOfSeats",
     headerName: "عدد المقاعد",
     width: 150,
-    editable: true,
+    editable: false,
   },
-  { field: "modelYear", headerName: "سنة الموديل", width: 150, editable: true },
+  { field: "modelYear", headerName: "سنة الموديل", width: 150, editable: false },
 ];
 
 const rows = [

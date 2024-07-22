@@ -4,13 +4,13 @@ import { Box, Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'seatNumber', headerName: 'رقم المقعد', width: 150, editable: true },
-  { field: 'seatStatus', headerName: 'حالة المقعد', width: 150, editable: true },
-  { field: 'travelerName', headerName: 'اسم المسافر', width: 200, editable: true },
-  { field: 'nationalID', headerName: 'الرقم الوطني', width: 200, editable: true },
-  { field: 'rating', headerName: 'التقييم', width: 150, editable: true, type: 'number' },
-  { field: 'comment', headerName: 'تعليق', width: 300, editable: true }
+  { field: 'id', headerName: 'ID', width: 90 , editable: false },
+  { field: 'seatNumber', headerName: 'رقم المقعد', width: 150, editable: false },
+  { field: 'seatStatus', headerName: 'حالة المقعد', width: 150, editable: false },
+  { field: 'travelerName', headerName: 'اسم المسافر', width: 200, editable: false },
+  { field: 'nationalID', headerName: 'الرقم الوطني', width: 200, editable: false },
+  { field: 'rating', headerName: 'التقييم', width: 150, editable: false, type: 'number' },
+  { field: 'comment', headerName: 'تعليق', width: 300, editable: false }
 ];
 
 const rows = [

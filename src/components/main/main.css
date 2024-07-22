@@ -1,30 +1,37 @@
 :root {
-  --PrimeryColor: hsl(199,100%,33%);
-  --SecenderyColor: hsl(187,85%,43%);
-  --gradientColor: linear-gradient(to right,hsl(187,85%,43%),hsl(199,100%,33%) );
-  --WhiteColor:hsl(0,0%,100%);
-  --blackColor:hsl(201,33%,16%);
-  --textColor: hsl(240,4%,36%);
-  --WhiteColorDeam:hsl(0,0%,93%);
-  --greyText: rgb(190,190,190);
-  --inpotColor:rgb(239,239,239);
-  --bodyColor:rgb(240,240,246);
-  --cardBG:rgb(255,255,235);
-  --cardHover:rgb(255,255,255);
+  --PrimeryColor: hsl(199, 100%, 33%);
+  --SecenderyColor: hsl(187, 85%, 43%);
+  --gradientColor: linear-gradient(
+    to right,
+    hsl(187, 85%, 43%),
+    hsl(199, 100%, 33%)
+  );
+  --WhiteColor: hsl(0, 0%, 100%);
+  --blackColor: hsl(201, 33%, 16%);
+  --textColor: hsl(240, 4%, 36%);
+  --WhiteColorDeam: hsl(0, 0%, 93%);
+  --greyText: rgb(190, 190, 190);
+  --inpotColor: rgb(239, 239, 239);
+  --bodyColor: rgb(240, 240, 246);
+  --cardBG: rgb(255, 255, 235);
+  --cardHover: rgb(255, 255, 255);
 }
 
 .main {
   width: 100%;
   direction: rtl;
 }
+
 .main .secTitle .title {
   position: relative;
+  width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
   color: var(--textColor);
   margin: 1rem 0;
   z-index: 2;
 }
+
 .main .secTitle .title::after {
   position: absolute;
   content: "";
@@ -35,100 +42,120 @@
   bottom: 5px;
   z-index: -1;
 }
+
 .main .seContent {
   gap: 1.5rem;
 }
+
 .main .seContent .singleDestination {
   height: 100%;
+  display: -ms-grid;
   display: grid;
   row-gap: 10px;
   border-radius: 10px;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background: var(--cardBG);
-  box-shadow: 0 2px 4px rgba(140, 140, 141, 0.549);
+  -webkit-box-shadow: 0 2px 4px rgba(140, 140, 141, 0.549);
+          box-shadow: 0 2px 4px rgba(140, 140, 141, 0.549);
   overflow: hidden;
 }
+
 .main .seContent .singleDestination:hover {
   background: var(--cardHover);
-  box-shadow: 1 4px 4px rgba(85, 85, 114, 0.549);
+  -webkit-box-shadow: 1 4px 4px rgba(85, 85, 114, 0.549);
+          box-shadow: 1 4px 4px rgba(85, 85, 114, 0.549);
+  -webkit-transition: 0.3s ease;
   transition: 0.3s ease;
 }
+
 .main .seContent .singleDestination .imageDiv {
   height: 180px;
   width: 100%;
   overflow: hidden;
 }
+
 .main .seContent .singleDestination .imageDiv img {
   height: 100%;
   width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  -webkit-transition: 2s ease;
   transition: 2s ease;
 }
+
 .main .seContent .singleDestination .imageDiv:hover img {
-  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
 }
+
 .main .seContent .singleDestination .cardInfo {
   padding: 1rem;
 }
+
 .main .seContent .singleDestination .cardInfo .desTital {
   color: var(--blackColor);
   font-size: 1.25rem;
 }
+
 .main .seContent .singleDestination .cardInfo .continent {
   gap: 0.5rem;
 }
+
 .main .seContent .singleDestination .cardInfo .continent .icon {
   color: var(--textColor);
   font-size: 18px;
 }
+
 .main .seContent .singleDestination .cardInfo .continent .name {
   color: var(--textColor);
   font-weight: 400;
   font-size: 14px;
 }
-.main .seContent .singleDestination .cardInfo .fees {
-  width: 100%;
-  justify-content: space-between;
-  padding: 1rem;
-  margin: 1rem 0;
+
+.main .seContent .singleDestination .cardInfo .continentlocation {
+  gap: 0.5rem;
   border-top: 1.5px solid var(--greyText);
   border-bottom: 1.5px solid var(--greyText);
 }
-.main .seContent .singleDestination .cardInfo .fees .grade {
+
+.main .seContent .singleDestination .cardInfo .continentlocation .icon {
   color: var(--textColor);
-  max-width: 100px;
-  line-height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 18px;
 }
-.main .seContent .singleDestination .cardInfo .fees .grade small {
-  text-align: center;
-  background: var(--gradientColor);
-  border-radius: 1rem;
-  color: var(--WhiteColor);
-  padding: 1px 10px;
-  font-size: 10px;
+
+.main .seContent .singleDestination .cardInfo .continentlocation .name {
+  color: var(--textColor);
+  font-weight: 400;
+  font-size: 14px;
 }
-.main .seContent .singleDestination .cardInfo .fees .price {
-  font-size: 2rem;
-  color: var(--blackColor);
+
+.main .seContent .singleDestination .cardInfo .rating {
+  margin-top: 0.5rem;
+  margin: auto;
 }
+
 .main .seContent .singleDestination .cardInfo .desc {
   font-size: 13.5px;
   color: var(--textColor);
   font-weight: 500;
 }
+
 .main .seContent .singleDestination .cardInfo .btn {
   margin-top: 1rem;
   color: var(--WhiteColor);
   font-weight: 600;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   gap: 0.5rem;
 }
+
 .main .seContent .singleDestination .cardInfo .btn .icon {
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   font-size: 18px;
 }
 
@@ -140,17 +167,24 @@
     width: 155px !important;
   }
   .seContent {
-    grid-template-columns: repeat(2, 1fr);
+    -ms-grid-columns: (1fr)[3];
+        grid-template-columns: repeat(3, 1fr);
   }
   .seContent .singleDestination {
     height: auto;
   }
 }
+
 @media screen and (min-width: 840px) {
   .seContent {
-    grid-template-columns: repeat(3, 1fr);
+    -ms-grid-columns: (1fr)[4];
+        grid-template-columns: repeat(4, 1fr);
   }
   .seContent .singleDestination {
     height: auto;
   }
-}/*# sourceMappingURL=main.css.map */
+  .seContent .singleDestination .imageDiv {
+    height: 180px;
+  }
+}
+/*# sourceMappingURL=main.css.map */

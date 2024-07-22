@@ -3,7 +3,7 @@ import "./App.css";
 import Footer from "./components/footer/Footer.tsx";
 import SignUp from "./components/signUp/SignUp.tsx";
 import SignIn from "./components/signIn/SignIn.tsx";
-import Bus from "./components/bus_layout/Bus.tsx";
+ import Bus from "./components/bus_layout/Bus.tsx";
 import AppDashboard from "./components/dashbord/AppDashbord.tsx";
 import Trips from "./components/trips/Trips.tsx";
 import AddBus from "./components/dashbord/pages/addBus/AddBus.tsx";
@@ -13,7 +13,7 @@ import Employees from "./components/dashbord/pages/employees/Employees.tsx";
 import SeatsOnTrip from "./components/dashbord/pages/seatsOnTrip/SeatsOnTrip.tsx";
 import AddTraveler from "./components/dashbord/pages/addTraveler/AddTraveler.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
-import TravelerInfo from "./components/traveler_info/TravelerInfo.tsx";
+// import TravelerInfo from "./components/traveler_info/TravelerInfo.tsx";
 import Bill from "./components/bill/Bill.tsx";
 import AddEmployee from "./components/dashbord/pages/addEmplowee/AddEmployee.tsx";
 import AddTrip from "./components/dashbord/pages/addTrip/AddTrip.tsx";
@@ -27,7 +27,7 @@ type FakeSeat = {
     selected: boolean;
     reserved: boolean;
 };
-const fakeSeatsData: Array<FakeSeat> = [
+export const fakeSeatsData: Array<FakeSeat> = [
     { number: 1, selected: false, reserved: false },
     { number: 2, selected: false, reserved: false },
     { number: 3, selected: false, reserved: true },
@@ -68,6 +68,12 @@ const fakeSeatsData: Array<FakeSeat> = [
     { number: 38, selected: false, reserved: false },
     { number: 39, selected: false, reserved: false },
     { number: 40, selected: false, reserved: false },
+    { number: 41, selected: false, reserved: false },
+    { number: 42, selected: false, reserved: false },
+    { number: 43, selected: false, reserved: true },
+    { number: 44, selected: false, reserved: false },
+    { number: 45, selected: false, reserved: false },
+    
 ];
 
 export default function App() {
@@ -107,24 +113,21 @@ export default function App() {
                 </>
             ),
         },
-        {
-            path: "/Bus",
-            element: (
-                <Bus
-                    seatsData={fakeSeatsData}
-                    handleBusSubmit={handleBusSubmit}
-                    handleUpdateFakeData={handleUpdateFakeData}
-                />
-            ),
-        },
+         {
+             path: "/Bus",
+             element: (
+                <Bus seatsData={fakeSeatsData}/>
+
+             ),
+         },
         {
             path: "/MyTrips",
             element: <MyTrips />,
         },
-        {
-            path: "/TravelerInfo",
-            element: <TravelerInfo numReservedSeats={numReservedSeats} />,
-        },
+        // {
+        //     path: "/TravelerInfo",
+        //     element: <TravelerInfo numReservedSeats={numReservedSeats} />,
+        // },
         {
             path: "/Bill",
             element: <Bill />,
@@ -181,7 +184,7 @@ export default function App() {
                 },
             ],
         },
-    ]);
+    ],{basename:"/App"});
 
     return (
         <DataContext.Provider value={{ state: state, dispatcher: dispatcher }}>
