@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./navbar.css";
 import MainIcon from "../../assets/tour and travel.svg";
@@ -8,7 +8,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { DataContext, User } from "../../utilities/Context";
+import { User } from "../../utilities/Context";
 
 function stringAvatar(firstName: string, lastName: string) {
     return {
@@ -17,24 +17,28 @@ function stringAvatar(firstName: string, lastName: string) {
 }
 
 export default function Navbar() {
-    const context = useContext(DataContext);
+    const jsonUser = sessionStorage.getItem("user");
+    const user = jsonUser ? JSON.parse(jsonUser) as User : null
+    
     const [active, setActive] = useState("navBar");
     const [signedIn, setSignedIn] = useState(false);
     const [anchorEl, setAnchorEl] = useState<(EventTarget & HTMLButtonElement) | null>(null);
     const open = Boolean(anchorEl);
 
     useEffect(() => {
-        if (context.state.id)
+        if (user)
             setSignedIn(true);
+        else
+            setSignedIn(false)
     }, []);
 
     return (
         <section className="navBarSection">
             <header className="header flex">
                 <div className="logoDiv">
-                    <a href="#" className="logo flex">
+                    <NavLink to="/" className="logo flex">
                         <img src={MainIcon} className="mainicon" />
-                    </a>
+                    </NavLink>
                 </div>
                 <div className={active}>
                     <ul className="navLists flex">
@@ -49,7 +53,9 @@ export default function Navbar() {
                             </NavLink>
                         </li>
                         <li className="navItem">
-                            <a className="navLink">تواصل معنا</a>
+                            <NavLink to="/" className="navLink">
+                                تواصل معنا
+                            </NavLink>
                         </li>
 
                         {!signedIn && (
@@ -73,8 +79,10 @@ export default function Navbar() {
                                 >
                                     <Avatar
                                         style={{ marginLeft: "1rem" }}
-                                        {...stringAvatar(context.state.firstName as string,
-                                            context.state.lastName as string)}
+                                        {...stringAvatar(
+                                            user?.firstName as string,
+                                            user?.lastName as string
+                                        )}
                                     />
                                 </Button>
                                 <Menu
@@ -88,10 +96,7 @@ export default function Navbar() {
                                 >
                                     <MenuItem
                                         onClick={() => {
-                                            if(!context.dispatcher) {
-                                                throw new Error("Dispatcher is undefined!");
-                                            }
-                                            context.dispatcher({type: "reset", payload: new User()})
+                                            sessionStorage.removeItem("user");
                                             setSignedIn(false);
                                             setAnchorEl(null);
                                         }}

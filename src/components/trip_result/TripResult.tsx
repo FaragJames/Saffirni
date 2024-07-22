@@ -4,8 +4,8 @@ import img from "../../assets/img.jpg";
 import Rating from "@mui/material/Rating";
 import { FilteredCompanyTrips } from "../trips/Trips";
 
-export default function TripResults(props: {
-    companyTrip: FilteredCompanyTrips
+export default function TripResult(props: {
+    companyTrip: FilteredCompanyTrips;
 }) {
     const navigate = useNavigate();
     const handleNextClick = () => {

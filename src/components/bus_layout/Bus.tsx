@@ -46,11 +46,6 @@ export default function Bus(props: { seatsData: Array<FakeSeat>, vipType: boolea
         console.log("Selected seats:", selectedSeats); // Debugging statement
     };
 
-    useEffect(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        console.log(location.pathname);
-      }, [location.pathname]);
-
       
     return (
         <>

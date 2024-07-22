@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Avatar from "@mui/material/Avatar";
@@ -15,8 +15,8 @@ import { SxProps } from "@mui/material/styles";
 import { Theme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { DataContext, User } from "../../utilities/Context";
-import { ApiResponse, GenericApiResponse } from "../../utilities/Types";
+import { User } from "../../utilities/Context";
+import { GenericApiResponse } from "../../utilities/Types";
 import { apiClient } from "../../utilities/Axios";
 
 class SignInInfo {
@@ -77,7 +77,6 @@ export default function SignIn() {
     };
     const validationSchema = Yup.object().shape(validationShape);
 
-    const context = useContext(DataContext);
     const handleSubmit = async (signInInfo: SignInInfo) => {
         try {
             const payload = {
@@ -94,12 +93,8 @@ export default function SignIn() {
             const apiResponse = response.data;
 
             if (apiResponse.isSuccess) {
-                if (!context.dispatcher)
-                    throw new Error("Dispatcher is undefined");
-                context.dispatcher({
-                    type: "assign",
-                    payload: apiResponse.payload as User,
-                });
+                sessionStorage.setItem("user", JSON.stringify(apiResponse.payload))
+
                 toast.success(apiResponse.message);
                 navigate("/");
                 return;
@@ -108,9 +103,7 @@ export default function SignIn() {
                 toast.error(error);
             });
         } catch (error) {
-            // if(axios.isAxiosError<ApiResponse>(error)){
-                
-            // }
+            // if(axios.isAxiosError<ApiResponse>(error))
             console.error(error);
         }
     };

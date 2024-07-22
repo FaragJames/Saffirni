@@ -8,6 +8,8 @@ import "aos/dist/aos.css";
 import { GenericApiResponse } from "../../utilities/Types";
 import { apiClient } from "../../utilities/Axios";
 import { toast } from "react-toastify";
+import { SearchFormData } from "../home/Home";
+import { MenuItem, Select } from "@mui/material";
 
 type State = {
     id: number;
@@ -16,8 +18,8 @@ type State = {
 
 export default function SearchForm(props: {
     onSubmit(e: FormEvent<HTMLFormElement>): void;
+    data: SearchFormData | null
 }) {
-    
     const [states, setStates] = useState<Array<State>>();
     useEffect(() => {
         Aos.init({ duration: 2000 });
@@ -30,8 +32,7 @@ export default function SearchForm(props: {
                 ).data;
 
                 if (apiResponse.isSuccess && apiResponse.payload) {
-                    if(apiResponse.message)
-                        toast.success(apiResponse.message)
+                    if (apiResponse.message) toast.success(apiResponse.message);
 
                     setStates(apiResponse.payload);
                     return;
@@ -39,7 +40,7 @@ export default function SearchForm(props: {
 
                 apiResponse.errors?.forEach((error) => toast.error(error));
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         }
 
@@ -61,44 +62,63 @@ export default function SearchForm(props: {
                         <div className={`disInput `}>
                             <label htmlFor="city">نقطة الانطلاق</label>
                             <div className="input flex">
-                                <select
+                                <Select
                                     id="departureProvince"
                                     className="provinceSelect"
                                     name="sourceSelect"
+                                    defaultValue={props.data ? props.data.sourceStateId : 0}
                                     required
-                                    defaultValue=""
                                 >
-                                    <option value="" disabled>
+                                    <MenuItem value={0} disabled>
                                         اختر محافظة
-                                    </option>
+                                    </MenuItem>
                                     {states?.map((state) => (
-                                        <option key={state.id} value={state.id}>
+                                        <MenuItem
+                                            key={state.id}
+                                            value={state.id}
+                                            // selected={
+                                            //     props.data?.sourceStateId ==
+                                            //     state.id
+                                            // }
+                                        >
                                             {state.name}
-                                        </option>
+                                        </MenuItem>
                                     ))}
-                                </select>
+                                </Select>
                                 <GrLocation className="icon" />
                             </div>
                         </div>
                         <div className="disInput">
                             <label htmlFor="city">الوجهة</label>
                             <div className="input flex">
-                                <select
+                                <Select
                                     id="arrivalProvince"
                                     className="provinceSelect"
                                     name="destinationSelect"
+                                    defaultValue={
+                                        props.data
+                                            ? props.data.destinationStateId
+                                            : 0
+                                    }
                                     required
-                                    defaultValue=""
                                 >
-                                    <option value="" disabled>
+                                    <MenuItem value={0} disabled>
                                         اختر محافظة
-                                    </option>
+                                    </MenuItem>
                                     {states?.map((state) => (
-                                        <option key={state.id} value={state.id}>
+                                        <MenuItem
+                                            key={state.id}
+                                            value={state.id}
+                                            // selected={
+                                            //     props.data
+                                            //         ?.destinationStateId ==
+                                            //     state.id
+                                            // }
+                                        >
                                             {state.name}
-                                        </option>
+                                        </MenuItem>
                                     ))}
-                                </select>
+                                </Select>
                                 <GrLocation className="icon" />
                             </div>
                         </div>
@@ -111,6 +131,9 @@ export default function SearchForm(props: {
                                     name="dateInput"
                                     min={new Date().toISOString().split("T")[0]}
                                     required
+                                    defaultValue={
+                                        props.data?.departTime.split("T")[0]
+                                    }
                                 />
                             </div>
                         </div>
