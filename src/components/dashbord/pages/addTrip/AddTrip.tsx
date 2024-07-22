@@ -100,7 +100,7 @@ const AddTrip = () => {
                     type="datetime-local"
                     variant="outlined"
                     fullWidth
-                    label="وقت الإنطلاق المتوقع"
+                    label="وقت الإنطلاق المتوقع "
                     InputLabelProps={{
                       shrink: true,
                     }}

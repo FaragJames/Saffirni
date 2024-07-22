@@ -3,7 +3,7 @@ import { MdChair } from "react-icons/md";
 
 // عرض المقعد الواحد
 const Seat = ({ seatNumber, isSelected, isReserved, onClick }) => {
-  let seatColor = 'gray';
+  let seatColor = 'grey';
   let cursorStyle = 'pointer';
  
   if (isSelected) {
@@ -16,27 +16,14 @@ const Seat = ({ seatNumber, isSelected, isReserved, onClick }) => {
 
   return (
     <>
-    {/* <div
-      style={{
-        backgroundColor: seatColor,
-        width: '50px',
-        height: '50px',
-        border: '1px solid #000',
-        margin: '5px',
-        display: 'inline-block',
-        cursor: cursorStyle,
-          }}
-          onClick={() => !isReserved && onClick(seatNumber)} // السماح بالضغط إذا لم يكن المقعد محجوز
-          >
-      {seatNumber}
-    </div> */}
     <MdChair style={{
         color: seatColor,
-        width: '25px',
-        height: '25px',
+        width: '35px',
+        height: '35px',
         margin: '5px',
         display: 'inline-block',
         cursor: cursorStyle,
+        rotate:"-90deg",
           }}
           onClick={() => !isReserved && onClick(seatNumber)} />
 

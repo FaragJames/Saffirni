@@ -120,7 +120,7 @@ export default function SignIn() {
             <CssBaseline />
             <Box
                 sx={{
-                    marginTop: 8,
+                    paddingTop: 14,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
