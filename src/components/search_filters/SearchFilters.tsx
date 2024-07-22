@@ -58,7 +58,7 @@ export default function SearchFilters(props: {
             try {
                 const apiResponse = (
                     await apiClient.get<GenericApiResponse<Array<Company>>>(
-                        "/API/Company"
+                        "/API/Company?fullInfo=false"
                     )
                 ).data;
 
@@ -98,6 +98,7 @@ export default function SearchFilters(props: {
                                     اسم شركة النقل
                                 </InputLabel>
                                 <Select
+                                    defaultValue={0}
                                     labelId="company-name-label"
                                     id="company-name"
                                     label="Name of Company"
@@ -106,7 +107,7 @@ export default function SearchFilters(props: {
                                             .value as number;
                                     }}
                                 >
-                                    <MenuItem value="0" key={0} selected>
+                                    <MenuItem value={0} key={0}>
                                         كل الشركات
                                     </MenuItem>
                                     {companies?.map((company) => (
@@ -126,6 +127,7 @@ export default function SearchFilters(props: {
                                     نوع الرحلة
                                 </InputLabel>
                                 <Select
+                                    defaultValue={0}
                                     labelId="trip-type-label"
                                     id="trip-type"
                                     label="Type of Trip"
@@ -134,7 +136,7 @@ export default function SearchFilters(props: {
                                             .value as number;
                                     }}
                                 >
-                                    <MenuItem value="0" key={0} selected>
+                                    <MenuItem value={0} key={0}>
                                         كل أنواع الرحلات
                                     </MenuItem>
                                     {busTypes?.map((busType) => (
@@ -156,6 +158,7 @@ export default function SearchFilters(props: {
                                 valueLabelDisplay="auto"
                                 min={0}
                                 max={150000}
+                                defaultValue={150000}
                                 onChange={(e, value) => {
                                     props.maxPrice.current = value as number;
                                 }}

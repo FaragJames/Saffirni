@@ -3,13 +3,13 @@ import { MdChair } from "react-icons/md";
 
 // عرض المقعد الواحد
 const Seat = ({ seatNumber, isSelected, isReserved, onClick }) => {
-  let seatColor = 'var(--PrimeryColor)';
+  let seatColor = 'gray';
   let cursorStyle = 'pointer';
  
   if (isSelected) {
     seatColor = 'green'; // مقعد محدد
   } else if (isReserved) {
-    seatColor = 'black'; // مقعد محجوز
+    seatColor = 'red'; // مقعد محجوز
     cursorStyle = 'not-allowed'; // غير قابل للضغط
 
   }
