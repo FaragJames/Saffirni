@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,KAAK,CAAC;EACF,cAAc,CAAA,oBAAC;EACf,gBAAgB,CAAA,mBAAC;EACjB,eAAe,CAAA,mEAAC;EAChB,YAAY,CAAA,iBAAC;EACb,YAAY,CAAA,mBAAC;EACb,WAAW,CAAA,kBAAC;EACZ,gBAAgB,CAAA,gBAAC;EACjB,UAAU,CAAA,mBAAC;EACX,YAAY,CAAA,mBAAC;EACb,WAAW,CAAA,mBAAC;EACZ,QAAQ,CAAA,mBAAC;CAEZ",
+    "sources": [
+        "Trips.scss"
+    ],
+    "names": [],
+    "file": "Trips.css"
+}

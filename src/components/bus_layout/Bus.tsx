@@ -7,7 +7,8 @@ import { GiSteeringWheel } from "react-icons/gi";
 import { FakeSeat } from "../../App";
 import Navbar from "../navbar/Navbar";
 
-export default function Bus(props: { seatsData: Array<FakeSeat>; }) {
+export default function Bus(props: { seatsData: Array<FakeSeat>, vipType: boolean }) {
+    
     const [updatedSeatsData, setUpdatedSeatsData] = useState(props.seatsData);
 
     const [selectedSeats, setSelectedSeats] = useState<Array<number>>();
@@ -45,6 +46,12 @@ export default function Bus(props: { seatsData: Array<FakeSeat>; }) {
         console.log("Selected seats:", selectedSeats); // Debugging statement
     };
 
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        console.log(location.pathname);
+      }, [location.pathname]);
+
+      
     return (
         <>
             <Navbar />
@@ -52,7 +59,7 @@ export default function Bus(props: { seatsData: Array<FakeSeat>; }) {
                 <h2 className="title">إختر مقاعد الجلوس</h2>
                 <div>
                     <div className="busSeat">
-                        <div className="seatsContainer ">
+                        <div className={`${props.vipType? "seatsContainerVip": "seatsContainer"}`}>
                             <GiSteeringWheel className="icon" />
                             {updatedSeatsData.map((seat) => (
                                 <div
