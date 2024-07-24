@@ -44,7 +44,7 @@ export default function SeatsInput(props: {
             <TextField
                 label="عدد المقاعد"
                 type="number"
-                defaultValue={0}
+                defaultValue={1}
                 onChange={(e) =>
                     setSelectedSeatsNumber(parseInt(e.target.value))
                 }

@@ -9,6 +9,9 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { DataContext, User } from "../../utilities/Context";
+import { apiClient } from "../../utilities/Axios";
+import { ApiResponse } from "../../utilities/Types";
+import { toast } from "react-toastify";
 
 function stringAvatar(firstName: string, lastName: string) {
     return {
@@ -28,6 +31,28 @@ export default function Navbar() {
     useEffect(() => {
         setSignedIn(user.id ? true : false)
     }, [user]);
+
+    async function handleLogOut() {
+        try {
+            const apiResponse = (await apiClient.get<ApiResponse>("/Security/Account/LogOut")).data
+            if(apiResponse.isSuccess) {
+                if(apiResponse.message)
+                    toast.success(apiResponse.message)
+
+                sessionStorage.removeItem("user");
+                if (context.dispatcher)
+                    context.dispatcher({ type: "reset", payload: new User() });
+                setSignedIn(false);
+                setAnchorEl(null);
+
+                return;
+            }
+
+            apiResponse.errors?.forEach(error => toast.error(error))
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return (
         <section className="navBarSection">
@@ -92,15 +117,9 @@ export default function Navbar() {
                                     }}
                                 >
                                     <MenuItem
-                                        onClick={() => {
-                                            sessionStorage.removeItem("user");
-                                            if(context.dispatcher)
-                                                context.dispatcher({ type: "reset", payload: new User()})
-                                            setSignedIn(false);
-                                            setAnchorEl(null);
-                                        }}
+                                        onClick={handleLogOut}
                                     >
-                                        Logout
+                                        تسجيل الخروج
                                     </MenuItem>
                                 </Menu>
                             </>

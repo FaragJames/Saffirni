@@ -27,7 +27,7 @@ export default function App() {
     const userJson = sessionStorage.getItem("user");
     const user = userJson ? JSON.parse(userJson) as User : null
     const [state, dispatcher] = useReducer(reducer, user ?? new User())
-    
+
     const router = createBrowserRouter(
         [
             {
