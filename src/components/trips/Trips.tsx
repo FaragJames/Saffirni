@@ -9,48 +9,34 @@ import { GenericApiResponse } from "../../utilities/Types";
 import { toast } from "react-toastify";
 import SearchFilters from "../search_filters/SearchFilters";
 import TripResult from "../trip_result/TripResult";
-
-export type FilteredCompanyTrips = {
-    companyTripId: number;
-    companyName: string;
-    companyRating: number;
-    source: string;
-    destination: string;
-    busType: string;
-    totalSeats: number;
-    remainingSeats: number;
-    ticketPrice: number;
-    expectedDepartTime: string;
-    expectedArrivalTime: string;
-    actualDepartTime: string;
-    actualArrivalTime: string;
-};
+import { FilteredCompanyTrips } from "../../utilities/Types";
 
 export default function Trips() {
     const locationState = useLocation().state;
-    const locationPayload = locationState
-        ? (locationState.payload as SearchFormData)
+    const locationData = locationState
+        ? (locationState as SearchFormData)
         : null;
 
+    const fullCompanyTrips = useRef<Array<FilteredCompanyTrips> | null>(null);
     const [filteredCompanyTrips, setFilteredCompanyTrips] =
-        useState<Array<FilteredCompanyTrips>>();
+        useState<Array<FilteredCompanyTrips> | null>(null);
 
     const busTypeId = useRef<number>(0);
     const companyId = useRef<number>(0);
-    const maxPrice = useRef<number>(0);
+    const maxPrice = useRef<number>(100000);
     const rating = useRef<number>(0);
 
     async function fetchData<T>(payload: T) {
         try {
-            const respones = await apiClient.post<
+            const response = await apiClient.post<
                 GenericApiResponse<Array<FilteredCompanyTrips>>
             >("/API/CompanyTrip/GetFilteredTrips", payload);
-            const apiResponse = respones.data;
+            const apiResponse = response.data;
 
+            fullCompanyTrips.current = apiResponse.payload;
+            setFilteredCompanyTrips(apiResponse.payload);
             if (apiResponse.isSuccess && apiResponse.payload) {
                 if (apiResponse.message) toast.success(apiResponse.message);
-
-                setFilteredCompanyTrips(apiResponse.payload);
                 return;
             }
 
@@ -63,10 +49,10 @@ export default function Trips() {
     }
 
     useEffect(() => {
-        if (locationPayload) fetchData(locationPayload);
+        if (locationData) fetchData(locationData);
     }, []);
 
-    function onSearchFormSubmit(e: FormEvent<HTMLFormElement>) {
+    async function onSearchFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
 
@@ -88,13 +74,12 @@ export default function Trips() {
             },
         };
 
-        fetchData(payload);
+        await fetchData(payload);
     }
 
     return (
         <>
-            <Navbar />
-            <SearchForm data={locationPayload} onSubmit={onSearchFormSubmit} />
+            <SearchForm data={locationData} onSubmit={onSearchFormSubmit} />
             <div
                 className="flex"
                 style={{
@@ -117,6 +102,8 @@ export default function Trips() {
                         companyId={companyId}
                         maxPrice={maxPrice}
                         rating={rating}
+                        fullCompanyTrips={fullCompanyTrips.current}
+                        setFilteredCompanyTrips={setFilteredCompanyTrips}
                     />
                 </div>
 
@@ -130,7 +117,6 @@ export default function Trips() {
                     </ul>
                 </div>
             </div>
-            <Footer />
         </>
     );
 }

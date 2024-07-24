@@ -38,16 +38,13 @@ export default function Home() {
             filters: null,
         };
 
-        navigate("/Trips", { state: { payload: payload } });
+        navigate("/Trips", { state: payload });
     }
 
     return (
         <>
-            <Navbar />
             <SearchForm data={null} onSubmit={onSearchFormSubmit} />
             <Main />
-            <Footer />
-            
         </>
     );
 }

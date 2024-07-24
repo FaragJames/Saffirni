@@ -2,7 +2,6 @@ import "./App.css";
 import Footer from "./components/footer/Footer.tsx";
 import SignUp from "./components/signUp/SignUp.tsx";
 import SignIn from "./components/signIn/SignIn.tsx";
-import Bus from "./components/bus_layout/Bus.tsx";
 import AppDashboard from "./components/dashbord/AppDashbord.tsx";
 import Trips from "./components/trips/Trips.tsx";
 import TripsCompany from "./components/dashbord/pages/trips/Trips.tsx";
@@ -14,147 +13,71 @@ import SeatsOnTrip from "./components/dashbord/pages/seatsOnTrip/SeatsOnTrip.tsx
 import AddTraveler from "./components/dashbord/pages/addTraveler/AddTraveler.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
 import Bill from "./components/bill/Bill.tsx";
-import SelectSeats from "./components/selectSeats/SelectSeat.tsx";
 import AddEmployee from "./components/dashbord/pages/addEmplowee/AddEmployee.tsx";
 import AddTrip from "./components/dashbord/pages/addTrip/AddTrip.tsx";
 import MyTrips from "./components/my_trips/MyTrips.tsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Home from "./components/home/Home.tsx";
 import ScrollToTop from "./utilities/ScrollToTop.tsx";
-
-export type FakeSeat = {
-    number: number;
-    selected: boolean;
-    reserved: boolean;
-};
-export const fakeSeatsData: Array<FakeSeat> = [
-    { number: 1, selected: false, reserved: false },
-    { number: 2, selected: false, reserved: false },
-    { number: 3, selected: false, reserved: true },
-    { number: 4, selected: false, reserved: false },
-    { number: 5, selected: false, reserved: false },
-    { number: 6, selected: false, reserved: false },
-    { number: 7, selected: false, reserved: false },
-    { number: 8, selected: false, reserved: false },
-    { number: 9, selected: false, reserved: false },
-    { number: 10, selected: false, reserved: false },
-    { number: 11, selected: false, reserved: false },
-    { number: 12, selected: false, reserved: false },
-    { number: 13, selected: false, reserved: true },
-    { number: 14, selected: false, reserved: false },
-    { number: 15, selected: false, reserved: false },
-    { number: 16, selected: false, reserved: false },
-    { number: 17, selected: false, reserved: false },
-    { number: 18, selected: false, reserved: false },
-    { number: 19, selected: false, reserved: false },
-    { number: 20, selected: false, reserved: false },
-    { number: 21, selected: false, reserved: false },
-    { number: 22, selected: false, reserved: false },
-    { number: 23, selected: false, reserved: true },
-    { number: 24, selected: false, reserved: false },
-    { number: 25, selected: false, reserved: false },
-    { number: 26, selected: false, reserved: false },
-    { number: 27, selected: false, reserved: false },
-    { number: 28, selected: false, reserved: false },
-    { number: 29, selected: false, reserved: false },
-    { number: 30, selected: false, reserved: false },
-    { number: 31, selected: false, reserved: false },
-    { number: 32, selected: false, reserved: false },
-    { number: 33, selected: false, reserved: true },
-];
+import SeatSelection from "./components/seat_selection/SeatSelection.tsx";
+import { useReducer } from "react";
+import { DataContext, reducer, User } from "./utilities/Context.ts";
 
 export default function App() {
+    const userJson = sessionStorage.getItem("user");
+    const user = userJson ? JSON.parse(userJson) as User : null
+    const [state, dispatcher] = useReducer(reducer, user ?? new User())
+    
     const router = createBrowserRouter(
         [
             {
                 path: "/",
                 element: (
-                    <>
-                        <ScrollToTop />
-                        <Home />
-                    </>
-                ),
-            },
-            {
-                path: "/Trips",
-                element: (
-                    <>
-                        <ScrollToTop />
-                        <Trips />
-                    </>
-                ),
-            },
-            {
-                path: "/SignUp",
-                element: (
-                    <>
+                    <DataContext.Provider value={{ state: state, dispatcher: dispatcher }}>
                         <ScrollToTop />
                         <Navbar />
-                        <SignUp />
+                        <Outlet />
                         <Footer />
-                    </>
+                    </DataContext.Provider>
                 ),
-            },
-            {
-                path: "/SignIn",
-                element: (
-                    <>
-                        <ScrollToTop />
-                        <Navbar />
-                        <SignIn />
-                        <Footer />
-                    </>
-                ),
-            },
-            {
-                path: "/Bus",
-                element: (
-                    <>
-                        <ScrollToTop />
-                        <Bus vipType={true} seatsData={fakeSeatsData} />
-                    </>
-                ),
-            },
-            {
-                path: "/SelectSeats",
-                element: (
-                    <>
-                        <ScrollToTop />
-                        <SelectSeats seatsData={fakeSeatsData} />
-                    </>
-                ),
-            },
-            {
-                path: "/MyTrips",
-                element: (
-                    <>
-                        <ScrollToTop />
-                        <MyTrips />
-                    </>
-                ),
-            },
-            // {
-            //     path: "/TravelerInfo",
-            //     element: <TravelerInfo numReservedSeats={numReservedSeats} />,
-            // },
-            {
-                path: "/Bill",
-                element: (
-                    <>
-                        <ScrollToTop />
-                        <Bill />
-                    </>
-                ),
-            },
-            {
-                path: "/Check-in",
-                element: (
-                    <>
-                        <ScrollToTop />
-                        <div>Error 404</div>
-                        <Footer />
-                    </>
-                ),
+                children: [
+                    {
+                        index: true,
+                        element: <Home />,
+                    },
+                    {
+                        path: "Trips",
+                        element: <Trips />,
+                    },
+                    {
+                        path: "SignUp",
+                        element: <SignUp />,
+                    },
+                    {
+                        path: "SignIn",
+                        element: <SignIn />,
+                    },
+                    {
+                        path: "MyTrips",
+                        element: <MyTrips />,
+                    },
+                    {
+                        path: "Trip/SeatSelection",
+                        element: <SeatSelection />,
+                    },
+                    // {
+                    //     path: "/TravelerInfo",
+                    //     element: <TravelerInfo numReservedSeats={numReservedSeats} />,
+                    // },
+                    {
+                        path: "/Bill",
+                        element: <Bill />,
+                    },
+                    {
+                        path: "/Check-in",
+                        element: <div>Error 404</div>,
+                    },
+                ],
             },
             {
                 path: "/Dashboard",
@@ -166,11 +89,11 @@ export default function App() {
                 ),
                 children: [
                     {
-                        path: "buses",
+                        path: "Buses",
                         element: <Buses />,
                     },
                     {
-                        path: "addBus",
+                        path: "SddBus",
                         element: <AddBus />,
                     },
                     {
@@ -182,23 +105,23 @@ export default function App() {
                         element: <Sitting />,
                     },
                     {
-                        path: "employees",
+                        path: "Employees",
                         element: <Employees />,
                     },
                     {
-                        path: "addEmployee",
+                        path: "AddEmployee",
                         element: <AddEmployee />,
                     },
                     {
-                        path: "addtrip",
+                        path: "AddTrip",
                         element: <AddTrip />,
                     },
                     {
-                        path: "seatsontripv",
+                        path: "SeatsOnTrip",
                         element: <SeatsOnTrip />,
                     },
                     {
-                        path: "addtraveler",
+                        path: "AddTraveler",
                         element: <AddTraveler />,
                     },
                 ],
@@ -209,7 +132,7 @@ export default function App() {
 
     return (
         <>
-            <RouterProvider router={router} fallbackElement={<></>} />
+            <RouterProvider router={router} />
         </>
     );
 }

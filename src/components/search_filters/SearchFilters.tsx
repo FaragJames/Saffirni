@@ -15,6 +15,7 @@ import { useState, useEffect } from "react";
 import { apiClient } from "../../utilities/Axios";
 import { GenericApiResponse } from "../../utilities/Types";
 import { toast } from "react-toastify";
+import { FilteredCompanyTrips } from "../../utilities/Types";
 
 type BusType = {
     id: number;
@@ -31,10 +32,37 @@ export default function SearchFilters(props: {
     companyId: React.MutableRefObject<number>;
     maxPrice: React.MutableRefObject<number>;
     rating: React.MutableRefObject<number>;
+    fullCompanyTrips: FilteredCompanyTrips[] | null;
+    setFilteredCompanyTrips: React.Dispatch<
+        React.SetStateAction<FilteredCompanyTrips[] | null>
+    >;
 }) {
     const [busTypes, setBusTypes] = useState<Array<BusType>>();
     const [companies, setCompanies] = useState<Array<Company>>();
 
+    function refilterCompanyTrips() {
+        props.setFilteredCompanyTrips(
+            props.fullCompanyTrips?.filter((value) => {
+                let predicate =
+                    value.ticketPrice <= props.maxPrice.current &&
+                    value.companyRating >= props.rating.current;
+                if (props.companyId.current != 0)
+                    predicate &&=
+                        value.companyName ==
+                            companies?.find(
+                                (c) => c.id === props.companyId.current
+                            )?.name;
+                if (props.busTypeId.current != 0)
+                    predicate &&=
+                        value.busType ==
+                            busTypes?.find(
+                                (b) => b.id === props.busTypeId.current
+                            )?.typeName;
+
+                return predicate;
+            }) ?? null
+        );
+    }
     useEffect(() => {
         async function fetchBusTypes() {
             try {
@@ -116,6 +144,7 @@ export default function SearchFilters(props: {
                             onChange={(e) => {
                                 props.companyId.current = e.target
                                     .value as number;
+                                refilterCompanyTrips();
                             }}
                         >
                             <MenuItem value={0} key={0}>
@@ -138,6 +167,7 @@ export default function SearchFilters(props: {
                             onChange={(e) => {
                                 props.busTypeId.current = e.target
                                     .value as number;
+                                refilterCompanyTrips();
                             }}
                         >
                             <MenuItem value={0} key={0}>
@@ -154,11 +184,13 @@ export default function SearchFilters(props: {
                     <Slider
                         sx={{ mb: 2, maxWidth: "15rem" }}
                         valueLabelDisplay="auto"
-                        min={0}
-                        max={150000}
-                        defaultValue={150000}
+                        min={10000}
+                        max={100000}
+                        defaultValue={100000}
+                        step={1000}
                         onChange={(e, value) => {
                             props.maxPrice.current = value as number;
+                            refilterCompanyTrips();
                         }}
                     />
                     <Typography gutterBottom> تقييم شركة النقل</Typography>
@@ -166,9 +198,10 @@ export default function SearchFilters(props: {
                     <Rating
                         sx={{ direction: "ltr" }}
                         name="simple-controlled"
-                        defaultValue={props.rating.current}
+                        defaultValue={0}
                         onChange={(e, value) => {
                             props.rating.current = value as number;
+                            refilterCompanyTrips();
                         }}
                     />
                 </Box>

@@ -1,9 +1,7 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { Bounce, ToastContainer, ToastOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Test2 from "./testing/Test2.tsx";
 import Test1 from "./testing/Test1.tsx";
 
 function toastOptions(): ToastOptions {

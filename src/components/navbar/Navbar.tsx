@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./navbar.css";
 import MainIcon from "../../assets/tour and travel.svg";
@@ -8,7 +8,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { User } from "../../utilities/Context";
+import { DataContext, User } from "../../utilities/Context";
 
 function stringAvatar(firstName: string, lastName: string) {
     return {
@@ -17,8 +17,8 @@ function stringAvatar(firstName: string, lastName: string) {
 }
 
 export default function Navbar() {
-    const jsonUser = sessionStorage.getItem("user");
-    const user = jsonUser ? JSON.parse(jsonUser) as User : null
+    const context = useContext(DataContext);
+    const user = context.state;
     
     const [active, setActive] = useState("navBar");
     const [signedIn, setSignedIn] = useState(false);
@@ -26,11 +26,8 @@ export default function Navbar() {
     const open = Boolean(anchorEl);
 
     useEffect(() => {
-        if (user)
-            setSignedIn(true);
-        else
-            setSignedIn(false)
-    }, []);
+        setSignedIn(user.id ? true : false)
+    }, [user]);
 
     return (
         <section className="navBarSection">
@@ -80,8 +77,8 @@ export default function Navbar() {
                                     <Avatar
                                         style={{ marginLeft: "1rem" }}
                                         {...stringAvatar(
-                                            user?.firstName as string,
-                                            user?.lastName as string
+                                            user.firstName as string,
+                                            user.lastName as string
                                         )}
                                     />
                                 </Button>
@@ -97,6 +94,8 @@ export default function Navbar() {
                                     <MenuItem
                                         onClick={() => {
                                             sessionStorage.removeItem("user");
+                                            if(context.dispatcher)
+                                                context.dispatcher({ type: "reset", payload: new User()})
                                             setSignedIn(false);
                                             setAnchorEl(null);
                                         }}

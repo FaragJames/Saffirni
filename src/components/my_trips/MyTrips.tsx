@@ -1,10 +1,5 @@
-import React, { Fragment } from "react";
-import { useState } from "react";
+import { Fragment } from "react";
 import OneTrip from "../one_trip/OneTrip";
-import { useEffect } from "react";
-import { Padding } from "@mui/icons-material";
-import Footer from "../footer/Footer";
-import Navbar from "../navbar/Navbar";
 const tripsData = [
     {
         id: 1,
@@ -37,7 +32,6 @@ const handleDelete = (id) => {
 const MyTrips = () => {
     return (
         <Fragment>
-            <Navbar />
             <div style={{ paddingTop: "80px" }}>
             <div style={{margin:"2rem 2rem 1rem 2rem", textAlign:"center"}}>
             <button className="btn" style={{ border: "none", color: "#fff", margin: "1rem 0.5rem"}} >رحلاتي الحالية</button>
@@ -52,7 +46,6 @@ const MyTrips = () => {
                     />
                 ))}
             </div>
-            <Footer />
         </Fragment>
     );
 };

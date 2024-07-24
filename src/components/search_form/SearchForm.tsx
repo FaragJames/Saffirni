@@ -9,7 +9,6 @@ import { GenericApiResponse } from "../../utilities/Types";
 import { apiClient } from "../../utilities/Axios";
 import { toast } from "react-toastify";
 import { SearchFormData } from "../home/Home";
-import { MenuItem, Select } from "@mui/material";
 
 type State = {
     id: number;
@@ -17,8 +16,8 @@ type State = {
 };
 
 export default function SearchForm(props: {
-    onSubmit(e: FormEvent<HTMLFormElement>): void;
-    data: SearchFormData | null
+    onSubmit(e: FormEvent<HTMLFormElement>): Promise<void>;
+    data: SearchFormData | null;
 }) {
     const [states, setStates] = useState<Array<State>>();
     useEffect(() => {
@@ -62,63 +61,59 @@ export default function SearchForm(props: {
                         <div className={`disInput `}>
                             <label htmlFor="city">نقطة الانطلاق</label>
                             <div className="input flex">
-                                <Select
+                                <select
                                     id="departureProvince"
                                     className="provinceSelect"
                                     name="sourceSelect"
-                                    defaultValue={props.data ? props.data.sourceStateId : 0}
                                     required
+                                    defaultValue=""
                                 >
-                                    <MenuItem value={0} disabled>
+                                    <option value="" disabled>
                                         اختر محافظة
-                                    </MenuItem>
+                                    </option>
                                     {states?.map((state) => (
-                                        <MenuItem
+                                        <option
                                             key={state.id}
                                             value={state.id}
-                                            // selected={
-                                            //     props.data?.sourceStateId ==
-                                            //     state.id
-                                            // }
+                                            selected={
+                                                props.data?.sourceStateId ==
+                                                state.id
+                                            }
                                         >
                                             {state.name}
-                                        </MenuItem>
+                                        </option>
                                     ))}
-                                </Select>
+                                </select>
                                 <GrLocation className="icon" />
                             </div>
                         </div>
                         <div className="disInput">
                             <label htmlFor="city">الوجهة</label>
                             <div className="input flex">
-                                <Select
+                                <select
                                     id="arrivalProvince"
                                     className="provinceSelect"
                                     name="destinationSelect"
-                                    defaultValue={
-                                        props.data
-                                            ? props.data.destinationStateId
-                                            : 0
-                                    }
                                     required
+                                    defaultValue=""
                                 >
-                                    <MenuItem value={0} disabled>
+                                    <option value="" disabled>
                                         اختر محافظة
-                                    </MenuItem>
+                                    </option>
                                     {states?.map((state) => (
-                                        <MenuItem
+                                        <option
                                             key={state.id}
                                             value={state.id}
-                                            // selected={
-                                            //     props.data
-                                            //         ?.destinationStateId ==
-                                            //     state.id
-                                            // }
+                                            selected={
+                                                props.data
+                                                    ?.destinationStateId ==
+                                                state.id
+                                            }
                                         >
                                             {state.name}
-                                        </MenuItem>
+                                        </option>
                                     ))}
-                                </Select>
+                                </select>
                                 <GrLocation className="icon" />
                             </div>
                         </div>
