@@ -59,10 +59,10 @@ export default function SignUp() {
             .required("*الرقم الوطني مطلوب"),
         phoneNumber: Yup.string()
             .matches(
-                /^09\d{8}$/,
-                "*رقم الجوال يجب أن يبدأ ب09 ويتكون من 10 أرقام"
+                /^09[3,4,5,6,7,8,9]\d{7}$/,
+                "*رقم الموبايل يجب أن يبدأ ب09 ويتكون من 10 أرقام"
             )
-            .required("*رقم الهاتف مطلوب"),
+            .required("*رقم الموبايل مطلوب"),
         password: Yup.string()
             .min(6, "*كلمة السر يجب أن تتكون على الأقل من 6 محارف")
             .required("*كلمة السر مطلوبة"),
@@ -202,7 +202,7 @@ export default function SignUp() {
                                         name="phoneNumber"
                                         variant="outlined"
                                         fullWidth
-                                        label="رقم الجوال"
+                                        label="رقم الموبايل"
                                         error={
                                             touched.phoneNumber &&
                                             Boolean(errors.phoneNumber)

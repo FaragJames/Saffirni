@@ -15,9 +15,9 @@ type TemporaryReservation = {
     busType: string;
     seatsNumbers: number[];
 };
-type TemporaryReservationResponse = {
+export type TemporaryReservationResponse = {
     reservationId: number;
-    seatIdToSeatNumber: Record<number, number>;
+    seatIdToSeatNumber: Map<number, number>;
 };
 
 export type LocationPayload = {
@@ -93,7 +93,7 @@ export default function SeatSelection() {
             if (apiResponse.isSuccess) {
                 if (apiResponse.message) toast.success(apiResponse.message);
 
-                navigate("/TravelerInfo", { state: apiResponse.payload });
+                navigate("/Trip/TravelerInfo", { state: apiResponse.payload });
                 return;
             }
 

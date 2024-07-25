@@ -22,6 +22,7 @@ import ScrollToTop from "./utilities/ScrollToTop.tsx";
 import SeatSelection from "./components/seat_selection/SeatSelection.tsx";
 import { useReducer } from "react";
 import { DataContext, reducer, User } from "./utilities/Context.ts";
+import TravelerInfo from "./components/traveler_info/TravelerInfo.tsx";
 
 export default function App() {
     const userJson = sessionStorage.getItem("user");
@@ -65,10 +66,10 @@ export default function App() {
                         path: "Trip/SeatSelection",
                         element: <SeatSelection />,
                     },
-                    // {
-                    //     path: "/TravelerInfo",
-                    //     element: <TravelerInfo numReservedSeats={numReservedSeats} />,
-                    // },
+                    {
+                        path: "Trip/TravelerInfo",
+                        element: <TravelerInfo />,
+                    },
                     {
                         path: "/Bill",
                         element: <Bill />,
