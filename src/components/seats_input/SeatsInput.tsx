@@ -15,7 +15,7 @@ export default function SeatsInput(props: {
 
     const handleNextClick = () => {
         if (selectedSeatsNumber > remainingSeats || selectedSeatsNumber <= 0)
-            toast.error("الرجاء إدخال عدد صحيح من المقاعد المتاحة");
+            toast.error("الرجاء إدخال عدد صحيح من المقاعد المتاحة!");
         else {
             const selectedSeats: number[] = [];
             let tmpTotalSeats = props.totalSeats;
@@ -44,7 +44,7 @@ export default function SeatsInput(props: {
             <TextField
                 label="عدد المقاعد"
                 type="number"
-                defaultValue={1}
+                defaultValue={0}
                 onChange={(e) =>
                     setSelectedSeatsNumber(parseInt(e.target.value))
                 }

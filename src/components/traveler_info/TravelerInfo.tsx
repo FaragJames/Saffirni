@@ -38,9 +38,9 @@ export default function TravelerInfo() {
     const [readonlyNationalIdState, setReadonlyNationalIdState] = useState<Array<boolean>>(
         new Array<boolean>(seatIdToSeatNumber.size).fill(false)
     );
-    const [readonlyFieldsState, setReadonlyFieldsState] = useState<
-        Array<boolean>
-    >(new Array<boolean>(seatIdToSeatNumber.size).fill(true));
+    const [foundUsersState, setFoundUsersState] = useState<Array<boolean>>(
+        new Array<boolean>(seatIdToSeatNumber.size).fill(true)
+    );
     const [loaderState, setLoaderState] = useState<boolean>(false);
 
     const seatsIds: number[] = [],
@@ -83,7 +83,6 @@ export default function TravelerInfo() {
         e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
         index: number
     ) {
-        if (formik.errors[index]?.nationalId) return;
         if (
             confirm(`هل أنت متأكد من الرقم الوطني ${e.currentTarget.value} ؟`)
         ) {
@@ -103,19 +102,15 @@ export default function TravelerInfo() {
                     const tmpReadonlyId = [...readonlyNationalIdState];
                     tmpReadonlyId[index] = true;
                     setReadonlyNationalIdState(tmpReadonlyId);
-
-                    const tmpReadonlyFields = [...readonlyFieldsState];
-                    tmpReadonlyFields[index] = true;
-                    setReadonlyFieldsState(tmpReadonlyFields);
                 }
                 else if (response.status === 404) {
                     const tmpReadonlyId = [...readonlyNationalIdState];
                     tmpReadonlyId[index] = true;
                     setReadonlyNationalIdState(tmpReadonlyId);
 
-                    const tmpReadonlyFields = [...readonlyFieldsState];
-                    tmpReadonlyFields[index] = false;
-                    setReadonlyFieldsState(tmpReadonlyFields);
+                    const tmpFoundUsers = [...foundUsersState];
+                    tmpFoundUsers[index] = false;
+                    setFoundUsersState(tmpFoundUsers);
                 }
                 else 
                     apiResponse.errors?.forEach((error) => toast.error(error));
@@ -152,7 +147,11 @@ export default function TravelerInfo() {
                                     onChange={formik.handleChange}
                                     onBlur={(e) => {
                                         formik.handleBlur(e);
-                                        handleonBlur(e, index);
+                                        if (
+                                            !formik.errors[index]?.nationalId &&
+                                            e.currentTarget.value
+                                        )
+                                            handleonBlur(e, index);
                                     }}
                                     error={
                                         formik.touched[index]?.nationalId &&
@@ -165,81 +164,106 @@ export default function TravelerInfo() {
                                         formik.errors[index]?.nationalId
                                     }
                                 />
-                                <TextField
-                                    disabled={readonlyFieldsState[index]}
-                                    required
-                                    name={`${index}.firstName`}
-                                    label="الاسم الأول"
-                                    value={formik.values[index].firstName}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={
-                                        formik.touched[index]?.firstName &&
-                                        Boolean(formik.errors[index]?.firstName)
-                                    }
-                                    helperText={
-                                        formik.touched[index]?.firstName &&
-                                        formik.errors[index]?.firstName
-                                    }
-                                />
+                                {!foundUsersState[index] && (
+                                    <>
+                                        <TextField
+                                            required
+                                            name={`${index}.firstName`}
+                                            label="الاسم الأول"
+                                            value={
+                                                formik.values[index].firstName
+                                            }
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            error={
+                                                formik.touched[index]
+                                                    ?.firstName &&
+                                                Boolean(
+                                                    formik.errors[index]
+                                                        ?.firstName
+                                                )
+                                            }
+                                            helperText={
+                                                formik.touched[index]
+                                                    ?.firstName &&
+                                                formik.errors[index]?.firstName
+                                            }
+                                        />
 
-                                <TextField
-                                    disabled={readonlyFieldsState[index]}
-                                    required
-                                    name={`${index}.lastName`}
-                                    label="الكنية"
-                                    value={formik.values[index].lastName}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={
-                                        formik.touched[index]?.lastName &&
-                                        Boolean(formik.errors[index]?.lastName)
-                                    }
-                                    helperText={
-                                        formik.touched[index]?.lastName &&
-                                        formik.errors[index]?.lastName
-                                    }
-                                />
+                                        <TextField
+                                            required
+                                            name={`${index}.lastName`}
+                                            label="الكنية"
+                                            value={
+                                                formik.values[index].lastName
+                                            }
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            error={
+                                                formik.touched[index]
+                                                    ?.lastName &&
+                                                Boolean(
+                                                    formik.errors[index]
+                                                        ?.lastName
+                                                )
+                                            }
+                                            helperText={
+                                                formik.touched[index]
+                                                    ?.lastName &&
+                                                formik.errors[index]?.lastName
+                                            }
+                                        />
 
-                                <TextField
-                                    disabled={readonlyFieldsState[index]}
-                                    required
-                                    name={`${index}.fatherName`}
-                                    label="اسم الأب"
-                                    value={formik.values[index].fatherName}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={
-                                        formik.touched[index]?.fatherName &&
-                                        Boolean(
-                                            formik.errors[index]?.fatherName
-                                        )
-                                    }
-                                    helperText={
-                                        formik.touched[index]?.fatherName &&
-                                        formik.errors[index]?.fatherName
-                                    }
-                                />
+                                        <TextField
+                                            required
+                                            name={`${index}.fatherName`}
+                                            label="اسم الأب"
+                                            value={
+                                                formik.values[index].fatherName
+                                            }
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            error={
+                                                formik.touched[index]
+                                                    ?.fatherName &&
+                                                Boolean(
+                                                    formik.errors[index]
+                                                        ?.fatherName
+                                                )
+                                            }
+                                            helperText={
+                                                formik.touched[index]
+                                                    ?.fatherName &&
+                                                formik.errors[index]?.fatherName
+                                            }
+                                        />
 
-                                <TextField
-                                    disabled={readonlyFieldsState[index]}
-                                    required
-                                    name={`${index}.phoneNumber`}
-                                    label="رقم الموبايل"
-                                    value={formik.values[index].phoneNumber}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={
-                                        formik.touched[index]?.phoneNumber &&
-                                        Boolean(
-                                            formik.errors[index]?.phoneNumber
-                                        )
-                                    }
-                                    helperText={
-                                        formik.touched[index]?.phoneNumber &&
-                                        formik.errors[index]?.phoneNumber
-                                    }
-                                />
+                                        <TextField
+                                            required
+                                            name={`${index}.phoneNumber`}
+                                            label="رقم الموبايل"
+                                            value={
+                                                formik.values[index].phoneNumber
+                                            }
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            error={
+                                                formik.touched[index]
+                                                    ?.phoneNumber &&
+                                                Boolean(
+                                                    formik.errors[index]
+                                                        ?.phoneNumber
+                                                )
+                                            }
+                                            helperText={
+                                                formik.touched[index]
+                                                    ?.phoneNumber &&
+                                                formik.errors[index]
+                                                    ?.phoneNumber
+                                            }
+                                        />
+                                    </>
+                                )}
                             </Box>
                             <br />
                         </div>
