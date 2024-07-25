@@ -116,6 +116,11 @@ export default function Navbar() {
                                         "aria-labelledby": "basic-button",
                                     }}
                                 >
+                                    <MenuItem>
+                                    <NavLink to="/UserSitting">
+                                    الإعدادات
+                            </NavLink>
+                                    </MenuItem>
                                     <MenuItem
                                         onClick={handleLogOut}
                                     >
