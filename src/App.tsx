@@ -15,6 +15,7 @@ import SeatsOnTrip from "./components/dashbord/pages/seatsOnTrip/SeatsOnTrip.tsx
 import AddTraveler from "./components/dashbord/pages/addTraveler/AddTraveler.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
 import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
+import UserSitting from "./components/UserSitting/UserSitting.tsx";
 
 // import TravelerInfo from "./components/traveler_info/TravelerInfo.tsx";
 import Bill from "./components/bill/Bill.tsx";
@@ -72,9 +73,7 @@ export default function App() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     console.log(location.pathname);
-    
-   alert(location)
-  }, [location.pathname]);
+      }, [location.pathname]);
 
   // just memorizing the updated data
   const handleUpdateFakeData = (seatNumber: number) => {
@@ -97,6 +96,16 @@ export default function App() {
           <>
             <Navbar />
             <SignUp />
+            <Footer />
+          </>
+        ),
+      },
+      {
+        path: "/UserSitting",
+        element: (
+          <>
+            <Navbar />
+            <UserSitting />
             <Footer />
           </>
         ),

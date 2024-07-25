@@ -86,6 +86,11 @@ export default function Navbar() {
                                         "aria-labelledby": "basic-button",
                                     }}
                                 >
+                                    <MenuItem>
+                                    <NavLink to="/UserSitting">
+                                    الإعدادات
+                            </NavLink>
+                                    </MenuItem>
                                     <MenuItem
                                         onClick={() => {
                                             if(!context.dispatcher) {
@@ -94,9 +99,11 @@ export default function Navbar() {
                                             context.dispatcher({type: "reset", payload: new User()})
                                             setSignedIn(false);
                                             setAnchorEl(null);
+                                            
                                         }}
                                     >
-                                        Logout
+                                        <NavLink to="/">                                        تسجيل خروج 
+</NavLink>
                                     </MenuItem>
                                 </Menu>
                             </>
