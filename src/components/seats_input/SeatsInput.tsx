@@ -38,13 +38,13 @@ export default function SeatsInput(props: {
             </Typography>
             <div className="seatInfo">
                 <Typography variant="body1">
-                    عدد المقاعد المتاحة: {remainingSeats - selectedSeatsNumber}
+                    عدد المقاعد المتاحة: {remainingSeats}
                 </Typography>
             </div>
             <TextField
                 label="عدد المقاعد"
                 type="number"
-                defaultValue={0}
+                value={selectedSeatsNumber.toFixed(0)}
                 onChange={(e) =>
                     setSelectedSeatsNumber(parseInt(e.target.value))
                 }

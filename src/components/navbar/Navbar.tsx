@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./navbar.css";
 import MainIcon from "../../assets/tour and travel.svg";
 import { AiFillCloseCircle } from "react-icons/ai";
@@ -20,6 +20,7 @@ function stringAvatar(firstName: string, lastName: string) {
 }
 
 export default function Navbar() {
+    const navigate = useNavigate();
     const context = useContext(DataContext);
     const user = context.state;
     
@@ -45,6 +46,7 @@ export default function Navbar() {
                 setSignedIn(false);
                 setAnchorEl(null);
 
+                navigate("/")
                 return;
             }
 

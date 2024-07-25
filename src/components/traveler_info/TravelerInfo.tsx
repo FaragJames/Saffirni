@@ -110,7 +110,7 @@ export default function TravelerInfo() {
                 setLoaderState(true);
                 const response = await apiClient.post<
                     GenericApiResponse<TravelerData>
-                >("/API/User/ContainsUser", {
+                >("/API/User/ContainsUser?fullInfo=true", {
                     nationalId: e.currentTarget.value,
                 });
                 const apiResponse = response.data;
