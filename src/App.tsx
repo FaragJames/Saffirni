@@ -34,7 +34,9 @@ export default function App() {
             {
                 path: "/",
                 element: (
-                    <DataContext.Provider value={{ state: state, dispatcher: dispatcher }}>
+                    <DataContext.Provider
+                        value={{ state: state, dispatcher: dispatcher }}
+                    >
                         <ScrollToTop />
                         <Navbar />
                         <Outlet />
@@ -71,14 +73,10 @@ export default function App() {
                         element: <TravelerInfo />,
                     },
                     {
-                        path: "/Bill",
+                        path: "Trip/Bill",
                         element: <Bill />,
-                    },
-                    {
-                        path: "/Check-in",
-                        element: <div>Error 404</div>,
-                    },
-                ],
+                    }
+                ]
             },
             {
                 path: "/Dashboard",

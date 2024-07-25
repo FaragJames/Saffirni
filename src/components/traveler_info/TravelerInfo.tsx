@@ -11,46 +11,56 @@ import { apiClient } from "../../utilities/Axios";
 import { GenericApiResponse } from "../../utilities/Types";
 import { toast } from "react-toastify";
 
-class TravelerInfoData {
+class TravelerData {
     public constructor(
         public firstName: string = "",
         public fatherName: string = "",
         public lastName: string = "",
         public nationalId: string = "",
-        public phoneNumber: string = ""
+        public phoneNumber: string = "",
     ) {}
 }
-type TravelerInfoDataShape = {
-    [P in keyof TravelerInfoData]: Yup.StringSchema<string>;
+type TravelerDataShape = {
+    [P in keyof TravelerData]: Yup.StringSchema<string>;
 };
+export type BillItem = {
+    travelerData: TravelerData;
+    seatId: number;
+    seatNumber: number;
+    createUser: boolean;
+}
 
 export default function TravelerInfo() {
     const navigate = useNavigate();
     const locationState = useLocation().state;
-    const locationData = locationState as TemporaryReservationResponse;
-    const seatIdToSeatNumber = new Map(
-        Object.entries(locationData.seatIdToSeatNumber).map(([k, v]) => [
-            parseInt(k),
-            parseInt(v),
-        ])
-    );
+    const locationData = locationState ? locationState as TemporaryReservationResponse : null;
+
+    let seatIdToSeatNumber: Map<number, number> | undefined = undefined;
+    if(locationData)
+        seatIdToSeatNumber = new Map(
+            Object.entries(locationData.seatIdToSeatNumber).map(([k, v]) => [
+                parseInt(k),
+                parseInt(v)
+            ])
+        );
 
     const [readonlyNationalIdState, setReadonlyNationalIdState] = useState<Array<boolean>>(
-        new Array<boolean>(seatIdToSeatNumber.size).fill(false)
+        new Array<boolean>(seatIdToSeatNumber?.size ?? 0).fill(false)
     );
     const [foundUsersState, setFoundUsersState] = useState<Array<boolean>>(
-        new Array<boolean>(seatIdToSeatNumber.size).fill(true)
+        new Array<boolean>(seatIdToSeatNumber?.size ?? 0).fill(true)
     );
     const [loaderState, setLoaderState] = useState<boolean>(false);
 
     const seatsIds: number[] = [],
         seatsNumber: number[] = [];
-    for (const [key, value] of seatIdToSeatNumber) {
-        seatsIds.push(key);
-        seatsNumber.push(value);
-    }
+    if(seatIdToSeatNumber)
+        for (const [key, value] of seatIdToSeatNumber) {
+            seatsIds.push(key);
+            seatsNumber.push(value);
+        }
 
-    const validationShape: TravelerInfoDataShape = {
+    const validationShape: TravelerDataShape = {
         firstName: Yup.string().required("*الاسم الأول مطلوب"),
         lastName: Yup.string().required("*الكنية مطلوبة"),
         fatherName: Yup.string().required("*اسم الأب مطلوب"),
@@ -67,19 +77,29 @@ export default function TravelerInfo() {
     const validationSchema = Yup.array().of(
         Yup.object().shape(validationShape)
     );
-    const formik = useFormik<TravelerInfoData[]>({
+    const formik = useFormik<TravelerData[]>({
         initialValues: Array.from(
-            { length: seatIdToSeatNumber.size },
-            () => new TravelerInfoData()
+            { length: seatIdToSeatNumber?.size ?? 0 },
+            () => new TravelerData()
         ),
         validationSchema,
         onSubmit: (values) => {
-            console.log(values)
-            alert("Success")
+            const billItems: BillItem[] = values.map<BillItem>((value, index) => {
+                return {
+                    travelerData: value,
+                    seatId: seatsIds[index],
+                    seatNumber: seatsNumber[index],
+                    createUser: !foundUsersState[index]
+                }
+            });
+            navigate("/Trip/Bill", { state: { billItems: billItems, reservationId: locationData?.reservationId }})
         },
     });
 
-    async function handleonBlur(
+    if(!locationData)
+        return;
+
+    async function handleOnBlur(
         e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
         index: number
     ) {
@@ -88,22 +108,24 @@ export default function TravelerInfo() {
         ) {
             try {
                 setLoaderState(true);
-                const response = await apiClient.post<GenericApiResponse<TravelerInfoData>>(
-                    "/API/User/ContainsUser",
-                    {
-                        nationalId: e.currentTarget.value,
-                    }
-                );
+                const response = await apiClient.post<
+                    GenericApiResponse<TravelerData>
+                >("/API/User/ContainsUser", {
+                    nationalId: e.currentTarget.value,
+                });
                 const apiResponse = response.data;
 
                 if(apiResponse.isSuccess) {
-                    formik.values[index] = apiResponse.payload as TravelerInfoData;
+                    toast.success("تم العثور على المستخدم ذو الرقم الوطني المدخل.")
+                    formik.values[index] = apiResponse.payload as TravelerData;
 
                     const tmpReadonlyId = [...readonlyNationalIdState];
                     tmpReadonlyId[index] = true;
                     setReadonlyNationalIdState(tmpReadonlyId);
                 }
                 else if (response.status === 404) {
+                    toast.info("لم يتم العثور على المستخدم! الرجاء إدخال المعلومات اللازمة.")
+
                     const tmpReadonlyId = [...readonlyNationalIdState];
                     tmpReadonlyId[index] = true;
                     setReadonlyNationalIdState(tmpReadonlyId);
@@ -120,6 +142,15 @@ export default function TravelerInfo() {
                 setLoaderState(false);
             }
         }
+    }
+    function handleClearInputs() {
+        formik.resetForm()
+        setReadonlyNationalIdState(
+            new Array<boolean>(seatIdToSeatNumber?.size ?? 0).fill(false)
+        );
+        setFoundUsersState(
+            new Array<boolean>(seatIdToSeatNumber?.size ?? 0).fill(true)
+        );
     }
 
     return (
@@ -151,7 +182,7 @@ export default function TravelerInfo() {
                                             !formik.errors[index]?.nationalId &&
                                             e.currentTarget.value
                                         )
-                                            handleonBlur(e, index);
+                                            handleOnBlur(e, index);
                                     }}
                                     error={
                                         formik.touched[index]?.nationalId &&
@@ -270,6 +301,7 @@ export default function TravelerInfo() {
                     ))}
 
                     <div className="buttonContainer">
+                        <button onClick={handleClearInputs}>مسح البيانات</button>
                         <button
                             type="submit"
                             className="btn"
