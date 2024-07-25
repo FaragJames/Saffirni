@@ -23,22 +23,25 @@ export default function Navbar() {
     const navigate = useNavigate();
     const context = useContext(DataContext);
     const user = context.state;
-    
+
     const [active, setActive] = useState("navBar");
     const [signedIn, setSignedIn] = useState(false);
-    const [anchorEl, setAnchorEl] = useState<(EventTarget & HTMLButtonElement) | null>(null);
+    const [anchorEl, setAnchorEl] = useState<
+        (EventTarget & HTMLButtonElement) | null
+    >(null);
     const open = Boolean(anchorEl);
 
     useEffect(() => {
-        setSignedIn(user.id ? true : false)
+        setSignedIn(user.id ? true : false);
     }, [user]);
 
     async function handleLogOut() {
         try {
-            const apiResponse = (await apiClient.get<ApiResponse>("/Security/Account/LogOut")).data
-            if(apiResponse.isSuccess) {
-                if(apiResponse.message)
-                    toast.success(apiResponse.message)
+            const apiResponse = (
+                await apiClient.get<ApiResponse>("/Security/Account/LogOut")
+            ).data;
+            if (apiResponse.isSuccess) {
+                if (apiResponse.message) toast.success(apiResponse.message);
 
                 sessionStorage.removeItem("user");
                 if (context.dispatcher)
@@ -46,13 +49,13 @@ export default function Navbar() {
                 setSignedIn(false);
                 setAnchorEl(null);
 
-                navigate("/")
+                navigate("/");
                 return;
             }
 
-            apiResponse.errors?.forEach(error => toast.error(error))
+            apiResponse.errors?.forEach((error) => toast.error(error));
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
     }
 
@@ -119,13 +122,11 @@ export default function Navbar() {
                                     }}
                                 >
                                     <MenuItem>
-                                    <NavLink to="/UserSitting">
-                                    الإعدادات
-                            </NavLink>
+                                        <NavLink to="/UserSettings">
+                                            الإعدادات
+                                        </NavLink>
                                     </MenuItem>
-                                    <MenuItem
-                                        onClick={handleLogOut}
-                                    >
+                                    <MenuItem onClick={handleLogOut}>
                                         تسجيل الخروج
                                     </MenuItem>
                                 </Menu>
