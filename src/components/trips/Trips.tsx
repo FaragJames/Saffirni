@@ -2,133 +2,121 @@ import { useLocation } from "react-router-dom";
 import Footer from "../footer/Footer";
 import Navbar from "../navbar/Navbar";
 import SearchForm from "../search_form/SearchForm";
-import { SearchFormObject } from "../home/Home";
+import { SearchFormData } from "../home/Home";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { apiClient } from "../../utilities/Axios";
 import { GenericApiResponse } from "../../utilities/Types";
 import { toast } from "react-toastify";
 import SearchFilters from "../search_filters/SearchFilters";
-import TripResults from "../trip_results/TripResults";
-
-export type FilteredCompanyTrips = {
-  companyTripId: number;
-  companyName: string;
-  companyRating: number;
-  source: string;
-  destination: string;
-  busType: string;
-  ticketPrice: number;
-  expectedDepartTime: string;
-  expectedArrivalTime: string;
-};
+import TripResult from "../trip_result/TripResult";
+import { FilteredCompanyTrips } from "../../utilities/Types";
 
 export default function Trips() {
-  const locationState = useLocation().state;
-  const locationPayload = locationState
-    ? (locationState.payload as SearchFormObject)
-    : null;
-  const [filteredCompanyTrips, setFilteredCompanyTrips] =
-    useState<Array<FilteredCompanyTrips>>();
+    const locationState = useLocation().state;
+    const locationData = locationState
+        ? (locationState as SearchFormData)
+        : null;
 
-  const busTypeId = useRef<number>(0);
-  const companyId = useRef<number>(0);
-  const maxPrice = useRef<number>(0);
+    const fullCompanyTrips = useRef<Array<FilteredCompanyTrips> | null>(null);
+    const [filteredCompanyTrips, setFilteredCompanyTrips] =
+        useState<Array<FilteredCompanyTrips> | null>(null);
 
-  async function fetchData<T>(payload: T) {
-    try {
-      const respones = await apiClient.post<
-        GenericApiResponse<Array<FilteredCompanyTrips>>
-      >("/API/CompanyTrip/GetFilteredTrips", payload);
-      const apiResponse = respones.data;
+    const busTypeId = useRef<number>(0);
+    const companyId = useRef<number>(0);
+    const maxPrice = useRef<number>(100000);
+    const rating = useRef<number>(0);
 
-      if (apiResponse.isSuccess && apiResponse.payload) {
-        if (apiResponse.message) toast.success(apiResponse.message);
+    async function fetchData<T>(payload: T) {
+        try {
+            const response = await apiClient.post<
+                GenericApiResponse<Array<FilteredCompanyTrips>>
+            >("/API/CompanyTrip/GetFilteredTrips", payload);
+            const apiResponse = response.data;
 
-        setFilteredCompanyTrips(apiResponse.payload);
-        return;
-      }
+            fullCompanyTrips.current = apiResponse.payload;
+            setFilteredCompanyTrips(apiResponse.payload);
+            if (apiResponse.isSuccess && apiResponse.payload) {
+                if (apiResponse.message) toast.success(apiResponse.message);
+                return;
+            }
 
-      apiResponse.errors?.forEach((error) => {
-        toast.error(error);
-      });
-    } catch (error) {
-      console.error(error);
+            apiResponse.errors?.forEach((error) => {
+                toast.error(error);
+            });
+        } catch (error) {
+            console.error(error);
+        }
     }
-  }
 
-  useEffect(() => {
-    if (locationPayload) fetchData(locationPayload);
-  }, []);
+    useEffect(() => {
+        if (locationData) fetchData(locationData);
+    }, []);
 
-  function onSearchFormSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    async function onSearchFormSubmit(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
 
-    const payload: SearchFormObject = {
-      sourceStateId: parseInt(
-        formData.get("sourceSelect")?.toString() as string
-      ),
-      destinationStateId: parseInt(
-        formData.get("destinationSelect")?.toString() as string
-      ),
-      departTime: new Date(
-        formData.get("dateInput")?.toString() as string
-      ).toISOString(),
-      filters: {
-        busTypeId: busTypeId.current,
-        companyId: companyId.current,
-        maxPrice: maxPrice.current,
-      },
-    };
+        const payload: SearchFormData = {
+            sourceStateId: parseInt(
+                formData.get("sourceSelect")?.toString() as string
+            ),
+            destinationStateId: parseInt(
+                formData.get("destinationSelect")?.toString() as string
+            ),
+            departTime: new Date(
+                formData.get("dateInput")?.toString() as string
+            ).toISOString(),
+            filters: {
+                busTypeId: busTypeId.current,
+                companyId: companyId.current,
+                maxPrice: maxPrice.current,
+                rating: rating.current,
+            },
+        };
 
-    fetchData(payload);
-  }
+        await fetchData(payload);
+    }
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [location.pathname]);
+    return (
+        <>
+            <SearchForm data={locationData} onSubmit={onSearchFormSubmit} />
+            <div
+                className="flex"
+                style={{
+                    direction: "ltr",
+                    alignItems: "start",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                }}
+            >
+                <div
+                    style={{
+                        width: "20rem",
+                        direction: "rtl",
+                        alignItems: "start",
+                        paddingLeft: "2rem",
+                    }}
+                >
+                    <SearchFilters
+                        busTypeId={busTypeId}
+                        companyId={companyId}
+                        maxPrice={maxPrice}
+                        rating={rating}
+                        fullCompanyTrips={fullCompanyTrips.current}
+                        setFilteredCompanyTrips={setFilteredCompanyTrips}
+                    />
+                </div>
 
-
-  return (
-    <>
-      <Navbar />
-
-      <SearchForm onSubmit={onSearchFormSubmit} />
-      <div
-        className="flex"
-        style={{
-          direction: "ltr",
-          alignItems: "start",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          style={{
-            width: "20rem",
-            direction: "rtl",
-            alignItems: "start",
-            paddingLeft: "2rem",
-          }}
-        >
-          <SearchFilters
-            busTypeId={busTypeId}
-            companyId={companyId}
-            maxPrice={maxPrice}
-          />
-        </div>
-
-        <div style={{ direction: "rtl" }}>
-          <ul id="SearchTrip">
-            {filteredCompanyTrips?.map((companyTrip) => (
-              <li key={companyTrip.companyTripId}>
-                <TripResults companyTrip={companyTrip} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <Footer />
-    </>
-  );
+                <div style={{ direction: "rtl" }}>
+                    <ul id="SearchTrip">
+                        {filteredCompanyTrips?.map((companyTrip) => (
+                            <li key={companyTrip.companyTripId}>
+                                <TripResult companyTrip={companyTrip} />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        </>
+    );
 }

@@ -25,6 +25,7 @@ export const reducer = (state: User, action: Action) => {
             throw new Error();
     }
 };
+
 export type ContextProps = {
     state: User;
     dispatcher: Dispatch<Action> | undefined;

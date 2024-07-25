@@ -34,6 +34,7 @@ const handleDelete = (id) => {
 };
 
 const MyTrips = () => {
+<<<<<<< HEAD
   return (
     <Fragment>
       <Navbar />
@@ -53,6 +54,26 @@ const MyTrips = () => {
       <Footer />
     </Fragment>
   );
+=======
+    return (
+        <Fragment>
+            <div style={{ paddingTop: "80px" }}>
+            <div style={{margin:"2rem 2rem 1rem 2rem", textAlign:"center"}}>
+            <button className="btn" style={{ border: "none", color: "#fff", margin: "1rem 0.5rem"}} >رحلاتي الحالية</button>
+            <button className="btn" style={{ border: "none", color: "#fff", margin: "1rem 0.5rem"}} >رحلاتي السابقة</button>
+            </div>
+            
+                {tripsData.map((trip) => (
+                    <OneTrip
+                        key={trip.id}
+                        trip={trip}
+                        handleDelete={handleDelete}
+                    />
+                ))}
+            </div>
+        </Fragment>
+    );
+>>>>>>> 24cc7425b80bd83163817dc8df9b9f28c20d1307
 };
 
 export default MyTrips;

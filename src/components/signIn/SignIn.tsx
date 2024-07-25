@@ -16,7 +16,7 @@ import { Theme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { DataContext, User } from "../../utilities/Context";
-import { ApiResponse, GenericApiResponse } from "../../utilities/Types";
+import { GenericApiResponse } from "../../utilities/Types";
 import { apiClient } from "../../utilities/Axios";
 
 class SignInInfo {
@@ -37,7 +37,7 @@ function Copyright(props: { sx: SxProps<Theme> }) {
             align="center"
             {...props}
         >
-            <span>حقوق الطبع والنشر © </span>
+            <span>Copyright © </span>
             <Link color="inherit" to="/">
                 Safirni
             </Link>
@@ -47,6 +47,7 @@ function Copyright(props: { sx: SxProps<Theme> }) {
 }
 
 export default function SignIn() {
+    const context = useContext(DataContext)
     const navigate = useNavigate();
     const isEmployee = useRef(false);
 
@@ -77,7 +78,6 @@ export default function SignIn() {
     };
     const validationSchema = Yup.object().shape(validationShape);
 
-    const context = useContext(DataContext);
     const handleSubmit = async (signInInfo: SignInInfo) => {
         try {
             const payload = {
@@ -93,14 +93,13 @@ export default function SignIn() {
             );
             const apiResponse = response.data;
 
-            if (apiResponse.isSuccess) {
-                if (!context.dispatcher)
-                    throw new Error("Dispatcher is undefined");
-                context.dispatcher({
-                    type: "assign",
-                    payload: apiResponse.payload as User,
-                });
-                toast.success(apiResponse.message);
+            if (apiResponse.isSuccess && apiResponse.payload) {
+                if(apiResponse.message)
+                    toast.success(apiResponse.message);
+
+                sessionStorage.setItem("user", JSON.stringify(apiResponse.payload))
+                if(context.dispatcher)
+                    context.dispatcher({type: "assign", payload: apiResponse.payload})
                 navigate("/");
                 return;
             }
@@ -108,9 +107,7 @@ export default function SignIn() {
                 toast.error(error);
             });
         } catch (error) {
-            // if(axios.isAxiosError<ApiResponse>(error)){
-                
-            // }
+            // if(axios.isAxiosError<ApiResponse>(error))
             console.error(error);
         }
     };

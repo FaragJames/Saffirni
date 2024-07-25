@@ -2,10 +2,10 @@
   --PrimeryColor: hsl(199, 100%, 33%);
   --SecenderyColor: hsl(187, 85%, 43%);
   --gradientColor: linear-gradient(
-      to right,
-      hsl(187, 85%, 43%),
-      hsl(199, 100%, 33%)
-    );
+    to right,
+    hsl(187, 85%, 43%),
+    hsl(199, 100%, 33%)
+  );
   --WhiteColor: hsl(0, 0%, 100%);
   --blackColor: hsl(201, 33%, 16%);
   --textColor: hsl(240, 4%, 36%);
@@ -21,7 +21,6 @@
   margin: 2rem;
   text-align: center;
 }
-
 .TravelerInfo .title {
   position: relative;
   color: var(--textColor);
@@ -29,17 +28,13 @@
   z-index: 2;
   font-size: xx-large;
 }
-
 .TravelerInfo .form {
   margin: 1rem;
 }
-
 .TravelerInfo .form .sectitel {
   color: var(--textColor);
   margin-bottom: 0.5rem;
 }
-
 .TravelerInfo .btn {
   margin: 0 0.5rem;
-}
-/*# sourceMappingURL=TravelerInfo.css.map */
+}/*# sourceMappingURL=TravelerInfo.css.map */

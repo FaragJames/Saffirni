@@ -18,3 +18,19 @@ export class Pagination {
         this.totalPages = Math.ceil(totalCount/pageSize);
     }
 }
+
+export type FilteredCompanyTrips = {
+    companyTripId: number;
+    companyName: string;
+    companyRating: number;
+    source: string;
+    destination: string;
+    busType: string;
+    totalSeats: number;
+    remainingSeats: number;
+    ticketPrice: number;
+    expectedDepartTime: string;
+    expectedArrivalTime: string;
+    actualDepartTime: string;
+    actualArrivalTime: string;
+};

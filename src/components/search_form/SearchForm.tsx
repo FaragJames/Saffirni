@@ -8,6 +8,7 @@ import "aos/dist/aos.css";
 import { GenericApiResponse } from "../../utilities/Types";
 import { apiClient } from "../../utilities/Axios";
 import { toast } from "react-toastify";
+import { SearchFormData } from "../home/Home";
 
 type State = {
     id: number;
@@ -15,9 +16,9 @@ type State = {
 };
 
 export default function SearchForm(props: {
-    onSubmit(e: FormEvent<HTMLFormElement>): void;
+    onSubmit(e: FormEvent<HTMLFormElement>): Promise<void>;
+    data: SearchFormData | null;
 }) {
-    
     const [states, setStates] = useState<Array<State>>();
     useEffect(() => {
         Aos.init({ duration: 2000 });
@@ -30,8 +31,7 @@ export default function SearchForm(props: {
                 ).data;
 
                 if (apiResponse.isSuccess && apiResponse.payload) {
-                    if(apiResponse.message)
-                        toast.success(apiResponse.message)
+                    if (apiResponse.message) toast.success(apiResponse.message);
 
                     setStates(apiResponse.payload);
                     return;
@@ -39,7 +39,7 @@ export default function SearchForm(props: {
 
                 apiResponse.errors?.forEach((error) => toast.error(error));
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         }
 
@@ -72,7 +72,14 @@ export default function SearchForm(props: {
                                         اختر محافظة
                                     </option>
                                     {states?.map((state) => (
-                                        <option key={state.id} value={state.id}>
+                                        <option
+                                            key={state.id}
+                                            value={state.id}
+                                            selected={
+                                                props.data?.sourceStateId ==
+                                                state.id
+                                            }
+                                        >
                                             {state.name}
                                         </option>
                                     ))}
@@ -94,7 +101,15 @@ export default function SearchForm(props: {
                                         اختر محافظة
                                     </option>
                                     {states?.map((state) => (
-                                        <option key={state.id} value={state.id}>
+                                        <option
+                                            key={state.id}
+                                            value={state.id}
+                                            selected={
+                                                props.data
+                                                    ?.destinationStateId ==
+                                                state.id
+                                            }
+                                        >
                                             {state.name}
                                         </option>
                                     ))}
@@ -111,6 +126,9 @@ export default function SearchForm(props: {
                                     name="dateInput"
                                     min={new Date().toISOString().split("T")[0]}
                                     required
+                                    defaultValue={
+                                        props.data?.departTime.split("T")[0]
+                                    }
                                 />
                             </div>
                         </div>
