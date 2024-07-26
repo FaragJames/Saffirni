@@ -1,7 +1,5 @@
 import React, { Fragment } from "react";
 import { Button } from "@mui/material";
-import Navbar from "../navbar/Navbar";
-import Footer from "../footer/Footer";
 import OneTrip from "../one_trip/OneTrip";
 
 const tripsData = [
@@ -36,7 +34,6 @@ const handleDelete = (id) => {
 const MyTrips = () => {
   return (
     <Fragment>
-      <Navbar />
       <div style={{ paddingTop: "80px" }}>
         <div style={{ margin: "2rem 2rem 1rem 2rem", textAlign: "center" }}>
           <button className="btn" style={{ border: "none", color: "#fff", margin: "1rem 0.5rem" }}>
@@ -50,7 +47,6 @@ const MyTrips = () => {
           <OneTrip key={trip.id} trip={trip} handleDelete={handleDelete} />
         ))}
       </div>
-      <Footer />
     </Fragment>
   );
 };
