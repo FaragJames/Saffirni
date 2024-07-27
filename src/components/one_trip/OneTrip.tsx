@@ -17,11 +17,12 @@ const OneTrip = ({ trip, handleDelete }) => {
   const [open, setOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState("buttons");
   const navigate = useNavigate();
-  const [fullWidth, setFullWidth] = React.useState(true);
-  const [maxWidth, setMaxWidth] = React.useState<DialogProps["maxWidth"]>("sm");
   const [rating, setRating] = useState();
   const handleDeleteClick = () => {
     handleDelete(trip.id);
+  };
+  const handleCompleteInfo = () => {
+navigate("/travelerInfo");
   };
 
   const handleClick = (content) => {
@@ -56,26 +57,24 @@ const OneTrip = ({ trip, handleDelete }) => {
             المزيد من التفاصيل
           </button>
           <Dialog
-            fullWidth={fullWidth}
-            maxWidth={maxWidth}
             open={open}
             onClose={() => setOpen(false)}
           >
             <DialogTitle>المزيد من التفاصيل</DialogTitle>
             <DialogContent>
               {dialogContent === "buttons" && (
-                <div style={{ justifyContent: "space-between" }}>
-                  <button
+                <div style={{ display:"grid"}}>
+                    <button
                     className="btn"
                     style={{
                       alignItems: "center",
                       color: "var(--WhiteColor)",
                       fontWeight: "700",
-                      margin: " 1rem 1.5rem",
+                      margin: " 1rem 1.5rem"
                     }}
-                    onClick={() => handleClick("details")}
+                    onClick={() => handleCompleteInfo()}
                   >
-                    تفاصيل الرحلة
+                    تثبيت الرحلة
                   </button>
                   <button
                     className="btn"
@@ -97,10 +96,24 @@ const OneTrip = ({ trip, handleDelete }) => {
                       fontWeight: "700",
                       margin: " 1rem 1.5rem",
                     }}
+                    onClick={() => handleClick("details")}
+                  >
+                    تفاصيل الرحلة
+                  </button>
+                  
+                  <button
+                    className="btn"
+                    style={{
+                      alignItems: "center",
+                      color: "var(--WhiteColor)",
+                      fontWeight: "700",
+                      margin: " 1rem 1.5rem",
+                    }}
                     onClick={() => handleClick("delete")}
                   >
                     حذف الرحلة
                   </button>
+                
                 </div>
               )}
               {dialogContent === "details" && (
@@ -122,18 +135,29 @@ const OneTrip = ({ trip, handleDelete }) => {
                     variant="outlined"
                     fullWidth
                   />
-                  <div>
-                    <Button onClick={() => alert("Comment added")}>
-                      إضافة
-                    </Button>
-                    <Rating
-                      sx={{ direction: "ltr", margin: "2rem" }}
+                  <div style={{ width:"100%", textAlign:"center"}}>
+                   <div style={{width:"100%" , textAlign:"center"}}>
+                   <Rating
+                      sx={{marginTop:"2rem"}}
+                      dir="ltr"
                       name="trip-rating"
                       value={rating}
                       onChange={(event, newValue) => {
                         setRating(newValue);
                       }}
+                      size="large"
                     />
+                   </div>
+                    
+                     <button className="btn"
+                    style={{
+                      alignItems: "center",
+                      color: "var(--WhiteColor)",
+                      fontWeight: "700",
+                      margin: " 1rem 1.5rem",
+                    }} onClick={() => alert("Comment added")}>
+                      إضافة
+                    </button>
                   </div>
                 </div>
               )}

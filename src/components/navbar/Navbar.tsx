@@ -8,7 +8,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { DataContext, User } from "../../utilities/Context";
+import { UserContext, User } from "../../utilities/Contexts/UserContext";
 import { apiClient } from "../../utilities/Axios";
 import { ApiResponse } from "../../utilities/Types";
 import { toast } from "react-toastify";
@@ -21,7 +21,7 @@ function stringAvatar(firstName: string, lastName: string) {
 
 export default function Navbar() {
     const navigate = useNavigate();
-    const context = useContext(DataContext);
+    const context = useContext(UserContext);
     const user = context.state;
 
     const [active, setActive] = useState("navBar");

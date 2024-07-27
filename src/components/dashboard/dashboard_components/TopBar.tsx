@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
     Box,
     IconButton,
@@ -14,13 +14,17 @@ import MuiAppBar from "@mui/material/AppBar";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import { apiClient } from "../../../utilities/Axios";
+import { ApiResponse } from "../../../utilities/Types";
+import { toast } from "react-toastify";
+import { Employee, EmployeeContext } from "../../../utilities/Contexts/EmployeeContext";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
-
-const AppBar = styled(MuiAppBar, {
+const styled2 = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
-    // @ts-ignore
-})(({ theme, open }) => ({
+})
+const AppBar = styled2(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
@@ -36,32 +40,52 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-const TopBar = ({ open, handleDrawerOpen, setMode }) => {
+export default function TopBar(props: {
+    open: boolean;
+    handleDrawerOpen(): void;
+    setMode(value: React.SetStateAction<string>): void
+}) {
+    const [anchorEl, setAnchorEl] = useState<
+    (EventTarget & HTMLButtonElement) | null
+    >(null);
+    
+    const context = useContext(EmployeeContext)
     const theme = useTheme();
+    const navigate = useNavigate();
 
-    const [anchorEl, setAnchorEl] = useState(null);
+    async function handleLogOut() {
+        try {
+            const apiResponse = (
+                await apiClient.get<ApiResponse>("/Security/Account/LogOut")
+            ).data;
+            if (apiResponse.isSuccess) {
+                if (apiResponse.message) toast.success(apiResponse.message);
 
-    const handleClickMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+                sessionStorage.removeItem("employee");
+                if (context.dispatcher)
+                    context.dispatcher({ type: "reset", payload: new Employee() });
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+                navigate("/Company/SignIn");
+                return;
+            }
 
-    const openMen = Boolean(anchorEl); // Check if anchorEl is truthy
+            apiResponse.errors?.forEach((error) => toast.error(error));
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
-        <AppBar position="fixed" open={open}>
+        <AppBar position="fixed" open={props.open}>
             <Toolbar>
                 <IconButton
                     color="inherit"
                     aria-label="open drawer"
-                    onClick={handleDrawerOpen}
+                    onClick={props.handleDrawerOpen}
                     edge="start"
                     sx={{
                         marginRight: 5,
-                        ...(open && { display: "none" }),
+                        ...(props.open && { display: "none" }),
                     }}
                 >
                     <MenuIcon />
@@ -70,18 +94,11 @@ const TopBar = ({ open, handleDrawerOpen, setMode }) => {
                 <Box flexGrow={1} />
 
                 <Stack direction="row">
-                    {theme.palette.mode === "light" ? (
+                    {theme.palette.mode !== "light" ? (
                         <IconButton
                             onClick={() => {
-                                localStorage.setItem(
-                                    "currentMode",
-                                    theme.palette.mode === "dark"
-                                        ? "light"
-                                        : "dark"
-                                );
-                                setMode((prevMode) =>
-                                    prevMode === "light" ? "dark" : "light"
-                                );
+                                sessionStorage.setItem("currentMode", "light");
+                                props.setMode("light");
                             }}
                             color="inherit"
                         >
@@ -90,15 +107,8 @@ const TopBar = ({ open, handleDrawerOpen, setMode }) => {
                     ) : (
                         <IconButton
                             onClick={() => {
-                                localStorage.setItem(
-                                    "currentMode",
-                                    theme.palette.mode === "dark"
-                                        ? "light"
-                                        : "dark"
-                                );
-                                setMode((prevMode) =>
-                                    prevMode === "light" ? "dark" : "light"
-                                );
+                                sessionStorage.setItem("currentMode", "dark");
+                                props.setMode("dark");
                             }}
                             color="inherit"
                         >
@@ -109,35 +119,33 @@ const TopBar = ({ open, handleDrawerOpen, setMode }) => {
                     <IconButton
                         color="inherit"
                         id="basic-button"
-                        aria-controls={openMen ? "basic-menu" : undefined}
+                        aria-controls={anchorEl ? "basic-menu" : undefined}
                         aria-haspopup="true"
-                        aria-expanded={openMen ? "true" : undefined}
-                        onClick={handleClickMenu}
+                        aria-expanded={anchorEl ? "true" : undefined}
+                        onClick={(event) => setAnchorEl(event.currentTarget)}
                     >
                         <Person2OutlinedIcon />
                     </IconButton>
                     <Menu
                         id="basic-menu"
                         anchorEl={anchorEl}
-                        open={openMen} // Use openMen to control menu visibility
-                        onClose={handleClose}
+                        open={Boolean(anchorEl)}
+                        onClose={() => setAnchorEl(null)}
                         MenuListProps={{
                             "aria-labelledby": "basic-button",
                         }}
                     >
                         <MenuItem
                             onClick={() => {
-                                // Handle logout logic
-                                handleClose();
+                                setAnchorEl(null);
+                                handleLogOut();
                             }}
                         >
-                            Logout
+                            تسجيل الخروج
                         </MenuItem>
                     </Menu>
                 </Stack>
             </Toolbar>
         </AppBar>
     );
-};
-
-export default TopBar;
+}

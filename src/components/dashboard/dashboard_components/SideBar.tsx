@@ -7,7 +7,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { Avatar, styled, useTheme, Typography, Tooltip } from "@mui/material";
+import { Avatar, styled, useTheme, Typography, Tooltip, Theme } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import CardTravelIcon from "@mui/icons-material/CardTravel";
@@ -15,9 +15,12 @@ import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useLocation, useNavigate } from "react-router-dom";
 import { grey } from "@mui/material/colors";
+import { useContext } from "react";
+import { EmployeeContext } from "../../../utilities/Contexts/EmployeeContext";
+import tmpAvatar from "../../../assets/img.jpeg"
 
 const drawerWidth = 240;
-const openedMixin = (theme) => ({
+const openedMixin = (theme: Theme) => ({
     width: drawerWidth,
     transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
@@ -26,7 +29,7 @@ const openedMixin = (theme) => ({
     overflowX: "hidden",
 });
 
-const closedMixin = (theme) => ({
+const closedMixin = (theme: Theme) => ({
     transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -40,7 +43,7 @@ const closedMixin = (theme) => ({
 
 const Drawer = styled(MuiDrawer, {
     shouldForwardProp: (prop) => prop !== "open",
-    // @ts-ignore
+    // @ts-expect-error IDK
 })(({ theme, open }) => ({
     width: drawerWidth,
     flexShrink: 0,
@@ -61,33 +64,43 @@ const DrawerHeader = styled("div")(({ theme }) => ({
     alignItems: "center",
     justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
 
-const Array1 = [
-    {
-        text: "employees",
-        icon: <PeopleOutlinedIcon />,
-        path: "/dashboard/employees",
-    },
-    {
-        text: "Trips",
-        icon: <CardTravelIcon />,
-        path: "/dashboard/TripsCompany",
-    },
-    { text: "buses", icon: <DirectionsBusIcon />, path: "/dashboard/Buses" },
-    {
-        text: "Sitting",
-        icon: <SettingsIcon />,
-        path: "/dashboard/Sitting",
-    },
-];
-
-const SideBar = ({ open, handleDrawerClose }) => {
-    let location = useLocation();
+export default function SideBar({
+    open,
+    handleDrawerClose,
+}: {
+    open: boolean;
+    handleDrawerClose(): void
+}) {
+    const location = useLocation();
     const navigate = useNavigate();
+    const context = useContext(EmployeeContext);
     const theme = useTheme();
+
+    const links = [
+        {
+            text: "Trips",
+            icon: <CardTravelIcon />,
+            path: "/Company/Dashboard",
+        },
+        {
+            text: "Employees",
+            icon: <PeopleOutlinedIcon />,
+            path: "/Company/Dashboard/Employees",
+        },
+        {
+            text: "Buses",
+            icon: <DirectionsBusIcon />,
+            path: "/Company/Dashboard/Buses",
+        },
+        {
+            text: "Settings",
+            icon: <SettingsIcon />,
+            path: "/Company/Dashboard/Settings",
+        },
+    ];
     return (
         <Drawer style={{ direction: "ltr" }} variant="permanent" open={open}>
             <DrawerHeader>
@@ -110,29 +123,19 @@ const SideBar = ({ open, handleDrawerClose }) => {
                     transition: "0.25s",
                 }}
                 alt="Remy Sharp"
-                src="https://media.allure.com/photos/5a26c1d8753d0c2eea9df033/3:4/w_1262,h_1683,c_limit/mostbeautiful.jpg"
+                src={tmpAvatar}
             />
             <Typography
                 align="center"
                 sx={{ fontSize: open ? 17 : 0, transition: "0.25s" }}
             >
-                شركة طروادة
-            </Typography>
-            <Typography
-                align="center"
-                sx={{
-                    fontSize: open ? 15 : 0,
-                    transition: "0.25s",
-                    color: theme.palette.info.main,
-                }}
-            >
-                Admin
+                {`${context.state.firstName} ${context.state.lastName}`}
             </Typography>
 
             <Divider />
 
             <List>
-                {Array1.map((item) => (
+                {links.map((item) => (
                     <ListItem
                         key={item.path}
                         disablePadding
@@ -143,9 +146,7 @@ const SideBar = ({ open, handleDrawerClose }) => {
                             placement="left"
                         >
                             <ListItemButton
-                                onClick={() => {
-                                    navigate(item.path);
-                                }}
+                                onClick={() => navigate(item.path)}
                                 sx={{
                                     minHeight: 48,
                                     justifyContent: open ? "initial" : "center",
@@ -178,6 +179,4 @@ const SideBar = ({ open, handleDrawerClose }) => {
             </List>
         </Drawer>
     );
-};
-
-export default SideBar;
+}

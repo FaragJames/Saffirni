@@ -15,19 +15,10 @@ import { SxProps } from "@mui/material/styles";
 import { Theme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { UserContext, User } from "../../utilities/Contexts/UserContext";
 import { GenericApiResponse } from "../../utilities/Types";
 import { apiClient } from "../../utilities/Axios";
-
-export class SignInInfo {
-    public constructor(
-        public credential: string = "",
-        public password: string = ""
-    ) {}
-}
-export type SignInInfoShape = {
-    [P in keyof SignInInfo]: Yup.StringSchema;
-};
+import { SignInInfo, SignInInfoShape } from "../signIn/SignIn";
+import { Employee, EmployeeContext } from "../../utilities/Contexts/EmployeeContext";
 
 function Copyright(props: { sx: SxProps<Theme> }) {
     return (
@@ -46,23 +37,19 @@ function Copyright(props: { sx: SxProps<Theme> }) {
     );
 }
 
-export default function SignIn() {
-    const context = useContext(UserContext);
+export default function DashboardSignIn() {
+    const context = useContext(EmployeeContext);
     const navigate = useNavigate();
 
     const validationShape: SignInInfoShape = {
         credential: Yup.string()
             .test(
                 "test-credential",
-                "*يرجى إدخال رقم موبايل صحيح يبدأ بـ 09 (10 أرقام) أو رقم وطني (11 رقم)",
+                "*يرجى إدخال بريد إلكتروني صالح",
                 (value) => {
-                    value = value as string;
-                    const phoneRegex = /^09[3,4,5,6,8,9]\d{7}$/;
-                    const nationalNumberRegex = /^\d{11}$/;
-                    return (
-                        phoneRegex.test(value) ||
-                        nationalNumberRegex.test(value)
-                    );
+                    const emailRegex =
+                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                    return emailRegex.test(value as string)
                 }
             )
             .required("*الحقل مطلوب"),
@@ -79,8 +66,8 @@ export default function SignIn() {
                 password: signInInfo.password,
             };
 
-            const response = await apiClient.post<GenericApiResponse<User>>(
-                "/Security/Account/LogIn/WebUser",
+            const response = await apiClient.post<GenericApiResponse<Employee>>(
+                "/Security/Account/LogIn/Employee",
                 payload
             );
             const apiResponse = response.data;
@@ -89,7 +76,7 @@ export default function SignIn() {
                 if (apiResponse.message) toast.success(apiResponse.message);
 
                 sessionStorage.setItem(
-                    "user",
+                    "employee",
                     JSON.stringify(apiResponse.payload)
                 );
                 if (context.dispatcher)
@@ -97,7 +84,7 @@ export default function SignIn() {
                         type: "assign",
                         payload: apiResponse.payload,
                     });
-                navigate("/");
+                navigate("/Company/Dashboard");
                 return;
             }
             apiResponse.errors?.forEach((error) => {
@@ -144,7 +131,7 @@ export default function SignIn() {
                                         name="credential"
                                         variant="outlined"
                                         fullWidth
-                                        label="رقم الموبايل أو الرقم الوطني"
+                                        label="البريد الإلكتروني"
                                         error={
                                             touched.credential &&
                                             Boolean(errors.credential)
@@ -180,11 +167,6 @@ export default function SignIn() {
                             >
                                 تسجيل الدخول
                             </Button>
-                            <Grid container justifyContent="flex-end">
-                                <Grid item>
-                                    <Link to="/SignUp">ليس لديك حساب؟</Link>
-                                </Grid>
-                            </Grid>
                         </Form>
                     )}
                 </Formik>
