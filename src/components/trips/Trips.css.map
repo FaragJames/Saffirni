@@ -1,1 +1,9 @@
-{"version":3,"sources":["Trips.scss","Trips.css"],"names":[],"mappings":"AAAA;EACI,mCAAA;EACA,oCAAA;EACA,mFAAA;EACA,8BAAA;EACA,gCAAA;EACA,8BAAA;EACA,iCAAA;EACA,8BAAA;EACA,gCAAA;EACA,+BAAA;EACA,4BAAA;ACCJ","file":"Trips.css"}
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,KAAK,CAAC;EACF,cAAc,CAAA,oBAAC;EACf,gBAAgB,CAAA,mBAAC;EACjB,eAAe,CAAA,mEAAC;EAChB,YAAY,CAAA,iBAAC;EACb,YAAY,CAAA,mBAAC;EACb,WAAW,CAAA,kBAAC;EACZ,gBAAgB,CAAA,gBAAC;EACjB,UAAU,CAAA,mBAAC;EACX,YAAY,CAAA,mBAAC;EACb,WAAW,CAAA,mBAAC;EACZ,QAAQ,CAAA,mBAAC;CAEZ",
+    "sources": [
+        "Trips.scss"
+    ],
+    "names": [],
+    "file": "Trips.css"
+}

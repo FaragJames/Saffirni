@@ -69,7 +69,7 @@ export default function TravelerInfo() {
             .required("*الرقم الوطني مطلوب"),
         phoneNumber: Yup.string()
             .matches(
-                /^09[3,4,5,6,7,8,9]\d{7}$/,
+                /^09[3,4,5,6,8,9]\d{7}$/,
                 "*رقم الجوال يجب أن يبدأ ب09 ويتكون من 10 أرقام"
             )
             .required("*رقم الموبايل مطلوب"),
@@ -110,7 +110,7 @@ export default function TravelerInfo() {
                 setLoaderState(true);
                 const response = await apiClient.post<
                     GenericApiResponse<TravelerData>
-                >("/API/User/ContainsUser", {
+                >("/API/User/ContainsUser?fullInfo=true", {
                     nationalId: e.currentTarget.value,
                 });
                 const apiResponse = response.data;

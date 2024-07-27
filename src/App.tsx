@@ -23,6 +23,7 @@ import SeatSelection from "./components/seat_selection/SeatSelection.tsx";
 import { useReducer } from "react";
 import { DataContext, reducer, User } from "./utilities/Context.ts";
 import TravelerInfo from "./components/traveler_info/TravelerInfo.tsx";
+import UserSettings from "./components/user_settings/UserSettings.tsx";
 
 export default function App() {
     const userJson = sessionStorage.getItem("user");
@@ -75,6 +76,10 @@ export default function App() {
                     {
                         path: "Trip/Bill",
                         element: <Bill />,
+                    },
+                    {
+                        path: "UserSettings",
+                        element: <UserSettings />
                     }
                 ]
             },

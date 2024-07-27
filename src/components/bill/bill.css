@@ -1,13 +1,16 @@
 .bill {
   width: 50%;
   margin: auto;
+  padding-top: 6rem;
   text-align: center;
 }
+
 .bill .btn {
   border: none;
   color: #fff;
   margin: 1rem 0.5rem;
 }
+
 .bill .title {
   position: relative;
   color: var(--textColor);
@@ -15,10 +18,13 @@
   z-index: 2;
   font-size: xx-large;
 }
+
 .bill .trip-info {
   text-align: right;
 }
+
 .bill .seat-info {
   margin-bottom: 20px;
   text-align: right;
-}/*# sourceMappingURL=bill.css.map */
+}
+/*# sourceMappingURL=bill.css.map */

@@ -59,7 +59,7 @@ export default function SignUp() {
             .required("*الرقم الوطني مطلوب"),
         phoneNumber: Yup.string()
             .matches(
-                /^09[3,4,5,6,7,8,9]\d{7}$/,
+                /^09[3,4,5,6,8,9]\d{7}$/,
                 "*رقم الموبايل يجب أن يبدأ ب09 ويتكون من 10 أرقام"
             )
             .required("*رقم الموبايل مطلوب"),
@@ -68,7 +68,7 @@ export default function SignUp() {
             .required("*كلمة السر مطلوبة"),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref("password")], "*كلمة السر غير متطابقة")
-            .required("*تأكيد كلمة السر مطلوب"),
+            .required("*تأكيد كلمة السر مطلوب")
     };
     const validationSchema = Yup.object().shape(validationShape);
 
