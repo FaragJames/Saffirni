@@ -3,7 +3,7 @@ import BusLayout from "../bus_layout/BusLayout";
 import SeatsInput from "../seats_input/SeatsInput";
 import { apiClient } from "../../utilities/Axios";
 import { GenericApiResponse } from "../../utilities/Types";
-import { DataContext } from "../../utilities/Context";
+import { UserContext } from "../../utilities/Contexts/UserContext";
 import { toast } from "react-toastify";
 import { useContext, useEffect, useState } from "react";
 
@@ -42,34 +42,31 @@ export default function SeatSelection() {
                     )
                 ).data;
 
-                if(apiResponse.isSuccess && apiResponse.payload) {
-                    if(apiResponse.message)
-                        toast.success(apiResponse.message)
+                if (apiResponse.isSuccess && apiResponse.payload) {
+                    if (apiResponse.message) toast.success(apiResponse.message);
 
-                    setReservedSeats(apiResponse.payload)
-                    return
+                    setReservedSeats(apiResponse.payload);
+                    return;
                 }
 
                 apiResponse.errors?.forEach((error) => toast.error(error));
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         }
-        if (locationData)
-            fetchData()
+        if (locationData) fetchData();
     }, []);
 
-    const context = useContext(DataContext);
+    const context = useContext(UserContext);
     const navigate = useNavigate();
     if (!locationData || !context.state.id) {
-        toast.error("طلب خاطئ!")
+        toast.error("طلب خاطئ!");
         navigate("/Trips");
         return;
     }
-    
+
     async function handleNextClick(seatsNumbers: number[]) {
-        if (!locationData)
-            return;
+        if (!locationData) return;
 
         const temporaryReservation: TemporaryReservation = {
             reservationOwnerId: context.state.id as number,

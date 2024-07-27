@@ -9,7 +9,7 @@ export default function SeatsInput(props: {
     reservedSeats: number[];
     totalSeats: number;
 }) {
-    const [selectedSeatsNumber, setSelectedSeatsNumber] = useState<number>(0);
+    const [selectedSeatsNumber, setSelectedSeatsNumber] = useState<number>(1);
     const remainingSeats = props.totalSeats - props.reservedSeats.length;
     const navigate = useNavigate();
 

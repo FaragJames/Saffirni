@@ -16,7 +16,7 @@ type State = {
 };
 
 export default function SearchForm(props: {
-    onSubmit(e: FormEvent<HTMLFormElement>): Promise<void>;
+    onSubmit(e: FormEvent<HTMLFormElement>): void;
     data: SearchFormData | null;
 }) {
     const [states, setStates] = useState<Array<State>>();

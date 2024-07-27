@@ -2,47 +2,70 @@ import "./App.css";
 import Footer from "./components/footer/Footer.tsx";
 import SignUp from "./components/signUp/SignUp.tsx";
 import SignIn from "./components/signIn/SignIn.tsx";
-import AppDashboard from "./components/dashbord/AppDashbord.tsx";
+import Dashboard from "./components/dashboard/Dashboard.tsx";
 import Trips from "./components/trips/Trips.tsx";
-import TripsCompany from "./components/dashbord/pages/trips/Trips.tsx";
-import AddBus from "./components/dashbord/pages/addBus/AddBus.tsx";
-import Buses from "./components/dashbord/pages/buses/Buses.tsx";
-import Sitting from "./components/dashbord/pages/sitting/Sitting.tsx";
-import Employees from "./components/dashbord/pages/employees/Employees.tsx";
-import SeatsOnTrip from "./components/dashbord/pages/seatsOnTrip/SeatsOnTrip.tsx";
-import AddTraveler from "./components/dashbord/pages/addTraveler/AddTraveler.tsx";
+import TripsCompany from "./components/dashboard/pages/trips/Trips.tsx";
+import AddBus from "./components/dashboard/pages/add_bus/AddBus.tsx";
+import Buses from "./components/dashboard/pages/buses/Buses.tsx";
+import Settings from "./components/dashboard/pages/settings/Settings.tsx";
+import Employees from "./components/dashboard/pages/employees/Employees.tsx";
+import SeatsOnTrip from "./components/dashboard/pages/seatsOnTrip/SeatsOnTrip.tsx";
+import AddTraveler from "./components/dashboard/pages/add_traveler/AddTraveler.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
 import Bill from "./components/bill/Bill.tsx";
-import AddEmployee from "./components/dashbord/pages/addEmplowee/AddEmployee.tsx";
-import AddTrip from "./components/dashbord/pages/addTrip/AddTrip.tsx";
+import AddEmployee from "./components/dashboard/pages/add_employee/AddEmployee.tsx";
+import AddTrip from "./components/dashboard/pages/add_trip/AddTrip.tsx";
 import MyTrips from "./components/my_trips/MyTrips.tsx";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Home from "./components/home/Home.tsx";
 import ScrollToTop from "./utilities/ScrollToTop.tsx";
 import SeatSelection from "./components/seat_selection/SeatSelection.tsx";
 import { useReducer } from "react";
-import { DataContext, reducer, User } from "./utilities/Context.ts";
+import {
+    UserContext,
+    userReducer,
+    User,
+} from "./utilities/Contexts/UserContext.ts";
 import TravelerInfo from "./components/traveler_info/TravelerInfo.tsx";
 import UserSettings from "./components/user_settings/UserSettings.tsx";
+import {
+    Employee,
+    EmployeeContext,
+    employeeReducer,
+} from "./utilities/Contexts/EmployeeContext.ts";
+import DashboardSignIn from "./components/dashboard/DashboardSignIn.tsx";
 
 export default function App() {
     const userJson = sessionStorage.getItem("user");
-    const user = userJson ? JSON.parse(userJson) as User : null
-    const [state, dispatcher] = useReducer(reducer, user ?? new User())
+    const employeeJson = sessionStorage.getItem("employee");
+
+    const user = userJson ? (JSON.parse(userJson) as User) : null;
+    const employee = employeeJson
+        ? (JSON.parse(employeeJson) as Employee)
+        : null;
+
+    const [userState, userDispatcher] = useReducer(
+        userReducer,
+        user ?? new User()
+    );
+    const [employeeState, employeeDispatcher] = useReducer(
+        employeeReducer,
+        employee ?? new Employee()
+    );
 
     const router = createBrowserRouter(
         [
             {
                 path: "/",
                 element: (
-                    <DataContext.Provider
-                        value={{ state: state, dispatcher: dispatcher }}
+                    <UserContext.Provider
+                        value={{ state: userState, dispatcher: userDispatcher }}
                     >
                         <ScrollToTop />
                         <Navbar />
                         <Outlet />
                         <Footer />
-                    </DataContext.Provider>
+                    </UserContext.Provider>
                 ),
                 children: [
                     {
@@ -79,54 +102,69 @@ export default function App() {
                     },
                     {
                         path: "UserSettings",
-                        element: <UserSettings />
-                    }
-                ]
+                        element: <UserSettings />,
+                    },
+                ],
             },
             {
-                path: "/Dashboard",
+                path: "/Company",
                 element: (
-                    <>
+                    <EmployeeContext.Provider
+                        value={{
+                            state: employeeState,
+                            dispatcher: employeeDispatcher,
+                        }}
+                    >
                         <ScrollToTop />
-                        <AppDashboard />
-                    </>
+                        <Outlet />
+                    </EmployeeContext.Provider>
                 ),
                 children: [
                     {
-                        path: "Buses",
-                        element: <Buses />,
+                        path: "SignIn",
+                        element: <DashboardSignIn />,
                     },
                     {
-                        path: "SddBus",
-                        element: <AddBus />,
-                    },
-                    {
-                        path: "TripsCompany",
-                        element: <TripsCompany />,
-                    },
-                    {
-                        path: "Sitting",
-                        element: <Sitting />,
-                    },
-                    {
-                        path: "Employees",
-                        element: <Employees />,
-                    },
-                    {
-                        path: "AddEmployee",
-                        element: <AddEmployee />,
-                    },
-                    {
-                        path: "AddTrip",
-                        element: <AddTrip />,
-                    },
-                    {
-                        path: "SeatsOnTrip",
-                        element: <SeatsOnTrip />,
-                    },
-                    {
-                        path: "AddTraveler",
-                        element: <AddTraveler />,
+                        path: "Dashboard",
+                        element: <Dashboard />,
+                        children: [
+                            {
+                                path: "Buses",
+                                element: <Buses />,
+                            },
+                            {
+                                path: "AddBus",
+                                element: <AddBus />,
+                            },
+                            {
+                                index: true,
+                                element: <TripsCompany />,
+                            },
+                            {
+                                path: "Settings",
+                                element: <Settings />,
+                            },
+                            {
+                                path: "Employees",
+                                element: <Employees />,
+                            },
+                            {
+                                path: "AddEmployee",
+                                element: <AddEmployee />,
+                            },
+                            {
+                                path: "AddTrip",
+                                element: <AddTrip />,
+                            },
+                            {
+                                path: "SeatsOnTrip",
+                                element: <SeatsOnTrip />,
+                            },
+                            {
+                                path: "AddTraveler",
+                                element: <AddTraveler />,
+                            },
+                        ],
                     },
                 ],
             },

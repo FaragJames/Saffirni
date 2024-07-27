@@ -1,24 +1,24 @@
 import { createContext, Dispatch } from "react";
 
-export class User {
+export class Employee {
     public constructor(
         public id: number | undefined = undefined,
-        public nationalId: string | undefined = undefined,
+        public companyId: number | undefined = undefined,
         public accountId: string | undefined = undefined,
         public firstName: string | undefined = undefined,
-        public fatherName: string | undefined = undefined,
         public lastName: string | undefined = undefined,
         public phoneNumber: string | undefined = undefined
     ) {}
 }
-type Action = {
+
+type EmployeeAction = {
     type: "reset" | "assign";
-    payload: User;
+    payload: Employee;
 };
-export const reducer = (state: User, action: Action) => {
+export const employeeReducer = (state: Employee, action: EmployeeAction) => {
     switch (action.type) {
         case "reset":
-            return new User();
+            return new Employee();
         case "assign":
             return action.payload;
         default:
@@ -26,11 +26,11 @@ export const reducer = (state: User, action: Action) => {
     }
 };
 
-export type ContextProps = {
-    state: User;
-    dispatcher: Dispatch<Action> | undefined;
+export type EmployeeContextProps = {
+    state: Employee;
+    dispatcher: Dispatch<EmployeeAction> | undefined;
 };
-export const DataContext = createContext<ContextProps>({
-    state: new User(),
-    dispatcher: undefined,
+export const EmployeeContext = createContext<EmployeeContextProps>({
+    state: new Employee(),
+    dispatcher: undefined
 });

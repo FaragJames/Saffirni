@@ -4,14 +4,14 @@ import img from "../../assets/img.jpg";
 import Rating from "@mui/material/Rating";
 import { FilteredCompanyTrips } from "../../utilities/Types";
 import { LocationPayload } from "../seat_selection/SeatSelection";
-import { DataContext } from "../../utilities/Context";
+import { UserContext } from "../../utilities/Contexts/UserContext";
 import { useContext } from "react";
 import { toast } from "react-toastify";
 
 export default function TripResult(props: {
     companyTrip: FilteredCompanyTrips;
 }) {
-    const context = useContext(DataContext);
+    const context = useContext(UserContext);
     const navigate = useNavigate();
     const handleReserveClick = (paymentMethod: string) => {
         const payload: LocationPayload = {

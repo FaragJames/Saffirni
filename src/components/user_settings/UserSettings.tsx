@@ -10,7 +10,7 @@ import {
     Container,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { DataContext, User } from "../../utilities/Context";
+import { UserContext, User } from "../../utilities/Contexts/UserContext";
 import { toast } from "react-toastify";
 import { apiClient } from "../../utilities/Axios";
 import { ApiResponse, GenericApiResponse } from "../../utilities/Types";
@@ -19,7 +19,7 @@ export default function UserSettings() {
     const navigate = useNavigate();
     const [isEditable, setIsEditable] = useState(false);
 
-    const context = useContext(DataContext);
+    const context = useContext(UserContext);
     if (!context.state.id) {
         toast.error("يرجى تسجيل الدخول أولاً!");
         navigate("/SignIn");
@@ -84,19 +84,22 @@ export default function UserSettings() {
                         `/API/User/${context.state.id}`
                     )
                 ).data;
-                if(getUserResponse.isSuccess) {
-                    if(context.dispatcher)
-                        context.dispatcher({ type: "assign", payload: getUserResponse.payload as User })
+                if (getUserResponse.isSuccess) {
+                    if (context.dispatcher)
+                        context.dispatcher({
+                            type: "assign",
+                            payload: getUserResponse.payload as User,
+                        });
 
                     return;
                 }
-                
-                getUserResponse.errors?.forEach((error) => toast.error(error));    
+
+                getUserResponse.errors?.forEach((error) => toast.error(error));
             }
 
-            apiResponse.errors?.forEach(error => toast.error(error))
+            apiResponse.errors?.forEach((error) => toast.error(error));
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
     }
 

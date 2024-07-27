@@ -1,6 +1,4 @@
 import { FormEvent } from "react";
-import Footer from "../footer/Footer";
-import Navbar from "../navbar/Navbar";
 import Main from "../main/Main";
 import SearchForm from "../search_form/SearchForm";
 import { useNavigate } from "react-router-dom";
