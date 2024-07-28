@@ -1,6 +1,4 @@
 import { useLocation } from "react-router-dom";
-import Footer from "../footer/Footer";
-import Navbar from "../navbar/Navbar";
 import SearchForm from "../search_form/SearchForm";
 import { SearchFormData } from "../home/Home";
 import { FormEvent, useEffect, useRef, useState } from "react";

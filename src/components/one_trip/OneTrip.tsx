@@ -1,23 +1,33 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./OneTrip.css";
 import img from "../../assets/img.jpg";
 import Rating from "@mui/material/Rating";
-import Box from "@mui/system/Box";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Paper, Typography, TextField } from "@mui/material";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Typography,
+  TextField,
+} from "@mui/material";
 
 const OneTrip = ({ trip, handleDelete }) => {
   const [open, setOpen] = useState(false);
-  const [dialogContent, setDialogContent] = useState(null);
+  const [dialogContent, setDialogContent] = useState("buttons");
   const navigate = useNavigate();
-
+  const [rating, setRating] = useState();
   const handleDeleteClick = () => {
     handleDelete(trip.id);
+  };
+  const handleCompleteInfo = () => {
+navigate("/travelerInfo");
   };
 
   const handleClick = (content) => {
     setDialogContent(content);
-    setOpen(!open);
+    setOpen(true);
   };
 
   return (
@@ -39,13 +49,74 @@ const OneTrip = ({ trip, handleDelete }) => {
           <img src={img} alt="Trip" />
         </div>
         <div className="ratingDiv">
-          <Button className="btn flex" type="button" onClick={() => handleClick('details')}>
+          <button
+            className="btn flex"
+            type="button"
+            onClick={() => handleClick("buttons")}
+          >
             المزيد من التفاصيل
-          </Button>
-          <Dialog open={open} onClose={() => setOpen(false)}>
+          </button>
+          <Dialog
+            open={open}
+            onClose={() => setOpen(false)}
+          >
             <DialogTitle>المزيد من التفاصيل</DialogTitle>
             <DialogContent>
-              {dialogContent === 'details' && (
+              {dialogContent === "buttons" && (
+                <div style={{ display:"grid"}}>
+                    <button
+                    className="btn"
+                    style={{
+                      alignItems: "center",
+                      color: "var(--WhiteColor)",
+                      fontWeight: "700",
+                      margin: " 1rem 1.5rem"
+                    }}
+                    onClick={() => handleCompleteInfo()}
+                  >
+                    تثبيت الرحلة
+                  </button>
+                  <button
+                    className="btn"
+                    style={{
+                      alignItems: "center",
+                      color: "var(--WhiteColor)",
+                      fontWeight: "700",
+                      margin: " 1rem 1.5rem",
+                    }}
+                    onClick={() => handleClick("comment")}
+                  >
+                    إضافة تعليق
+                  </button>
+                  <button
+                    className="btn"
+                    style={{
+                      alignItems: "center",
+                      color: "var(--WhiteColor)",
+                      fontWeight: "700",
+                      margin: " 1rem 1.5rem",
+                    }}
+                    onClick={() => handleClick("details")}
+                  >
+                    تفاصيل الرحلة
+                  </button>
+                  
+                  <button
+                    className="btn"
+                    style={{
+                      alignItems: "center",
+                      color: "var(--WhiteColor)",
+                      fontWeight: "700",
+                      margin: " 1rem 1.5rem",
+                    }}
+                    onClick={() => handleClick("delete")}
+                  >
+                    حذف الرحلة
+                  </button>
+                
+                </div>
+              )}
+              {dialogContent === "details" && (
                 <div>
                   <Typography>تفاصيل الرحلة:</Typography>
                   <p>Company: {trip.airline}</p>
@@ -54,30 +125,60 @@ const OneTrip = ({ trip, handleDelete }) => {
                   <p>To: {trip.to}</p>
                 </div>
               )}
-              {dialogContent === 'comment' && (
+              {dialogContent === "comment" && (
                 <div>
                   <Typography>إضافة تعليق:</Typography>
                   <TextField
-                    label="Comment"
+                    label="تعليق"
                     multiline
                     rows={4}
                     variant="outlined"
                     fullWidth
                   />
-                  <Button onClick={() => alert('Comment added')}>إضافة</Button>
+                  <div style={{ width:"100%", textAlign:"center"}}>
+                   <div style={{width:"100%" , textAlign:"center"}}>
+                   <Rating
+                      sx={{marginTop:"2rem"}}
+                      dir="ltr"
+                      name="trip-rating"
+                      value={rating}
+                      onChange={(event, newValue) => {
+                        setRating(newValue);
+                      }}
+                      size="large"
+                    />
+                   </div>
+                    
+                     <button className="btn"
+                    style={{
+                      alignItems: "center",
+                      color: "var(--WhiteColor)",
+                      fontWeight: "700",
+                      margin: " 1rem 1.5rem",
+                    }} onClick={() => alert("Comment added")}>
+                      إضافة
+                    </button>
+                  </div>
                 </div>
               )}
-              {dialogContent === 'delete' && (
+              {dialogContent === "delete" && (
                 <div>
                   <Typography>هل أنت متأكد أنك تريد حذف هذه الرحلة؟</Typography>
-                  <Button onClick={() => handleDeleteClick(trip.id)}>نعم</Button>
+                  <Button onClick={() => handleDeleteClick(trip.id)}>
+                    نعم
+                  </Button>
                   <Button onClick={() => setOpen(false)}>لا</Button>
                 </div>
               )}
             </DialogContent>
-            <DialogActions>
-              <Button onClick={() => setOpen(false)}>إغلاق</Button>
-            </DialogActions>
+            {dialogContent !== "buttons" && (
+              <DialogActions>
+                <Button onClick={() => setDialogContent("buttons")}>
+                  رجوع
+                </Button>
+                <Button onClick={() => setOpen(false)}>إغلاق</Button>
+              </DialogActions>
+            )}
           </Dialog>
         </div>
       </div>
