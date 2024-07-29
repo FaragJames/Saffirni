@@ -89,7 +89,6 @@ export default function Trips() {
             >
                 <div
                     style={{
-                        width: "20rem",
                         direction: "rtl",
                         alignItems: "start",
                         paddingLeft: "2rem",
@@ -105,7 +104,7 @@ export default function Trips() {
                     />
                 </div>
 
-                <div style={{ direction: "rtl" }}>
+                <div style={{ direction: "rtl"}}>
                     <ul id="SearchTrip">
                         {filteredCompanyTrips?.map((companyTrip) => (
                             <li key={companyTrip.companyTripId}>

@@ -106,7 +106,6 @@
           gap: 0.5rem;
 
           border-top: 1.5px solid var(--greyText);
-          border-bottom: 1.5px solid var(--greyText);
 
           .icon {
             color: var(--textColor);
@@ -157,7 +156,7 @@
   }
 
   .seContent {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
 
     .singleDestination {
       height: auto;
@@ -167,7 +166,7 @@
 
 @media screen and (min-width: 840px) {
   .seContent {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 
     .singleDestination {
       height: auto;

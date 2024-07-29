@@ -117,7 +117,6 @@
 .main .seContent .singleDestination .cardInfo .continentlocation {
   gap: 0.5rem;
   border-top: 1.5px solid var(--greyText);
-  border-bottom: 1.5px solid var(--greyText);
 }
 
 .main .seContent .singleDestination .cardInfo .continentlocation .icon {
@@ -167,8 +166,8 @@
     width: 155px !important;
   }
   .seContent {
-    -ms-grid-columns: (1fr)[3];
-        grid-template-columns: repeat(3, 1fr);
+    -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr);
   }
   .seContent .singleDestination {
     height: auto;
@@ -177,8 +176,8 @@
 
 @media screen and (min-width: 840px) {
   .seContent {
-    -ms-grid-columns: (1fr)[4];
-        grid-template-columns: repeat(4, 1fr);
+    -ms-grid-columns: (1fr)[3];
+        grid-template-columns: repeat(3, 1fr);
   }
   .seContent .singleDestination {
     height: auto;
