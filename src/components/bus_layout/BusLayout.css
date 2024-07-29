@@ -17,7 +17,7 @@
 }
 
 .busLayout {
-  width: 800px;
+  width: auto;
   margin: auto;
   text-align: center;
   padding-top: 6rem;
@@ -39,7 +39,7 @@
           box-sizing: border-box;
   padding: 10px;
   text-align: left;
-  width: 100%;
+  width: 700px;
   margin: auto;
 }
 
@@ -51,7 +51,6 @@
       grid-template-columns: repeat(13, 1fr);
   -ms-grid-rows: (50px)[5];
       grid-template-rows: repeat(5, 50px);
-  gap: 10px;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -667,5 +666,39 @@
   border: none;
   color: #fff;
   margin: 0 0.5rem;
+}
+
+@media screen and (max-width: 700px) {
+  .busLayout {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .busLayout .busSeat {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+    max-height: 350px;
+    margin-top: 12rem;
+    margin-bottom: 12rem;
+    width: 575px;
+  }
+  .busLayout .busSeat .seatsContainer {
+    gap: 10px;
+  }
+  .busLayout .busSeat .seatsContainerVip {
+    -webkit-column-gap: 3px;
+            column-gap: 3px;
+    row-gap: 3px;
+  }
 }
 /*# sourceMappingURL=BusLayout.css.map */

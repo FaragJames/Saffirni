@@ -134,7 +134,7 @@ export default function Bill() {
             <button className="btn" onClick={() => navigate(-1)}>
                 العودة
             </button>
-            <button className="btn" onClick={handleReservationSubmit}>
+            <button className="btnG btn" onClick={handleReservationSubmit}>
                 تثبيت الحجز
             </button>
         </div>
