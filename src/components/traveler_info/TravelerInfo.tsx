@@ -301,7 +301,7 @@ export default function TravelerInfo() {
                     ))}
 
                     <div className="buttonContainer">
-                        <button onClick={handleClearInputs}>مسح البيانات</button>
+                        <button className="btnR btn" onClick={handleClearInputs}>مسح البيانات</button>
                         <button
                             type="submit"
                             className="btn"

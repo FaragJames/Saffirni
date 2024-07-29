@@ -36,10 +36,10 @@ const MyTrips = () => {
     <Fragment>
       <div style={{ paddingTop: "80px" }}>
         <div style={{ margin: "2rem 2rem 1rem 2rem", textAlign: "center" }}>
-          <button className="btn" style={{ border: "none", color: "#fff", margin: "1rem 0.5rem" }}>
+          <button className="btn" style={{ border: "none", color: "#fff", margin: "1rem 0.5rem"}} >
             رحلاتي الحالية
           </button>
-          <button className="btn" style={{ border: "none", color: "#fff", margin: "1rem 0.5rem" }}>
+          <button className="btnR" style={{ border: "none", color: "#fff", margin: "1rem 0.5rem" }}>
             رحلاتي السابقة
           </button>
         </div>

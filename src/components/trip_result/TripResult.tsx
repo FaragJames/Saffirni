@@ -26,6 +26,13 @@ export default function TripResult(props: {
     return (
         <div className="flight-result">
             <div className="Hresult">
+                <p>اسم الشركة: {props.companyTrip.companyName}</p>
+                <p>نوع الرحلة: {props.companyTrip.busType}</p>
+                <p>من: {props.companyTrip.source}</p>
+                <p>إلى: {props.companyTrip.destination}</p>
+            </div>
+            
+            <div className="Hresult2" >
                 <p>
                     وقت الانطلاق:{" "}
                     {new Date(
@@ -54,14 +61,9 @@ export default function TripResult(props: {
                 </p>
                 <p>عدد المقاعد الكلية: {props.companyTrip.totalSeats}</p>
                 <p>عدد المقاعد المتبقية: {props.companyTrip.remainingSeats}</p>
-                <h5 className="price">{props.companyTrip.ticketPrice} S.P</h5>
             </div>
-            <div className="Hresult">
-                <p>اسم الشركة: {props.companyTrip.companyName}</p>
-                <p>نوع الرحلة: {props.companyTrip.busType}</p>
-                <p>من: {props.companyTrip.source}</p>
-                <p>إلى: {props.companyTrip.destination}</p>
-            </div>
+            
+            <h5  className="price">{props.companyTrip.ticketPrice} S.P</h5>
             <div className="imresalt">
                 <div className="imageDiv">
                     <img src={img} />
@@ -74,10 +76,10 @@ export default function TripResult(props: {
                     readOnly
                 />
                 <span>{props.companyTrip.companyRating}</span>
+               
             </div>
-            <div>
-                <button
-                    className="btn  flex"
+            <button
+                    className=" btnG btn1  flex"
                     onClick={() => {
                         if (!user) toast.error("يرجى تسجيل الدخول أولاً!");
                         else handleReserveClick("إلكتروني");
@@ -86,7 +88,7 @@ export default function TripResult(props: {
                     احجز و ادفع الآن
                 </button>
                 <button
-                    className="btn  flex"
+                    className="btnR btn2  flex"
                     onClick={() => {
                         if (!user) toast.error("يرجى تسجيل الدخول أولاً!");
                         else handleReserveClick("مكتب الكراج");
@@ -94,7 +96,6 @@ export default function TripResult(props: {
                 >
                     احجز الآن بدون دفع
                 </button>
-            </div>
         </div>
     );
 }

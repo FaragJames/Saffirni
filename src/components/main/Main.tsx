@@ -6,6 +6,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import ComImg from "../../assets/ComImg.png";
 import { GenericApiResponse } from "../../utilities/Types";
 import { apiClient } from "../../utilities/Axios";
 import { toast } from "react-toastify";
@@ -68,7 +69,7 @@ const Main = () => {
                                 className="singleDestination"
                             >
                                 <div className="imageDiv">
-                                    <img alt={companyInfo.name} />
+                                    <img src={ComImg} alt={companyInfo.name} />
                                 </div>
                                 <div className="cardInfo">
                                     <h4 className="desTital">
@@ -100,16 +101,19 @@ const Main = () => {
                                         <div
                                             className="rating"
                                             style={{
+                                                width:"100%",
                                                 marginTop: "0.5rem",
                                                 marginBottom: "-0.5rem",
-                                                justifyContent: "center",
-                                                alignContent: "center",
+                                                textAlign:"center",
+                                                borderTop:" 1.5px solid var(--greyText)"
+                                                
                                             }}
                                         >
                                             <Rating
                                                 name="read-only"
                                                 value={companyInfo.rating}
                                                 readOnly
+                                                size="large"
                                             />
                                         </div>
                                     </div>

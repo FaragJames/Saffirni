@@ -8,6 +8,9 @@
     --PrimeryColor: hsl(199, 100%, 33%);
     --SecenderyColor: hsl(187, 85%, 43%);
     --gradientColor: linear-gradient(to right, hsl(187, 85%, 43%), hsl(199, 100%, 33%));
+    --gradientRedColor: linear-gradient(to right, hsl(0, 96%, 53%), hsl(0, 100%, 33%));
+    --gradientGreenColor: linear-gradient(to right, hsl(115, 96%, 53%), hsl(115, 100%, 33%));
+
     --WhiteColor: hsl(0, 0%, 100%);
     --blackColor: hsl(201, 33%, 16%);
     --textColor: hsl(240, 4%, 36%);
@@ -24,8 +27,10 @@ html {
     scroll-behavior: smooth;
 }
 body{
+  
     font-family: "Cairo", sans-serif!important;
   font-optical-sizing: auto;
+  padding-right: 0px !important;
     /* font-family: "cairo",sans-serif */
 }
 
@@ -74,6 +79,42 @@ li {
     outline: none;
     cursor: pointer;
 }
+.btn {
+    padding: 0.6rem 1.5rem;
+    background: var(--gradientColor);
+    border-radius: 3rem;
+    border: none;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+}
+.btnR {
+    padding: 0.6rem 1.5rem;
+    background: var(--gradientRedColor);
+    border-radius: 3rem;
+    border: none;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+}
+.btnG {
+    padding: 0.6rem 1.5rem;
+    background: var(--gradientGreenColor);
+    border-radius: 3rem;
+    border: none;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+}
+.btnR a {
+    color: var(--WhiteColor);
+    font-weight: 500;
+}
+.btnG a {
+    color: var(--WhiteColor);
+    font-weight: 500;
+}
+
 
 .btn a {
     color: var(--WhiteColor);
@@ -82,6 +123,13 @@ li {
 
 .btn:hover {
     background: var(--SecenderyColor);
+}
+
+.btnR:hover {
+    background: hsl(0, 63%, 54%) ;
+}
+.btnG:hover {
+    background: hsl(115, 63%, 54%) ;
 }
 
 img,

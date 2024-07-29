@@ -57,11 +57,11 @@ export default function SeatsInput(props: {
                 className="numSeatsInput"
             />
             <div className="buttonContainer">
+            <button className="btn" onClick={() => navigate(-1)}>
+                    إلغاء
+                </button>
                 <button className="btn" onClick={handleNextClick}>
                     التالي
-                </button>
-                <button className="btn" onClick={() => navigate(-1)}>
-                    إلغاء
                 </button>
             </div>
         </div>
