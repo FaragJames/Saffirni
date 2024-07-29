@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ApiResponse, FilteredCompanyTrips, GenericApiResponse } from "../../utilities/Types";
 import { apiClient } from "../../utilities/Axios";
 import { toast } from "react-toastify";
+import toArabicDateTime from "../../utilities/ArabicDateTime";
 
 export default function Bill() {
     const location = useLocation().state;
@@ -98,9 +99,13 @@ export default function Bill() {
                 <p>نوع الرحلة: {companyTripState?.busType}</p>
                 <p>من: {companyTripState?.source}</p>
                 <p>إلى: {companyTripState?.destination}</p>
-                <p>وقت الانطلاق: {companyTripState?.expectedDepartTime}</p>
                 <p>
-                    وقت الوصول المتوقع: {companyTripState?.expectedArrivalTime}
+                    وقت الانطلاق:{" "}
+                    {toArabicDateTime(companyTripState?.expectedDepartTime)}
+                </p>
+                <p>
+                    وقت الوصول المتوقع:{" "}
+                    {toArabicDateTime(companyTripState?.expectedArrivalTime)}
                 </p>
                 <h5 className="price">{companyTripState?.ticketPrice} S.P</h5>
             </div>

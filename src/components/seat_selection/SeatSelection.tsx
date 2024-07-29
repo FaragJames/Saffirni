@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BusLayout from "../bus_layout/BusLayout";
 import SeatsInput from "../seats_input/SeatsInput";
 import { apiClient } from "../../utilities/Axios";
-import { GenericApiResponse } from "../../utilities/Types";
+import { GenericApiResponse, TemporaryReservationResponse } from "../../utilities/Types";
 import { UserContext } from "../../utilities/Contexts/UserContext";
 import { toast } from "react-toastify";
 import { useContext, useEffect, useState } from "react";
@@ -14,10 +14,6 @@ type TemporaryReservation = {
     paymentMethod: string;
     busType: string;
     seatsNumbers: number[];
-};
-export type TemporaryReservationResponse = {
-    reservationId: number;
-    seatIdToSeatNumber: Map<number, number>;
 };
 
 export type LocationPayload = {
@@ -71,7 +67,7 @@ export default function SeatSelection() {
         const temporaryReservation: TemporaryReservation = {
             reservationOwnerId: context.state.id as number,
             companyTripId: locationData.companyTripId,
-            reservationSource: "الموقع",
+            reservationSource: "موقع الويب",
             paymentMethod: locationData.paymentMethod,
             busType: locationData.busType,
             seatsNumbers: seatsNumbers,

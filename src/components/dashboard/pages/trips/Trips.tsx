@@ -2,11 +2,11 @@ import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Header from "../../dashboard_components/Header";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import dayjs from "dayjs";
 import { GenericApiResponse } from "../../../../utilities/Types";
 import { useEffect, useState } from "react";
 import { apiClient } from "../../../../utilities/Axios";
 import { toast } from "react-toastify";
+import toArabicDateTime from "../../../../utilities/ArabicDateTime";
 
 type DashboardCompanyTrips = {
     id: number;
@@ -18,10 +18,10 @@ type DashboardCompanyTrips = {
     totalSeats: number;
     remainingSeats: number;
     ticketPrice: number;
-    expectedDepartTime: Date;
-    expectedArrivalTime: Date;
-    actualDepartTime: Date | null;
-    actualArrivalTime: Date | null;
+    expectedDepartTime: string;
+    expectedArrivalTime: string;
+    actualDepartTime: string | null;
+    actualArrivalTime: string | null;
     isActive: boolean;
 };
 
@@ -44,16 +44,18 @@ export default function Trips() {
                     
                     setDataState(
                         tmp.map((value) => {
-                            value.actualArrivalTime = dayjs(value.actualArrivalTime).toDate()
-                            value.actualDepartTime = dayjs(
+                            value.actualArrivalTime = toArabicDateTime(
+                                value.actualArrivalTime
+                            );
+                            value.actualDepartTime = toArabicDateTime(
                                 value.actualDepartTime
-                            ).toDate();
-                            value.expectedArrivalTime = dayjs(
+                            )
+                            value.expectedArrivalTime = toArabicDateTime(
                                 value.expectedArrivalTime
-                            ).toDate();
-                            value.expectedDepartTime = dayjs(
+                            )
+                            value.expectedDepartTime = toArabicDateTime(
                                 value.expectedDepartTime
-                            ).toDate();
+                            )
                             return value;
                         })
                     );
@@ -109,28 +111,24 @@ export default function Trips() {
             headerName: "وقت الإنطلاق المتوقع",
             width: 200,
             editable: false,
-            type: "dateTime",
         },
         {
             field: "actualDepartTime",
             headerName: "وقت الوصول المتوقع",
             width: 200,
             editable: false,
-            type: "dateTime",
         },
         {
             field: "expectedArrivalTime",
             headerName: "وقت الإنطلاق الفعلي",
             width: 200,
             editable: false,
-            type: "dateTime",
         },
         {
             field: "actualArrivalTime",
             headerName: "وقت الوصول الفعلي",
             width: 200,
             editable: false,
-            type: "dateTime",
         },
         {
             field: "isActive",

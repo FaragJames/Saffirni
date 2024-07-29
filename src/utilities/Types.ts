@@ -31,6 +31,11 @@ export type FilteredCompanyTrips = {
     ticketPrice: number;
     expectedDepartTime: string;
     expectedArrivalTime: string;
-    actualDepartTime: string;
-    actualArrivalTime: string;
+    actualDepartTime: string | null;
+    actualArrivalTime: string | null;
+};
+
+export type TemporaryReservationResponse = {
+    reservationId: number;
+    seatIdToSeatNumber: Map<number, number>;
 };

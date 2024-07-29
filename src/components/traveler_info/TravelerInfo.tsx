@@ -4,11 +4,10 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./TravelerInfo.css";
-import { TemporaryReservationResponse } from "../seat_selection/SeatSelection";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { apiClient } from "../../utilities/Axios";
-import { GenericApiResponse } from "../../utilities/Types";
+import { GenericApiResponse, TemporaryReservationResponse } from "../../utilities/Types";
 import { toast } from "react-toastify";
 
 class TravelerData {
@@ -34,6 +33,13 @@ export default function TravelerInfo() {
     const navigate = useNavigate();
     const locationState = useLocation().state;
     const locationData = locationState ? locationState as TemporaryReservationResponse : null;
+
+    useEffect(() => {
+        if(!locationData) {
+            toast.error("الرجاء اختيار رحلة و تثبيتها مؤقتاً!")
+            navigate("/")
+        }
+    }, [locationData, navigate])
 
     let seatIdToSeatNumber: Map<number, number> | undefined = undefined;
     if(locationData)
@@ -95,9 +101,6 @@ export default function TravelerInfo() {
             navigate("/Trip/Bill", { state: { billItems: billItems, reservationId: locationData?.reservationId }})
         },
     });
-
-    if(!locationData)
-        return;
 
     async function handleOnBlur(
         e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,

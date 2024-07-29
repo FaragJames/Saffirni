@@ -7,6 +7,7 @@ import { LocationPayload } from "../seat_selection/SeatSelection";
 import { UserContext } from "../../utilities/Contexts/UserContext";
 import { useContext } from "react";
 import { toast } from "react-toastify";
+import toArabicDateTime from "../../utilities/ArabicDateTime";
 
 export default function TripResult(props: {
     companyTrip: FilteredCompanyTrips;
@@ -28,29 +29,11 @@ export default function TripResult(props: {
             <div className="Hresult">
                 <p>
                     وقت الانطلاق:{" "}
-                    {new Date(
-                        props.companyTrip.expectedDepartTime
-                    ).toLocaleString("ar", {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: false,
-                    })}
+                    {toArabicDateTime(props.companyTrip.expectedDepartTime)}
                 </p>
                 <p>
                     وقت الوصول المتوقع:{" "}
-                    {new Date(
-                        props.companyTrip.expectedArrivalTime
-                    ).toLocaleString("ar", {
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: false,
-                    })}
+                    {toArabicDateTime(props.companyTrip.expectedArrivalTime)}
                 </p>
                 <p>عدد المقاعد الكلية: {props.companyTrip.totalSeats}</p>
                 <p>عدد المقاعد المتبقية: {props.companyTrip.remainingSeats}</p>

@@ -199,8 +199,8 @@ export default function SearchFilters(props: {
                         sx={{ direction: "ltr" }}
                         name="simple-controlled"
                         defaultValue={0}
-                        onChange={(e, value) => {
-                            props.rating.current = value as number;
+                        onChange={(_, value) => {
+                            props.rating.current = value ? value : 0;
                             refilterCompanyTrips();
                         }}
                     />
