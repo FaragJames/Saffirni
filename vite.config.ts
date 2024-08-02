@@ -7,6 +7,6 @@ export default defineConfig({
     base: "/App",
     server: {
         open: "/",
+        //host: true
     },
-    // server: { host: true },
 });

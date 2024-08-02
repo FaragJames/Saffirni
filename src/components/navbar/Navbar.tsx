@@ -108,7 +108,7 @@ export default function Navbar() {
                                         style={{ marginLeft: "1rem" }}
                                         {...stringAvatar(
                                             user.firstName as string,
-                                            user.lastName as string
+                                            user.lastName as string,
                                         )}
                                     />
                                 </Button>

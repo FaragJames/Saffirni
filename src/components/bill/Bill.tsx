@@ -50,9 +50,9 @@ export default function Bill() {
                 createUsersResponse = (
                     await apiClient.post<ApiResponse>("/API/User/CreateUsers", requestBody)
                 ).data;
-                if(createUsersResponse.isSuccess){
+                if(createUsersResponse.isSuccess) {
                     if(createUsersResponse.message)
-                    toast.success(createUsersResponse.message);
+                        toast.success(createUsersResponse.message);
                 }
                 else {
                     createUsersResponse.errors?.forEach((error) => toast.error(error));
