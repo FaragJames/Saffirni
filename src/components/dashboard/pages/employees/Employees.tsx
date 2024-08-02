@@ -37,6 +37,34 @@ const columns = [
         width: 250,
         editable: false,
     },
+    {
+        field: "ُEditeEmployee",
+        headerName: "تعديل موظف",
+        width: 150,
+        renderCell: (params) => (
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => handleViewSeats(params.row.id)}
+          >
+            تعديل {" "}
+          </Button>
+        ),
+      },
+      {
+        field: "DeletEmployee",
+        headerName: "حذف موظف ",
+        width: 150,
+        renderCell: (params) => (
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => handleViewSeats(params.row.id)}
+          >
+            حذف {" "}
+          </Button>
+        ),
+      },
 ];
 
 const rows = [

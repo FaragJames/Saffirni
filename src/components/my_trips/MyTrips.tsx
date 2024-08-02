@@ -72,7 +72,7 @@ export default function MyTrips() {
                         رحلاتي الحالية
                     </button>
                     <button
-                        className="btn"
+                        className="btnR"
                         style={{
                             border: "none",
                             color: "#fff",
@@ -83,6 +83,7 @@ export default function MyTrips() {
                         رحلاتي السابقة
                     </button>
                 </div>
+                <div style={{justifyContent:"center"}}>
                 {userReservationsState?.map((userReservation) => (
                     <OneTrip
                         key={userReservation.reservationId}
@@ -91,6 +92,8 @@ export default function MyTrips() {
                         setUserReservationsState={setUserReservationsState}
                     />
                 ))}
+                </div>
+              
             </div>
         </Fragment>
     );

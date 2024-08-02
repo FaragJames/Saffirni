@@ -195,7 +195,7 @@ export default function OneTrip({
                 <div className="imageDiv">
                     <img src={img} alt="Trip" />
                 </div>
-                <div>
+                <div style={{marginLeft:"-7rem"}}>
                     <IconButton
                         aria-label="more"
                         aria-controls="long-menu"
@@ -264,7 +264,7 @@ export default function OneTrip({
                         <DialogContent>
                             {dialogContent === DialogType.TripDetails && (
                                 <div>
-                                    <Typography>تفاصيل الرحلة:</Typography>
+                                    <Typography sx={{fontSize:"25px", fontWeight:"700"}}>تفاصيل الرحلة:</Typography>
                                     <p>
                                         اسم الشركة:{" "}
                                         {tripInfoRef.current?.companyName}
@@ -322,7 +322,7 @@ export default function OneTrip({
                             {dialogContent ===
                                 DialogType.ReservationDetails && (
                                 <div>
-                                    <Typography>تفاصيل الحجز:</Typography>
+                                    <Typography sx={{fontSize:"25px", fontWeight:"700"}}>تفاصيل الحجز:</Typography>
                                     <p>
                                         صاحب الحجز:{" "}
                                         {
@@ -363,7 +363,7 @@ export default function OneTrip({
                             )}
                             {dialogContent === DialogType.SetReview && (
                                 <div>
-                                    <Typography>إضافة تعليق:</Typography>
+                                    <Typography sx={{fontSize:"25px", fontWeight:"700"}}>إضافة تعليق:</Typography>
                                     <TextField
                                         label="تعليق"
                                         multiline
@@ -415,13 +415,13 @@ export default function OneTrip({
                             )}
                             {dialogContent === DialogType.CancelReservation && (
                                 <div>
-                                    <Typography>
+                                    <Typography sx={{fontSize:"25px", fontWeight:"700"}}>
                                         هل أنت متأكد من إلغاء الحجز؟
                                     </Typography>
-                                    <Button onClick={handleDeleteClick}>
+                                    <Button sx={{fontSize:"15px", fontWeight:"700", color:"red"}} onClick={handleDeleteClick}>
                                         نعم
                                     </Button>
-                                    <Button onClick={() => setOpen(false)}>
+                                    <Button sx={{fontSize:"15px", fontWeight:"700"}} onClick={() => setOpen(false)}>
                                         لا
                                     </Button>
                                 </div>

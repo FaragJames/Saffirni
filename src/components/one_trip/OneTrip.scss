@@ -17,16 +17,21 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: fit-content;
+    max-width: 900px;
     border: 1px solid #ccc;
-    padding: 2rem 5rem;
+    border-radius: 25px;
+    margin: 0.5rem auto;
+    gap: 5rem;
+    padding: 2rem 3rem;
+
+
     .imresalt {
       position: relative;
+      display: flex;
       width: 20%;
       min-width: 10rem;
-      align-items: center;
-      text-align: center;
-      padding-top: 2rem;
-  
+
       .imageDiv {
         height: 100px;
         width: 100%;
@@ -71,7 +76,6 @@
       }
   
       .btn {
-        margin-left: 3rem;
         align-items: center;
         color: var(--WhiteColor);
         font-weight: 700;
@@ -88,15 +92,6 @@
       display: flex;
       align-items: center;
       flex-direction: column-reverse;
-    }
-  }
-  @media screen and (max-width: 700px) {
-    .trip-result {
-      padding: 2rem 3rem;
-    }
-  }
-  @media screen and (min-width: 900px) {
-    .trip-result {
-      padding: 2rem 7rem;
+      gap: 1rem;
     }
   }
