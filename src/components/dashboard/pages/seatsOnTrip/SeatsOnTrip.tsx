@@ -8,19 +8,19 @@ const columns = [
     {
         field: "seatNumber",
         headerName: "رقم المقعد",
-        width: 150,
+        width: 90,
         editable: false,
     },
     {
         field: "seatStatus",
         headerName: "حالة المقعد",
-        width: 150,
+        width: 100,
         editable: false,
     },
     {
         field: "travelerName",
         headerName: "اسم المسافر",
-        width: 200,
+        width: 100,
         editable: false,
     },
     {
@@ -32,11 +32,39 @@ const columns = [
     {
         field: "rating",
         headerName: "التقييم",
-        width: 150,
+        width: 50,
         editable: false,
         type: "number",
     },
-    { field: "comment", headerName: "تعليق", width: 300, editable: false },
+    { field: "comment", headerName: "تعليق", width: 200, editable: false },
+    {
+        field: "ُEditeseat",
+        headerName: "تعديل معلومات المسافر",
+        width: 150,
+        renderCell: (params) => (
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => navigate("/dashboard/addtraveler")}
+            >
+            تعديل {" "}
+          </Button>
+        ),
+      },
+      {
+        field: "DeletSeat",
+        headerName: "حذف معلومات المسافر ",
+        width: 150,
+        renderCell: (params) => (
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => handleViewSeats(params.row.id)}
+          >
+            حذف {" "}
+          </Button>
+        ),
+      },
 ];
 
 const rows = [
@@ -49,7 +77,6 @@ const rows = [
         rating: 4,
         comment: "جيد",
     },
-    // أضف المزيد من البيانات التجريبية هنا
 ];
 
 const SeatsOnTrip = () => {

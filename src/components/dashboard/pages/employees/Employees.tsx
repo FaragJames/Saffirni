@@ -16,7 +16,6 @@ type DashboardEmployeeInfo = {
     phoneNumber: string;
 };
 
-
 export default function Employees() {
     const navigate = useNavigate();
     const [employeesState, setEmployeesState] =

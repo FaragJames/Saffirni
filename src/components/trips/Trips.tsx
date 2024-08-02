@@ -84,7 +84,7 @@ export default function Trips() {
                     direction: "ltr",
                     alignItems: "start",
                     flexWrap: "wrap",
-                    justifyContent: "center",
+                    justifyContent: "space-between",
                 }}
             >
                 <div
@@ -104,14 +104,22 @@ export default function Trips() {
                     />
                 </div>
 
-                <div style={{ direction: "rtl"}}>
-                    <ul id="SearchTrip">
+                <div style={{ direction: "rtl" , margin:"auto"}}>
+                    {!filteredCompanyTrips || filteredCompanyTrips.length === 0 ? (
+                        <div style={
+                        {marginRight:"3rem",marginTop:"5rem" , fontSize:"20px", fontWeight:"700"}
+                        }>
+                            لا توجد أية نتائج!
+                        </div>
+                    ) : (
+                        <ul id="SearchTrip">
                         {filteredCompanyTrips?.map((companyTrip) => (
                             <li key={companyTrip.companyTripId}>
                                 <TripResult companyTrip={companyTrip} />
                             </li>
                         ))}
                     </ul>
+                    )}
                 </div>
             </div>
         </>
