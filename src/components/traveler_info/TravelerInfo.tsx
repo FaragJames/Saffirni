@@ -351,7 +351,7 @@ export default function TravelerInfo() {
                         justifyContent: "center",
                         alignItems: "center",
                         backgroundColor: "rgba(0, 0, 0, 0.5)",
-                        zIndex: 100,
+                        zIndex: 10000,
                     }}
                 >
                     <CircularProgress />
