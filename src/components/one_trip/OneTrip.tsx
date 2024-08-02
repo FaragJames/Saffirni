@@ -146,6 +146,7 @@ export default function OneTrip({
 
             if (apiResponse.isSuccess) {
                 if (apiResponse.message) toast.success(apiResponse.message);
+                location.reload();
             } else {
                 apiResponse.errors?.forEach((error) => toast.error(error));
                 setOpen(false);
