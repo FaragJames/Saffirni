@@ -8,32 +8,84 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import Header from "../../dashboard_components/Header";
+import { useContext } from "react";
+import { EmployeeContext } from "../../../../utilities/Contexts/EmployeeContext";
+import { apiClient } from "../../../../utilities/Axios";
+import { ApiResponse } from "../../../../utilities/Types";
+import { toast } from "react-toastify";
 
-const Contacts = () => {
+type EmployeeInfo = {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+};
+type EmployeeInfoShape = {
+    [P in keyof EmployeeInfo]: Yup.StringSchema;
+};
+
+export default function AddEmployee() {
+    const context = useContext(EmployeeContext);
     const navigate = useNavigate();
 
-    const validationSchema = Yup.object().shape({
+    const validationShape: EmployeeInfoShape = {
         firstName: Yup.string().required("*الاسم الأول مطلوب"),
         lastName: Yup.string().required("*الكنية مطلوبة"),
-        PhoneNumber: Yup.string()
+        phoneNumber: Yup.string()
             .matches(
-                /^09\d{8}$/,
-                "رقم الجوال يجب أن يبدأ ب09 ويتكون من 10 أرقام"
+                /^09[3,4,5,6,8,9]\d{7}$/,
+                "*رقم الموبايل يجب أن يبدأ ب09 ويتكون من 10 أرقام"
             )
-            .required("رقم الهاتف مطلوب"),
+            .required("*رقم الموبايل مطلوب"),
+        email: Yup.string()
+            .email("*البريد الإلكتروني غير صالح")
+            .required("*البريد الإلكتروني مطلوب"),
         password: Yup.string()
             .min(6, "*كلمة السر يجب أن تتكون على الأقل من 6 محارف")
             .required("*كلمة السر مطلوبة"),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref("password")], "*كلمة السر غير متطابقة")
             .required("*تأكيد كلمة السر مطلوب"),
-    });
-
-    const handleSubmit = (values) => {
-        // You can handle the form submission here
-        console.log(values);
-        navigate("/dashboard/employees");
     };
+    const validationSchema = Yup.object().shape(validationShape);
+    const initialValue: EmployeeInfo = {
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    };
+
+    async function handleSubmit(values: EmployeeInfo) {
+        try {
+            const apiResponse = (
+                await apiClient.post<ApiResponse>("/Security/Account/SignUp/Employee", {
+                    employee: {
+                        companyId: context.state.companyId,
+                        firstName: values.firstName,
+                        lastName: values.lastName,
+                        phoneNumber: values.phoneNumber,
+                    },
+                    email: values.email,
+                    password: values.password
+                })
+            ).data;
+
+            if(apiResponse.isSuccess) {
+                if(apiResponse.message)
+                    toast.success(apiResponse.message);
+
+                navigate("/Company/Dashboard/Employees");
+            }
+            else
+                apiResponse.errors?.forEach(error => toast.error(error))
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -49,13 +101,7 @@ const Contacts = () => {
             >
                 <Header title="إضافة موظف جديد" subTitle="معلومات الموظف" />
                 <Formik
-                    initialValues={{
-                        firstName: "",
-                        lastName: "",
-                        PhoneNumber: "",
-                        password: "",
-                        confirmPassword: "",
-                    }}
+                    initialValues={initialValue}
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
@@ -66,27 +112,6 @@ const Contacts = () => {
                                 container
                                 spacing={2}
                             >
-                                <Grid
-                                    style={{ direction: "ltr" }}
-                                    item
-                                    xs={12}
-                                    sm={6}
-                                >
-                                    <Field
-                                        as={TextField}
-                                        name="firstName"
-                                        variant="outlined"
-                                        fullWidth
-                                        label="الاسم"
-                                        error={
-                                            touched.firstName &&
-                                            Boolean(errors.firstName)
-                                        }
-                                        helperText={
-                                            <ErrorMessage name="firstName" />
-                                        }
-                                    />
-                                </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <Field
                                         as={TextField}
@@ -103,20 +128,58 @@ const Contacts = () => {
                                         }
                                     />
                                 </Grid>
+                                <Grid
+                                    style={{ direction: "ltr" }}
+                                    item
+                                    xs={12}
+                                    sm={6}
+                                >
+                                    <Field
+                                        as={TextField}
+                                        name="firstName"
+                                        variant="outlined"
+                                        fullWidth
+                                        label="الاسم الأول"
+                                        error={
+                                            touched.firstName &&
+                                            Boolean(errors.firstName)
+                                        }
+                                        helperText={
+                                            <ErrorMessage name="firstName" />
+                                        }
+                                    />
+                                </Grid>
 
                                 <Grid item xs={12}>
                                     <Field
                                         as={TextField}
-                                        name="PhoneNumber"
+                                        name="phoneNumber"
                                         variant="outlined"
                                         fullWidth
-                                        label="رقم الجوال"
+                                        label="رقم الموبايل"
                                         error={
-                                            touched.PhoneNumber &&
-                                            Boolean(errors.PhoneNumber)
+                                            touched.phoneNumber &&
+                                            Boolean(errors.phoneNumber)
                                         }
                                         helperText={
-                                            <ErrorMessage name="PhoneNumber" />
+                                            <ErrorMessage name="phoneNumber" />
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Field
+                                        as={TextField}
+                                        name="email"
+                                        variant="outlined"
+                                        fullWidth
+                                        label="البريد الإلكتروني"
+                                        type="email"
+                                        error={
+                                            touched.email &&
+                                            Boolean(errors.email)
+                                        }
+                                        helperText={
+                                            <ErrorMessage name="email" />
                                         }
                                     />
                                 </Grid>
@@ -169,6 +232,4 @@ const Contacts = () => {
             </Box>
         </Container>
     );
-};
-
-export default Contacts;
+}

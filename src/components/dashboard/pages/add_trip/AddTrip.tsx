@@ -64,7 +64,7 @@ export default function AddTrip() {
     }, []);
 
     const validationSchema = Yup.object().shape({
-        SourceBusStationId: Yup.string().required("*نقطة الإنطلاق مطلوبة"),
+        SourceBusStationId: Yup.string().required("*نقطة الانطلاق مطلوبة"),
         DestinationBusStationId: Yup.string()
             .required("*الوجهة مطلوبة")
             .test(
@@ -140,7 +140,7 @@ export default function AddTrip() {
         ExpectedArrivalTime: "",
         TicketPrice: 0,
         BusId: 0,
-        DriverId: 0,
+        DriverId: 0,    
         IsActive: "",
     };
 
