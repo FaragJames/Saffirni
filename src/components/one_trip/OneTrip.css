@@ -22,19 +22,24 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 900px;
   border: 1px solid #ccc;
-  padding: 2rem 5rem;
+  border-radius: 25px;
+  margin: 0.5rem auto;
+  gap: 5rem;
+  padding: 2rem 3rem;
 }
 
 .trip-result .imresalt {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   width: 20%;
   min-width: 10rem;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  text-align: center;
-  padding-top: 2rem;
 }
 
 .trip-result .imresalt .imageDiv {
@@ -89,7 +94,6 @@
 }
 
 .trip-result .Hresult .btn {
-  margin-left: 3rem;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -115,18 +119,7 @@
     -webkit-box-direction: reverse;
         -ms-flex-direction: column-reverse;
             flex-direction: column-reverse;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .trip-result {
-    padding: 2rem 3rem;
-  }
-}
-
-@media screen and (min-width: 900px) {
-  .trip-result {
-    padding: 2rem 7rem;
+    gap: 1rem;
   }
 }
 /*# sourceMappingURL=OneTrip.css.map */

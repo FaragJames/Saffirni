@@ -29,6 +29,34 @@ const columns = [
         width: 150,
         editable: false,
     },
+    {
+        field: "ُEditeBuses",
+        headerName: "تعديل باص",
+        width: 150,
+        renderCell: (params) => (
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => handleViewSeats(params.row.id)}
+          >
+            تعديل {" "}
+          </Button>
+        ),
+      },
+      {
+        field: "DeletBuses",
+        headerName: "حذف باص ",
+        width: 150,
+        renderCell: (params) => (
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => handleViewSeats(params.row.id)}
+          >
+            حذف {" "}
+          </Button>
+        ),
+      },
 ];
 
 const rows = [
