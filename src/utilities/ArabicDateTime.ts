@@ -1,7 +1,7 @@
 export default function toArabicDateTime(date: string | null | undefined): string {
     
 
-    return date ? new Date(date).toLocaleString("ar", {
+    return date ? new Date(date).toLocaleString("ar-SY", {
                         year: "numeric",
                         month: "2-digit",
                         day: "2-digit",
