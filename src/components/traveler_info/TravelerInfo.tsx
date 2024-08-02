@@ -7,16 +7,16 @@ import "./TravelerInfo.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useEffect, useState } from "react";
 import { apiClient } from "../../utilities/Axios";
-import { GenericApiResponse, TemporaryReservationResponse } from "../../utilities/Types";
+import { ApiResponse, TemporaryReservationResponse } from "../../utilities/Types";
 import { toast } from "react-toastify";
 
 class TravelerData {
     public constructor(
-        public firstName: string = "",
-        public fatherName: string = "",
-        public lastName: string = "",
+        public firstName: string = "empty",
+        public fatherName: string = "empty",
+        public lastName: string = "empty",
         public nationalId: string = "",
-        public phoneNumber: string = "",
+        public phoneNumber: string = "0999999999"
     ) {}
 }
 type TravelerDataShape = {
@@ -53,9 +53,9 @@ export default function TravelerInfo() {
     const [readonlyNationalIdState, setReadonlyNationalIdState] = useState<Array<boolean>>(
         new Array<boolean>(seatIdToSeatNumber?.size ?? 0).fill(false)
     );
-    const [foundUsersState, setFoundUsersState] = useState<Array<boolean>>(
-        new Array<boolean>(seatIdToSeatNumber?.size ?? 0).fill(true)
-    );
+    const [foundUsersState, setFoundUsersState] = useState<
+        Array<boolean | undefined>
+    >(new Array<boolean | undefined>(seatIdToSeatNumber?.size ?? 0).fill(undefined));
     const [loaderState, setLoaderState] = useState<boolean>(false);
 
     const seatsIds: number[] = [],
@@ -90,15 +90,23 @@ export default function TravelerInfo() {
         ),
         validationSchema,
         onSubmit: (values) => {
-            const billItems: BillItem[] = values.map<BillItem>((value, index) => {
-                return {
-                    travelerData: value,
-                    seatId: seatsIds[index],
-                    seatNumber: seatsNumber[index],
-                    createUser: !foundUsersState[index]
+
+            const billItems: BillItem[] = []
+            values.forEach((value, index) => {
+                if(typeof foundUsersState[index] === typeof undefined) {
+                    toast.error(`الرجاء التحقق من وجود المستخدم ذو الرقم الوطني ${value.nationalId}`)
+                    return;
                 }
-            });
-            navigate("/Trip/Bill", { state: { billItems: billItems, reservationId: locationData?.reservationId }})
+
+                billItems.push({
+                        travelerData: value,
+                        seatId: seatsIds[index],
+                        seatNumber: seatsNumber[index],
+                        createUser: !foundUsersState[index],
+                })
+            })
+            if(billItems.length === values.length)
+                navigate("/Trip/Bill", { state: { billItems: billItems, reservationId: locationData?.reservationId }})
         },
     });
 
@@ -111,23 +119,29 @@ export default function TravelerInfo() {
         ) {
             try {
                 setLoaderState(true);
-                const response = await apiClient.post<
-                    GenericApiResponse<TravelerData>
-                >("/API/User/ContainsUser?fullInfo=true", {
+                const response = await apiClient.post<ApiResponse
+                >("/API/User/ContainsUser", {
                     nationalId: e.currentTarget.value,
                 });
                 const apiResponse = response.data;
 
                 if(apiResponse.isSuccess) {
                     toast.success("تم العثور على المستخدم ذو الرقم الوطني المدخل.")
-                    formik.values[index] = apiResponse.payload as TravelerData;
-
+                    
                     const tmpReadonlyId = [...readonlyNationalIdState];
                     tmpReadonlyId[index] = true;
                     setReadonlyNationalIdState(tmpReadonlyId);
+                    
+                    const tmpFoundUsers = [...foundUsersState];
+                    tmpFoundUsers[index] = true;
+                    setFoundUsersState(tmpFoundUsers);
                 }
                 else if (response.status === 404) {
                     toast.info("لم يتم العثور على المستخدم! الرجاء إدخال المعلومات اللازمة.")
+                    formik.values[index].firstName = "";
+                    formik.values[index].fatherName = "";
+                    formik.values[index].lastName = "";
+                    formik.values[index].phoneNumber = "";
 
                     const tmpReadonlyId = [...readonlyNationalIdState];
                     tmpReadonlyId[index] = true;
@@ -198,7 +212,7 @@ export default function TravelerInfo() {
                                         formik.errors[index]?.nationalId
                                     }
                                 />
-                                {!foundUsersState[index] && (
+                                {foundUsersState[index] === false && (
                                     <>
                                         <TextField
                                             required
@@ -304,7 +318,12 @@ export default function TravelerInfo() {
                     ))}
 
                     <div className="buttonContainer">
-                        <button className="btnR btn" onClick={handleClearInputs}>مسح البيانات</button>
+                        <button
+                            className="btnR btn"
+                            onClick={handleClearInputs}
+                        >
+                            مسح البيانات
+                        </button>
                         <button
                             type="submit"
                             className="btn"
