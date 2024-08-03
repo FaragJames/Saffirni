@@ -1,38 +1,46 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import Header from "../../dashboard_components/Header";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { useNavigate } from "react-router-dom";
-import Header from "../../dashboard_components/Header";
+import { EmployeeInfo, EmployeeInfoShape } from "./EmployeeSectionTypes";
 
-const Contacts = () => {
-    const navigate = useNavigate();
-
-    const validationSchema = Yup.object().shape({
+export default function EmployeeForm(props: {
+    handleSubmit(values: EmployeeInfo): Promise<void>;
+    buttonLabel: string
+}) {
+    const validationShape: EmployeeInfoShape = {
         firstName: Yup.string().required("*الاسم الأول مطلوب"),
         lastName: Yup.string().required("*الكنية مطلوبة"),
-        PhoneNumber: Yup.string()
+        phoneNumber: Yup.string()
             .matches(
-                /^09\d{8}$/,
-                "رقم الجوال يجب أن يبدأ ب09 ويتكون من 10 أرقام"
+                /^09[3,4,5,6,8,9]\d{7}$/,
+                "*رقم الموبايل يجب أن يبدأ ب09 ويتكون من 10 أرقام"
             )
-            .required("رقم الهاتف مطلوب"),
+            .required("*رقم الموبايل مطلوب"),
+        email: Yup.string()
+            .email("*البريد الإلكتروني غير صالح")
+            .required("*البريد الإلكتروني مطلوب"),
         password: Yup.string()
             .min(6, "*كلمة السر يجب أن تتكون على الأقل من 6 محارف")
             .required("*كلمة السر مطلوبة"),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref("password")], "*كلمة السر غير متطابقة")
             .required("*تأكيد كلمة السر مطلوب"),
-    });
+    };
+    const validationSchema = Yup.object().shape(validationShape);
 
-    const handleSubmit = (values) => {
-        // You can handle the form submission here
-        console.log(values);
-        navigate("/dashboard/employees");
+    const initialValue: EmployeeInfo = {
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
     };
 
     return (
@@ -49,15 +57,9 @@ const Contacts = () => {
             >
                 <Header title="إضافة موظف جديد" subTitle="معلومات الموظف" />
                 <Formik
-                    initialValues={{
-                        firstName: "",
-                        lastName: "",
-                        PhoneNumber: "",
-                        password: "",
-                        confirmPassword: "",
-                    }}
+                    initialValues={initialValue}
                     validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
+                    onSubmit={props.handleSubmit}
                 >
                     {({ errors, touched }) => (
                         <Form>
@@ -66,27 +68,6 @@ const Contacts = () => {
                                 container
                                 spacing={2}
                             >
-                                <Grid
-                                    style={{ direction: "ltr" }}
-                                    item
-                                    xs={12}
-                                    sm={6}
-                                >
-                                    <Field
-                                        as={TextField}
-                                        name="firstName"
-                                        variant="outlined"
-                                        fullWidth
-                                        label="الاسم"
-                                        error={
-                                            touched.firstName &&
-                                            Boolean(errors.firstName)
-                                        }
-                                        helperText={
-                                            <ErrorMessage name="firstName" />
-                                        }
-                                    />
-                                </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <Field
                                         as={TextField}
@@ -103,20 +84,58 @@ const Contacts = () => {
                                         }
                                     />
                                 </Grid>
+                                <Grid
+                                    style={{ direction: "ltr" }}
+                                    item
+                                    xs={12}
+                                    sm={6}
+                                >
+                                    <Field
+                                        as={TextField}
+                                        name="firstName"
+                                        variant="outlined"
+                                        fullWidth
+                                        label="الاسم الأول"
+                                        error={
+                                            touched.firstName &&
+                                            Boolean(errors.firstName)
+                                        }
+                                        helperText={
+                                            <ErrorMessage name="firstName" />
+                                        }
+                                    />
+                                </Grid>
 
                                 <Grid item xs={12}>
                                     <Field
                                         as={TextField}
-                                        name="PhoneNumber"
+                                        name="phoneNumber"
                                         variant="outlined"
                                         fullWidth
-                                        label="رقم الجوال"
+                                        label="رقم الموبايل"
                                         error={
-                                            touched.PhoneNumber &&
-                                            Boolean(errors.PhoneNumber)
+                                            touched.phoneNumber &&
+                                            Boolean(errors.phoneNumber)
                                         }
                                         helperText={
-                                            <ErrorMessage name="PhoneNumber" />
+                                            <ErrorMessage name="phoneNumber" />
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Field
+                                        as={TextField}
+                                        name="email"
+                                        variant="outlined"
+                                        fullWidth
+                                        label="البريد الإلكتروني"
+                                        type="email"
+                                        error={
+                                            touched.email &&
+                                            Boolean(errors.email)
+                                        }
+                                        helperText={
+                                            <ErrorMessage name="email" />
                                         }
                                     />
                                 </Grid>
@@ -161,7 +180,7 @@ const Contacts = () => {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                إضافة
+                                {props.buttonLabel}
                             </Button>
                         </Form>
                     )}
@@ -169,6 +188,4 @@ const Contacts = () => {
             </Box>
         </Container>
     );
-};
-
-export default Contacts;
+}

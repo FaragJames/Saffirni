@@ -4,17 +4,17 @@ import SignUp from "./components/signUp/SignUp.tsx";
 import SignIn from "./components/signIn/SignIn.tsx";
 import Dashboard from "./components/dashboard/Dashboard.tsx";
 import Trips from "./components/trips/Trips.tsx";
-import TripsCompany from "./components/dashboard/pages/trips/Trips.tsx";
-import AddBus from "./components/dashboard/pages/add_bus/AddBus.tsx";
-import Buses from "./components/dashboard/pages/buses/Buses.tsx";
+import ShowTrips from "./components/dashboard/pages/trip_section/ShowTrips.tsx";
+import AddBus from "./components/dashboard/pages/bus_section/AddBus.tsx";
+import ShowBuses from "./components/dashboard/pages/bus_section/ShowBuses.tsx";
 import Settings from "./components/dashboard/pages/settings/Settings.tsx";
-import Employees from "./components/dashboard/pages/employees/Employees.tsx";
+import ShowEmployees from "./components/dashboard/pages/employee_section/ShowEmployees.tsx";
 import SeatsOnTrip from "./components/dashboard/pages/seatsOnTrip/SeatsOnTrip.tsx";
 import AddTraveler from "./components/dashboard/pages/add_traveler/AddTraveler.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
 import Bill from "./components/bill/Bill.tsx";
-import AddEmployee from "./components/dashboard/pages/add_employee/AddEmployee.tsx";
-import AddTrip from "./components/dashboard/pages/add_trip/AddTrip.tsx";
+import AddEmployee from "./components/dashboard/pages/employee_section/AddEmployee.tsx";
+import AddTrip from "./components/dashboard/pages/trip_section/AddTrip.tsx";
 import MyTrips from "./components/my_trips/MyTrips.tsx";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Home from "./components/home/Home.tsx";
@@ -34,6 +34,9 @@ import {
     employeeReducer,
 } from "./utilities/Contexts/EmployeeContext.ts";
 import DashboardSignIn from "./components/dashboard/DashboardSignIn.tsx";
+import EditBus from "./components/dashboard/pages/bus_section/EditBus.tsx";
+import EditTrip from "./components/dashboard/pages/trip_section/EditTrip.tsx";
+import EditEmployee from "./components/dashboard/pages/employee_section/EditEmployee.tsx";
 
 export default function App() {
     const userJson = sessionStorage.getItem("user");
@@ -130,31 +133,39 @@ export default function App() {
                         children: [
                             {
                                 path: "Buses",
-                                element: <Buses />,
+                                element: <ShowBuses />,
                             },
                             {
                                 path: "AddBus",
                                 element: <AddBus />,
                             },
                             {
-                                index: true,
-                                element: <TripsCompany />,
+                                path: "EditBus/:id",
+                                element: <EditBus />,
                             },
                             {
-                                path: "Settings",
-                                element: <Settings />,
+                                index: true,
+                                element: <ShowTrips />,
+                            },
+                            {
+                                path: "AddTrip",
+                                element: <AddTrip />,
+                            },
+                            {
+                                path: "EditTrip/:id",
+                                element: <EditTrip />,
                             },
                             {
                                 path: "Employees",
-                                element: <Employees />,
+                                element: <ShowEmployees />,
                             },
                             {
                                 path: "AddEmployee",
                                 element: <AddEmployee />,
                             },
                             {
-                                path: "AddTrip",
-                                element: <AddTrip />,
+                                path: "EditEmployee/:id",
+                                element: <EditEmployee />,
                             },
                             {
                                 path: "SeatsOnTrip",
@@ -163,6 +174,10 @@ export default function App() {
                             {
                                 path: "AddTraveler",
                                 element: <AddTraveler />,
+                            },
+                            {
+                                path: "Settings",
+                                element: <Settings />,
                             },
                         ],
                     },

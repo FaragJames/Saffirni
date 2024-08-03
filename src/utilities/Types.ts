@@ -39,3 +39,13 @@ export type TemporaryReservationResponse = {
     reservationId: number;
     seatIdToSeatNumber: Map<number, number>;
 };
+
+export type EditRouteParams = {
+    id?: string;
+};
+
+export type PatchRequest = {
+    op: "replace";
+    path: string;
+    value: string;
+}

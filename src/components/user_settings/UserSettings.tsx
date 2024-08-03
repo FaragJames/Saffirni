@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext, User } from "../../utilities/Contexts/UserContext";
 import { toast } from "react-toastify";
 import { apiClient } from "../../utilities/Axios";
-import { ApiResponse, GenericApiResponse } from "../../utilities/Types";
+import { ApiResponse, GenericApiResponse, PatchRequest } from "../../utilities/Types";
 
 export default function UserSettings() {
     const navigate = useNavigate();
@@ -44,11 +44,7 @@ export default function UserSettings() {
         phoneNumber: string;
     }) {
         setIsEditable(false);
-        const requestBody: Array<{
-            op: string;
-            path: string;
-            value: string;
-        }> = [];
+        const requestBody: Array<PatchRequest> = [];
         requestBody.push({
             op: "replace",
             path: "firstName",
@@ -90,6 +86,10 @@ export default function UserSettings() {
                             type: "assign",
                             payload: getUserResponse.payload as User,
                         });
+                    sessionStorage.setItem(
+                        "user",
+                        JSON.stringify(getUserResponse.payload)
+                    );
 
                     return;
                 }

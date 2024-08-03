@@ -95,11 +95,11 @@ export default function SideBar({
             icon: <DirectionsBusIcon />,
             path: "/Company/Dashboard/Buses",
         },
-        {
-            text: "Settings",
-            icon: <SettingsIcon />,
-            path: "/Company/Dashboard/Settings",
-        },
+        // {
+        //     text: "Settings",
+        //     icon: <SettingsIcon />,
+        //     path: "/Company/Dashboard/Settings",
+        // },
     ];
     return (
         <Drawer style={{ direction: "ltr" }} variant="permanent" open={open}>
