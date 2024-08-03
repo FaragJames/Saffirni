@@ -79,6 +79,7 @@ export default function SearchForm(props: {
                                                 props.data?.sourceStateId ==
                                                 state.id
                                             }
+                                            style={{fontSize:"17px"}}
                                         >
                                             {state.name}
                                         </option>
@@ -96,6 +97,7 @@ export default function SearchForm(props: {
                                     name="destinationSelect"
                                     required
                                     defaultValue=""
+
                                 >
                                     <option value="" disabled>
                                         اختر محافظة
@@ -109,6 +111,7 @@ export default function SearchForm(props: {
                                                     ?.destinationStateId ==
                                                 state.id
                                             }
+                                            style={{fontSize:"17px"}}
                                         >
                                             {state.name}
                                         </option>

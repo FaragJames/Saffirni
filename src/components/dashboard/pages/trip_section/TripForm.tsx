@@ -30,16 +30,16 @@ export default function TripForm(props: {
         CompanyBusStations[]
     >([]);
     const [editValuesState, setEditValuesState] = useState<CompanyTripInfo>({
-        SourceBusStationId: "",
-        DestinationBusStationId: "",
-        ExpectedDepartTime: "",
-        ExpectedArrivalTime: "",
-        ActualArrivalTime: null,
-        ActualDepartTime: null,
-        TicketPrice: 0,
-        BusId: 0,
-        DriverId: 0,
-        IsActive: "",
+        sourceBusStationId: "",
+        destinationBusStationId: "",
+        expectedDepartTime: "",
+        expectedArrivalTime: "",
+        actualArrivalTime: null,
+        actualDepartTime: null,
+        ticketPrice: 0,
+        busId: 0,
+        driverId: 0,
+        isActive: "",
     });
     useEffect(() => {
         async function fetchData() {

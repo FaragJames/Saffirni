@@ -140,8 +140,8 @@
   border: none;
   outline: none;
   width: 100%;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .home .homeContent .cardDiv .input input::-webkit-input-placeholder {
@@ -165,8 +165,9 @@
   border: none;
   outline: none;
   width: 100%;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Cairo", sans-serif !important;
 }
 
 .home .homeContent .cardDiv .input .provinceSelect::-webkit-input-placeholder {
@@ -186,7 +187,7 @@
 }
 
 .home .homeContent .cardDiv .input .icon {
-  font-size: 18px;
+  font-size: 20px;
   color: var(--PrimeryColor);
   margin: 10px;
 }
