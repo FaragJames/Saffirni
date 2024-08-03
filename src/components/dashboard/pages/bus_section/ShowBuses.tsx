@@ -6,35 +6,10 @@ import { useEffect, useState } from "react";
 import { apiClient } from "../../../../utilities/Axios";
 import { GenericApiResponse } from "../../../../utilities/Types";
 import { toast } from "react-toastify";
+import { Bus, BusInfo } from "./BusSectionTypes";
+import { handleDelete } from "../HandleDelete";
 
-export type BusStatus = {
-    statusName: string;
-    id: number;
-};
-export type BusType = {
-    id: number;
-    typeName: string;
-    numberOfSeats: number;
-};
-export type Bus = {
-    id: number;
-    companyId: number;
-    plateNumber: number;
-    modelYear: number;
-    busType: BusType;
-    busStatus: BusStatus;
-};
-
-type BusInfo = {
-    id: number;
-    plateNumber: number;
-    modelYear: number;
-    statusName: string;
-    typeName: string;
-    numberOfSeats: number;
-};
-
-export default function Buses() {
+export default function ShowBuses() {
     const navigate = useNavigate();
     const [busesState, setBusesState] = useState<BusInfo[]>([]);
 
@@ -42,9 +17,7 @@ export default function Buses() {
         async function fetchData() {
             try {
                 const apiResponse = (
-                    await apiClient.get<GenericApiResponse<Bus[]>>(
-                        "/API/Bus"
-                    )
+                    await apiClient.get<GenericApiResponse<Bus[]>>("/API/Bus")
                 ).data;
 
                 if (apiResponse.isSuccess && apiResponse.payload) {
@@ -60,9 +33,8 @@ export default function Buses() {
                             };
                         })
                     );
-                }
-                else
-                    apiResponse.errors?.forEach(error => toast.error(error))
+                } else
+                    apiResponse.errors?.forEach((error) => toast.error(error));
             } catch (error) {
                 console.error(error);
             }
@@ -103,6 +75,36 @@ export default function Buses() {
             width: 150,
             editable: false,
         },
+        {
+            field: "ُEditBuses",
+            headerName: "تعديل باص",
+            width: 150,
+            renderCell: (params) => (
+                <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() =>
+                        navigate(`/Company/Dashboard/EditBus/${params.row.id}`, { state: params.row })
+                    }
+                >
+                    تعديل{" "}
+                </Button>
+            ),
+        },
+        {
+            field: "DeleteBuses",
+            headerName: "حذف باص ",
+            width: 150,
+            renderCell: (params) => (
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => handleDelete(`/Api/Bus/${params.row.id}`)}
+                >
+                    حذف{" "}
+                </Button>
+            ),
+        },
     ];
 
     return (
@@ -131,6 +133,9 @@ export default function Buses() {
                     pageSizeOptions={[5]}
                     checkboxSelection
                     disableRowSelectionOnClick
+                    // columnVisibilityModel={{
+                    //     statusName: false
+                    // }}
                 />
             </Box>
         </Box>

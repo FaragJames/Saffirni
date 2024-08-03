@@ -1,35 +1,18 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import Header from "../../dashboard_components/Header";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { useNavigate } from "react-router-dom";
-import Header from "../../dashboard_components/Header";
-import { useContext } from "react";
-import { EmployeeContext } from "../../../../utilities/Contexts/EmployeeContext";
-import { apiClient } from "../../../../utilities/Axios";
-import { ApiResponse } from "../../../../utilities/Types";
-import { toast } from "react-toastify";
+import { EmployeeInfo, EmployeeInfoShape } from "./EmployeeSectionTypes";
 
-type EmployeeInfo = {
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-};
-type EmployeeInfoShape = {
-    [P in keyof EmployeeInfo]: Yup.StringSchema;
-};
-
-export default function AddEmployee() {
-    const context = useContext(EmployeeContext);
-    const navigate = useNavigate();
-
+export default function EmployeeForm(props: {
+    handleSubmit(values: EmployeeInfo): Promise<void>;
+    buttonLabel: string
+}) {
     const validationShape: EmployeeInfoShape = {
         firstName: Yup.string().required("*الاسم الأول مطلوب"),
         lastName: Yup.string().required("*الكنية مطلوبة"),
@@ -50,6 +33,7 @@ export default function AddEmployee() {
             .required("*تأكيد كلمة السر مطلوب"),
     };
     const validationSchema = Yup.object().shape(validationShape);
+
     const initialValue: EmployeeInfo = {
         firstName: "",
         lastName: "",
@@ -58,34 +42,6 @@ export default function AddEmployee() {
         password: "",
         confirmPassword: "",
     };
-
-    async function handleSubmit(values: EmployeeInfo) {
-        try {
-            const apiResponse = (
-                await apiClient.post<ApiResponse>("/Security/Account/SignUp/Employee", {
-                    employee: {
-                        companyId: context.state.companyId,
-                        firstName: values.firstName,
-                        lastName: values.lastName,
-                        phoneNumber: values.phoneNumber,
-                    },
-                    email: values.email,
-                    password: values.password
-                })
-            ).data;
-
-            if(apiResponse.isSuccess) {
-                if(apiResponse.message)
-                    toast.success(apiResponse.message);
-
-                navigate("/Company/Dashboard/Employees");
-            }
-            else
-                apiResponse.errors?.forEach(error => toast.error(error))
-        } catch (error) {
-            console.error(error);
-        }
-    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -103,7 +59,7 @@ export default function AddEmployee() {
                 <Formik
                     initialValues={initialValue}
                     validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
+                    onSubmit={props.handleSubmit}
                 >
                     {({ errors, touched }) => (
                         <Form>
@@ -224,7 +180,7 @@ export default function AddEmployee() {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                إضافة
+                                {props.buttonLabel}
                             </Button>
                         </Form>
                     )}

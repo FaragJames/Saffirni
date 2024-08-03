@@ -19,22 +19,23 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function Dashboard() {
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState<string>(
-        sessionStorage.getItem("currentMode") ?
-            sessionStorage.getItem("currentMode") as string :
-            "light"
+        sessionStorage.getItem("currentMode")
+            ? (sessionStorage.getItem("currentMode") as string)
+            : "light"
     );
-    const theme = useMemo(
-        () => createTheme(getDesignTokens(mode)),
-        [mode]
-    );
+    const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const context = useContext(EmployeeContext);
+
     useEffect(() => {
         if (!context.state.id) {
             navigate("/Company/SignIn");
         }
     }, [context.state]);
+    if (!context.state.id) {
+        return;
+    }
 
     return (
         <ThemeProvider theme={theme}>

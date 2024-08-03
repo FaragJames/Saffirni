@@ -6,20 +6,14 @@ import { useEffect, useState } from "react";
 import { apiClient } from "../../../../utilities/Axios";
 import { GenericApiResponse } from "../../../../utilities/Types";
 import { toast } from "react-toastify";
+import { DashboardEmployeeInfo } from "./EmployeeSectionTypes";
+import { handleDelete } from "../HandleDelete";
 
-type DashboardEmployeeInfo = {
-    id: number;
-    email?: string;
-    accountId?: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-};
-
-export default function Employees() {
+export default function ShowEmployees() {
     const navigate = useNavigate();
-    const [employeesState, setEmployeesState] =
-        useState<DashboardEmployeeInfo[]>([]);
+    const [employeesState, setEmployeesState] = useState<
+        DashboardEmployeeInfo[]
+    >([]);
     useEffect(() => {
         async function fetchData() {
             try {
@@ -29,17 +23,16 @@ export default function Employees() {
                     >("/API/Employee/GetAllDashboard")
                 ).data;
 
-                if(apiResponse.isSuccess && apiResponse.payload)
-                    setEmployeesState(apiResponse.payload)
-                else
-                    apiResponse.errors?.forEach(error => toast.error(error));
+                if (apiResponse.isSuccess && apiResponse.payload)
+                    setEmployeesState(apiResponse.payload);
+                else apiResponse.errors?.forEach((error) => toast.error(error));
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
         }
-    
+
         fetchData();
-    }, [])
+    }, []);
 
     const columns: GridColDef[] = [
         { field: "id", headerName: "Id", width: 90, editable: false },
@@ -72,6 +65,40 @@ export default function Employees() {
             headerName: "رقم الحساب",
             width: 250,
             editable: false,
+        },
+        {
+            field: "ُEditEmployee",
+            headerName: "تعديل موظف",
+            width: 150,
+            renderCell: (params) => (
+                <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() =>
+                        navigate(
+                            `/Company/Dashboard/EditEmployee/${params.row.id}`
+                        )
+                    }
+                >
+                    تعديل{" "}
+                </Button>
+            ),
+        },
+        {
+            field: "DeleteEmployee",
+            headerName: "حذف موظف ",
+            width: 150,
+            renderCell: (params) => (
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() =>
+                        handleDelete(`/Api/Employee/${params.row.id}`)
+                    }
+                >
+                    حذف{" "}
+                </Button>
+            ),
         },
     ];
 

@@ -12,32 +12,18 @@ import {
     FormControl,
     InputLabel,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+
 import Header from "../../dashboard_components/Header";
-import { useContext, useEffect, useState } from "react";
-import { apiClient } from "../../../../utilities/Axios";
-import { ApiResponse, GenericApiResponse } from "../../../../utilities/Types";
+import { CompanyBusStations, CompanyTripInfo } from "./TripSectionTypes";
 import { toast } from "react-toastify";
-import { EmployeeContext } from "../../../../utilities/Contexts/EmployeeContext";
+import { GenericApiResponse } from "../../../../utilities/Types";
+import { apiClient } from "../../../../utilities/Axios";
+import { useEffect, useState } from "react";
 
-type CompanyBusStations = {
-    busStationId: number;
-    fullName: string;
-};
-type CompanyTripInfo = {
-    SourceBusStationId: string;
-    DestinationBusStationId: string;
-    ExpectedDepartTime: string;
-    ExpectedArrivalTime: string;
-    TicketPrice: number;
-    DriverId: number;
-    BusId: number;
-    IsActive: string;
-};
-
-export default function AddTrip() {
-    const context = useContext(EmployeeContext);
-    const navigate = useNavigate();
+export default function TripForm(props: {
+    handleSubmit(values: CompanyTripInfo): Promise<void>;
+    buttonLabel: string;
+}) {
     const [companyBusStationsState, setCompanyBusStationsState] = useState<
         CompanyBusStations[]
     >([]);
@@ -95,44 +81,6 @@ export default function AddTrip() {
             .integer("*يجب أن يكون المعرف رقماً صحيحاً"),
         IsActive: Yup.boolean().required("*حالة الرحلة مطلوبة"),
     });
-
-    async function handleSubmit(values: CompanyTripInfo) {
-        try {
-            const apiResponse = (
-                await apiClient.post<ApiResponse>(
-                    "/API/CompanyTrip/AddDashboard",
-                    {
-                        employeeId: context.state.id,
-                        driverId: values.DriverId,
-                        busId: values.BusId,
-                        trip: {
-                            sourceBusStationId: parseInt(
-                                values.SourceBusStationId
-                            ),
-                            destinationBusStationId: parseInt(
-                                values.DestinationBusStationId
-                            ),
-                        },
-                        expectedArrivalTime: values.ExpectedArrivalTime,
-                        expectedDepartTime: values.ExpectedDepartTime,
-                        ticketPrice: values.TicketPrice,
-                        isActive: Boolean(values.IsActive),
-                    }
-                )
-            ).data;
-            if (apiResponse.isSuccess) {
-                if (apiResponse.message) toast.success(apiResponse.message);
-
-                navigate("/Company/Dashboard");
-                return;
-            }
-
-            apiResponse.errors?.forEach((error) => toast.error(error));
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
     const initialValues: CompanyTripInfo = {
         SourceBusStationId: "",
         DestinationBusStationId: "",
@@ -140,7 +88,7 @@ export default function AddTrip() {
         ExpectedArrivalTime: "",
         TicketPrice: 0,
         BusId: 0,
-        DriverId: 0,    
+        DriverId: 0,
         IsActive: "",
     };
 
@@ -160,7 +108,7 @@ export default function AddTrip() {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
-                    onSubmit={(values) => handleSubmit(values)}
+                    onSubmit={(values) => props.handleSubmit(values)}
                 >
                     {({ errors, touched, values, handleChange }) => (
                         <Form>
@@ -370,7 +318,7 @@ export default function AddTrip() {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                إضافة
+                                {props.buttonLabel}
                             </Button>
                         </Form>
                     )}

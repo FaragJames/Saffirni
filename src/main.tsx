@@ -20,8 +20,8 @@ function toastOptions(): ToastOptions {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <>
-        {true && <App />}
-        {/* <Test1 /> */}
+        {!true && <App />}
+        <Test1 />
         <ToastContainer {...toastOptions()} />
     </>
 );

@@ -1,4 +1,4 @@
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
     Button,
@@ -12,42 +12,42 @@ import {
     InputLabel,
     Select,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import Header from "../../dashboard_components/Header";
-import { useContext, useEffect, useState } from "react";
-import { apiClient } from "../../../../utilities/Axios";
-import { ApiResponse, GenericApiResponse } from "../../../../utilities/Types";
+import { AddBusInfo, BusStatus, BusType } from "./BusSectionTypes";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { BusStatus, BusType } from "../buses/Buses";
-import { EmployeeContext } from "../../../../utilities/Contexts/EmployeeContext";
+import { apiClient } from "../../../../utilities/Axios";
+import { GenericApiResponse } from "../../../../utilities/Types";
 
-type AddBusInfo = {
-    busTypeId: string;
-    busStatusId: string;
-    plateNumber: number;
-    modelYear: number;
-};
-
-export default function AddBus() {
+export default function BusForm(props: {
+    handleSubmit(values: AddBusInfo): Promise<void>;
+    editValues: AddBusInfo | undefined;
+    headerLabel: string;
+    buttonLabel: string;
+}) {
     const [busStatusesState, setBusStatusesState] = useState<BusStatus[]>([]);
     const [busTypesState, setBusTypesState] = useState<BusType[]>([]);
-
-    const context = useContext(EmployeeContext);
-    const navigate = useNavigate();
+    console.log(props.editValues)
 
     useEffect(() => {
         async function fetchData() {
-            const busStatusesResponse = (await apiClient.get<GenericApiResponse<BusStatus[]>>("/Api/BusStatus")).data
+            const busStatusesResponse = (
+                await apiClient.get<GenericApiResponse<BusStatus[]>>(
+                    "/Api/BusStatus"
+                )
+            ).data;
             const busTypesResponse = (
                 await apiClient.get<GenericApiResponse<BusType[]>>(
                     "/Api/BusType"
                 )
             ).data;
 
-            if(busStatusesResponse.isSuccess && busStatusesResponse.payload)
-                setBusStatusesState(busStatusesResponse.payload)
+            if (busStatusesResponse.isSuccess && busStatusesResponse.payload)
+                setBusStatusesState(busStatusesResponse.payload);
             else
-                busStatusesResponse.errors?.forEach(error => toast.error(error))
+                busStatusesResponse.errors?.forEach((error) =>
+                    toast.error(error)
+                );
 
             if (busTypesResponse.isSuccess && busTypesResponse.payload)
                 setBusTypesState(busTypesResponse.payload);
@@ -55,8 +55,8 @@ export default function AddBus() {
                 busTypesResponse.errors?.forEach((error) => toast.error(error));
         }
 
-        fetchData()
-    }, [])
+        fetchData();
+    }, []);
 
     const validationSchema = Yup.object().shape({
         busTypeId: Yup.string().required("*نوع الحافلة مطلوب"),
@@ -70,31 +70,6 @@ export default function AddBus() {
             .min(2000, "*سنة الموديل يجب أن تكون بعد 2000"),
     });
 
-
-    async function handleSubmit(values: AddBusInfo) {
-        try {
-            const apiResponse = (
-                await apiClient.post<ApiResponse>("/API/Bus/AddDashboard", {
-                busTypeId: parseInt(values.busTypeId),
-                busStatusId: parseInt(values.busStatusId),
-                plateNumber: values.plateNumber,
-                modelYear: values.modelYear,
-                companyId: context.state.companyId as number
-            })
-            ).data;
-
-            if(apiResponse.isSuccess) {
-                if(apiResponse.message)
-                    toast.success(apiResponse.message)
-                navigate("/Company/Dashboard/Buses");
-            }
-            else
-                apiResponse.errors?.forEach(error => toast.error(error))
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -107,16 +82,20 @@ export default function AddBus() {
                     direction: "rtl",
                 }}
             >
-                <Header title="إضافة حافلة جديدة" subTitle="معلومات الحافلة" />
+                <Header title={props.headerLabel} subTitle="معلومات الحافلة" />
                 <Formik
-                    initialValues={{
-                        busTypeId: "",
-                        busStatusId: "",
-                        plateNumber: 0,
-                        modelYear: 0,
-                    }}
+                    initialValues={
+                        props.editValues
+                            ? props.editValues
+                            : {
+                                  busTypeId: "",
+                                  busStatusId: "",
+                                  plateNumber: 0,
+                                  modelYear: 0,
+                              }
+                    }
                     validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
+                    onSubmit={(values) => props.handleSubmit(values)}
                 >
                     {({ errors, touched, values, handleChange }) => (
                         <Form>
@@ -141,7 +120,7 @@ export default function AddBus() {
                                             {busTypesState.map((busType) => (
                                                 <MenuItem
                                                     key={busType.id}
-                                                    value={busType.id}
+                                                    value={busType.id.toString()}
                                                 >
                                                     {`${busType.typeName} - ${busType.numberOfSeats}`}
                                                 </MenuItem>
@@ -175,7 +154,7 @@ export default function AddBus() {
                                                 (busStatus) => (
                                                     <MenuItem
                                                         key={busStatus.id}
-                                                        value={busStatus.id}
+                                                        value={busStatus.id.toString()}
                                                     >
                                                         {busStatus.statusName}
                                                     </MenuItem>
@@ -190,13 +169,14 @@ export default function AddBus() {
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Field
-                                        as={TextField}
+                                    <TextField
                                         name="plateNumber"
                                         variant="outlined"
                                         fullWidth
                                         label="رقم اللوحة"
                                         type="number"
+                                        value={values.plateNumber}
+                                        onChange={handleChange}
                                         error={
                                             touched.plateNumber &&
                                             Boolean(errors.plateNumber)
@@ -207,13 +187,14 @@ export default function AddBus() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Field
-                                        as={TextField}
+                                    <TextField
                                         name="modelYear"
                                         variant="outlined"
                                         fullWidth
                                         label="سنة الموديل"
                                         type="number"
+                                        value={values.modelYear}
+                                        onChange={handleChange}
                                         error={
                                             touched.modelYear &&
                                             Boolean(errors.modelYear)
@@ -230,7 +211,7 @@ export default function AddBus() {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                إضافة
+                                {props.buttonLabel}
                             </Button>
                         </Form>
                     )}
