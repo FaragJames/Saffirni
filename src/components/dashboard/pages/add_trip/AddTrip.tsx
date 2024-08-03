@@ -282,8 +282,8 @@ export default function AddTrip() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Field
-                                        as={TextField}
+                                    <TextField
+                                        // as={TextField}
                                         name="TicketPrice"
                                         variant="outlined"
                                         fullWidth
