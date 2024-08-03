@@ -4,14 +4,16 @@ export type CompanyBusStations = {
 };
 
 export type CompanyTripInfo = {
-    SourceBusStationId: string;
-    DestinationBusStationId: string;
-    ExpectedDepartTime: string;
-    ExpectedArrivalTime: string;
-    TicketPrice: number;
-    DriverId: number;
-    BusId: number;
-    IsActive: string;
+    sourceBusStationId: string;
+    destinationBusStationId: string;
+    expectedDepartTime: string;
+    expectedArrivalTime: string;
+    actualDepartTime: string | null;
+    actualArrivalTime: string | null;
+    ticketPrice: number;
+    driverId: number;
+    busId: number;
+    isActive: string;
 };
 
 export type DashboardCompanyTrips = {

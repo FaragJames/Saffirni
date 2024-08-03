@@ -1,4 +1,4 @@
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
     Button,
@@ -22,11 +22,25 @@ import { useEffect, useState } from "react";
 
 export default function TripForm(props: {
     handleSubmit(values: CompanyTripInfo): Promise<void>;
+    editValues: CompanyTripInfo | undefined;
+    headerLabel: string;
     buttonLabel: string;
 }) {
     const [companyBusStationsState, setCompanyBusStationsState] = useState<
         CompanyBusStations[]
     >([]);
+    const [editValuesState, setEditValuesState] = useState<CompanyTripInfo>({
+        SourceBusStationId: "",
+        DestinationBusStationId: "",
+        ExpectedDepartTime: "",
+        ExpectedArrivalTime: "",
+        ActualArrivalTime: null,
+        ActualDepartTime: null,
+        TicketPrice: 0,
+        BusId: 0,
+        DriverId: 0,
+        IsActive: "",
+    });
     useEffect(() => {
         async function fetchData() {
             try {
@@ -47,11 +61,13 @@ export default function TripForm(props: {
         }
 
         fetchData();
-    }, []);
+        if(props.editValues)
+            setEditValuesState(props.editValues)
+    }, [props.editValues]);
 
     const validationSchema = Yup.object().shape({
-        SourceBusStationId: Yup.string().required("*نقطة الانطلاق مطلوبة"),
-        DestinationBusStationId: Yup.string()
+        sourceBusStationId: Yup.string().required("*نقطة الانطلاق مطلوبة"),
+        destinationBusStationId: Yup.string()
             .required("*الوجهة مطلوبة")
             .test(
                 "not-equal",
@@ -60,37 +76,29 @@ export default function TripForm(props: {
                     return this.parent.SourceBusStationId !== value;
                 }
             ),
-        ExpectedDepartTime: Yup.date().required("*وقت الانطلاق المتوقع مطلوب"),
-        ExpectedArrivalTime: Yup.date()
+        expectedDepartTime: Yup.date().required("*وقت الانطلاق المتوقع مطلوب"),
+        expectedArrivalTime: Yup.date()
             .required("*وقت الوصول المتوقع مطلوب")
             .min(
                 Yup.ref("ExpectedDepartTime"),
                 "*وقت الوصول يجب أن يكون أكبر من وقت الانطلاق"
             ),
-        TicketPrice: Yup.number()
+        ticketPrice: Yup.number()
             .required("*سعر التذكرة مطلوب")
             .positive("*يجب أن يكون السعر موجباً")
             .integer("*سعر التذكرة يجب أن يكون رقماً صحيحاً"),
-        BusId: Yup.number()
+        busId: Yup.number()
             .required("*معرف الحافلة مطلوب")
             .positive("*يجب أن يكون المعرف موجباً")
             .integer("*يجب أن يكون المعرف رقماً صحيحاً"),
-        DriverId: Yup.number()
+        driverId: Yup.number()
             .required("*معرف السائق مطلوب")
             .positive("*يجب أن يكون المعرف موجباً")
             .integer("*يجب أن يكون المعرف رقماً صحيحاً"),
-        IsActive: Yup.boolean().required("*حالة الرحلة مطلوبة"),
+        isActive: Yup.boolean().required("*حالة الرحلة مطلوبة"),
     });
-    const initialValues: CompanyTripInfo = {
-        SourceBusStationId: "",
-        DestinationBusStationId: "",
-        ExpectedDepartTime: "",
-        ExpectedArrivalTime: "",
-        TicketPrice: 0,
-        BusId: 0,
-        DriverId: 0,
-        IsActive: "",
-    };
+
+    console.log(editValuesState)
 
     return (
         <Container component="main" maxWidth="xs">
@@ -104,9 +112,10 @@ export default function TripForm(props: {
                     direction: "rtl",
                 }}
             >
-                <Header title="إضافة رحلة جديدة" subTitle="معلومات الرحلة" />
+                <Header title={props.headerLabel} subTitle="معلومات الرحلة" />
                 <Formik
-                    initialValues={initialValues}
+                    enableReinitialize={true}
+                    initialValues={editValuesState}
                     validationSchema={validationSchema}
                     onSubmit={(values) => props.handleSubmit(values)}
                 >
@@ -120,15 +129,15 @@ export default function TripForm(props: {
                                         </InputLabel>
                                         <Select
                                             labelId="source-station-label"
-                                            id="SourceBusStationId"
-                                            name="SourceBusStationId"
+                                            id="sourceBusStationId"
+                                            name="sourceBusStationId"
                                             label="نقطة الانطلاق"
-                                            value={values.SourceBusStationId}
+                                            value={values.sourceBusStationId}
                                             onChange={handleChange}
                                             error={
-                                                touched.SourceBusStationId &&
+                                                touched.sourceBusStationId &&
                                                 Boolean(
-                                                    errors.SourceBusStationId
+                                                    errors.sourceBusStationId
                                                 )
                                             }
                                         >
@@ -144,7 +153,7 @@ export default function TripForm(props: {
                                             )}
                                         </Select>
                                         <ErrorMessage
-                                            name="SourceBusStationId"
+                                            name="sourceBusStationId"
                                             component="div"
                                             style={{ color: "red" }}
                                         />
@@ -157,17 +166,17 @@ export default function TripForm(props: {
                                         </InputLabel>
                                         <Select
                                             labelId="destination-station-label"
-                                            id="DestinationBusStationId"
-                                            name="DestinationBusStationId"
+                                            id="destinationBusStationId"
+                                            name="destinationBusStationId"
                                             label="الوجهة"
                                             value={
-                                                values.DestinationBusStationId
+                                                values.destinationBusStationId
                                             }
                                             onChange={handleChange}
                                             error={
-                                                touched.DestinationBusStationId &&
+                                                touched.destinationBusStationId &&
                                                 Boolean(
-                                                    errors.DestinationBusStationId
+                                                    errors.destinationBusStationId
                                                 )
                                             }
                                         >
@@ -183,100 +192,105 @@ export default function TripForm(props: {
                                             )}
                                         </Select>
                                         <ErrorMessage
-                                            name="DestinationBusStationId"
+                                            name="destinationBusStationId"
                                             component="div"
                                             style={{ color: "red" }}
                                         />
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Field
-                                        as={TextField}
-                                        name="ExpectedDepartTime"
+                                    <TextField
+                                        name="expectedDepartTime"
                                         type="datetime-local"
                                         variant="outlined"
                                         fullWidth
                                         label="وقت الانطلاق المتوقع"
+                                        value={values.expectedDepartTime}
+                                        onChange={handleChange}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
                                         error={
-                                            touched.ExpectedDepartTime &&
-                                            Boolean(errors.ExpectedDepartTime)
+                                            touched.expectedDepartTime &&
+                                            Boolean(errors.expectedDepartTime)
                                         }
                                         helperText={
-                                            <ErrorMessage name="ExpectedDepartTime" />
+                                            <ErrorMessage name="expectedDepartTime" />
                                         }
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Field
-                                        as={TextField}
-                                        name="ExpectedArrivalTime"
+                                    <TextField
+                                        name="expectedArrivalTime"
                                         type="datetime-local"
                                         variant="outlined"
                                         fullWidth
                                         label="وقت الوصول المتوقع"
+                                        value={values.expectedArrivalTime}
+                                        onChange={handleChange}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
                                         error={
-                                            touched.ExpectedArrivalTime &&
-                                            Boolean(errors.ExpectedArrivalTime)
+                                            touched.expectedArrivalTime &&
+                                            Boolean(errors.expectedArrivalTime)
                                         }
                                         helperText={
-                                            <ErrorMessage name="ExpectedArrivalTime" />
+                                            <ErrorMessage name="expectedArrivalTime" />
                                         }
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Field
-                                        as={TextField}
-                                        name="TicketPrice"
+                                    <TextField
+                                        name="ticketPrice"
                                         variant="outlined"
                                         fullWidth
                                         label="سعر التذكرة"
                                         type="number"
+                                        value={values.ticketPrice}
+                                        onChange={handleChange}
                                         error={
-                                            touched.TicketPrice &&
-                                            Boolean(errors.TicketPrice)
+                                            touched.ticketPrice &&
+                                            Boolean(errors.ticketPrice)
                                         }
                                         helperText={
-                                            <ErrorMessage name="TicketPrice" />
+                                            <ErrorMessage name="ticketPrice" />
                                         }
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Field
-                                        as={TextField}
-                                        name="BusId"
+                                    <TextField
+                                        name="busId"
                                         type="number"
                                         variant="outlined"
                                         fullWidth
                                         label="معرف الحافلة"
+                                        value={values.busId}
+                                        onChange={handleChange}
                                         error={
-                                            touched.BusId &&
-                                            Boolean(errors.BusId)
+                                            touched.busId &&
+                                            Boolean(errors.busId)
                                         }
                                         helperText={
-                                            <ErrorMessage name="BusId" />
+                                            <ErrorMessage name="busId" />
                                         }
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Field
-                                        as={TextField}
-                                        name="DriverId"
+                                    <TextField
+                                        name="driverId"
                                         type="number"
                                         variant="outlined"
                                         fullWidth
                                         label="معرف السائق"
+                                        value={values.driverId}
+                                        onChange={handleChange}
                                         error={
-                                            touched.DriverId &&
-                                            Boolean(errors.DriverId)
+                                            touched.driverId &&
+                                            Boolean(errors.driverId)
                                         }
                                         helperText={
-                                            <ErrorMessage name="DriverId" />
+                                            <ErrorMessage name="driverId" />
                                         }
                                     />
                                 </Grid>
@@ -287,25 +301,25 @@ export default function TripForm(props: {
                                         </InputLabel>
                                         <Select
                                             labelId="is-active-label"
-                                            id="IsActive"
-                                            name="IsActive"
+                                            id="isActive"
+                                            name="isActive"
                                             label="هل الرحلة مفعلة؟"
-                                            defaultValue={values.IsActive}
+                                            value={values.isActive}
                                             onChange={handleChange}
                                             error={
-                                                touched.IsActive &&
-                                                Boolean(errors.IsActive)
+                                                touched.isActive &&
+                                                Boolean(errors.isActive)
                                             }
                                         >
-                                            <MenuItem key={0} value="false">
+                                            <MenuItem key="false" value="false">
                                                 لا
                                             </MenuItem>
-                                            <MenuItem key={1} value="true">
+                                            <MenuItem key="true" value="true">
                                                 نعم
                                             </MenuItem>
                                         </Select>
                                         <ErrorMessage
-                                            name="IsActive"
+                                            name="isActive"
                                             component="div"
                                             style={{ color: "red" }}
                                         />

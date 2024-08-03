@@ -30,6 +30,8 @@ export default function AddTrip() {
                         },
                         expectedArrivalTime: values.ExpectedArrivalTime,
                         expectedDepartTime: values.ExpectedDepartTime,
+                        actualArrivalTime: values.ActualArrivalTime,
+                        actualDepartTime: values.ActualDepartTime,
                         ticketPrice: values.TicketPrice,
                         isActive: Boolean(values.IsActive),
                     }
@@ -49,6 +51,11 @@ export default function AddTrip() {
     }
 
     return (
-        <TripForm handleSubmit={handleSubmit} buttonLabel="إضافة" />
-    )
+        <TripForm
+            handleSubmit={handleSubmit}
+            buttonLabel="إضافة"
+            headerLabel="إضافة رحلة جديدة"
+            editValues={undefined}
+        />
+    );
 }

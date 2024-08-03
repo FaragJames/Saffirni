@@ -7,6 +7,7 @@ export async function handleDelete(url: string) {
         const apiResponse = (await apiClient.delete<ApiResponse>(url)).data;
         if (apiResponse.isSuccess) {
             if (apiResponse.message) toast.success(apiResponse.message);
+            location.reload();
         } else apiResponse.errors?.forEach((error) => toast.error(error));
     }
 }

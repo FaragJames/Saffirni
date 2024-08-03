@@ -83,8 +83,11 @@ export default function ShowBuses() {
                 <Button
                     variant="contained"
                     color="success"
-                    onClick={() =>
-                        navigate(`/Company/Dashboard/EditBus/${params.row.id}`, { state: params.row })
+                    onClick={() => {
+                        console.log(params.row);
+                        navigate(`/Company/Dashboard/EditBus/${params.row.id}`)
+                    }
+                        
                     }
                 >
                     تعديل{" "}

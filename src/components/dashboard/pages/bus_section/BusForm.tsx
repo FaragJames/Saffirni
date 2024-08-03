@@ -25,9 +25,15 @@ export default function BusForm(props: {
     headerLabel: string;
     buttonLabel: string;
 }) {
+    console.log(props.editValues);
     const [busStatusesState, setBusStatusesState] = useState<BusStatus[]>([]);
     const [busTypesState, setBusTypesState] = useState<BusType[]>([]);
-    console.log(props.editValues)
+    const [editValuesState, setEditValuesState] = useState<AddBusInfo>({
+        busTypeId: "",
+        busStatusId: "",
+        plateNumber: 0,
+        modelYear: 0,
+    });
 
     useEffect(() => {
         async function fetchData() {
@@ -56,7 +62,9 @@ export default function BusForm(props: {
         }
 
         fetchData();
-    }, []);
+        if(props.editValues)
+            setEditValuesState(props.editValues);
+    }, [props.editValues]);
 
     const validationSchema = Yup.object().shape({
         busTypeId: Yup.string().required("*نوع الحافلة مطلوب"),
@@ -84,16 +92,8 @@ export default function BusForm(props: {
             >
                 <Header title={props.headerLabel} subTitle="معلومات الحافلة" />
                 <Formik
-                    initialValues={
-                        props.editValues
-                            ? props.editValues
-                            : {
-                                  busTypeId: "",
-                                  busStatusId: "",
-                                  plateNumber: 0,
-                                  modelYear: 0,
-                              }
-                    }
+                    enableReinitialize={true}
+                    initialValues={editValuesState}
                     validationSchema={validationSchema}
                     onSubmit={(values) => props.handleSubmit(values)}
                 >

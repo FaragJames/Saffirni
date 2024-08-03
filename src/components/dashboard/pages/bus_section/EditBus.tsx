@@ -14,7 +14,6 @@ import { AddBusInfo, Bus } from "./BusSectionTypes";
 export default function EditBus() {
     const params = useParams<EditRouteParams>();
     const navigate = useNavigate();
-
     const [busState, setBusState] = useState<AddBusInfo>();
 
     useEffect(() => {
