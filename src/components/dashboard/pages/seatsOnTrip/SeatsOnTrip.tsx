@@ -1,115 +1,124 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../../dashboard_components/Header";
 import { Box, Button } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
+import { apiClient } from "../../../../utilities/Axios";
+import { GenericApiResponse } from "../../../../utilities/Types";
+import { toast } from "react-toastify";
 
-const columns = [
-    { field: "id", headerName: "ID", width: 90, editable: false },
-    {
-        field: "seatNumber",
-        headerName: "رقم المقعد",
-        width: 90,
-        editable: false,
-    },
-    {
-        field: "seatStatus",
-        headerName: "حالة المقعد",
-        width: 100,
-        editable: false,
-    },
-    {
-        field: "travelerName",
-        headerName: "اسم المسافر",
-        width: 100,
-        editable: false,
-    },
-    {
-        field: "nationalID",
-        headerName: "الرقم الوطني",
-        width: 200,
-        editable: false,
-    },
-    {
-        field: "rating",
-        headerName: "التقييم",
-        width: 50,
-        editable: false,
-        type: "number",
-    },
-    { field: "comment", headerName: "تعليق", width: 200, editable: false },
-    {
-        field: "ُEditeseat",
-        headerName: "تعديل معلومات المسافر",
-        width: 150,
-        renderCell: (params) => (
-          <Button
-            variant="contained"
-            color="success"
-            onClick={() => navigate("/dashboard/addtraveler")}
-            >
-            تعديل {" "}
-          </Button>
-        ),
-      },
-      {
-        field: "DeletSeat",
-        headerName: "حذف معلومات المسافر ",
-        width: 150,
-        renderCell: (params) => (
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => handleViewSeats(params.row.id)}
-          >
-            حذف {" "}
-          </Button>
-        ),
-      },
-];
+type TripSeatInfo = {
+    id: number;
+    reservationId: number;
+    reservationOwnerName: string;
+    seatOwnerName: string;
+    seatNumber: number;
+    seatStatusId: number;
+    seatStatus: string;
+};
 
-const rows = [
-    {
-        id: 1,
-        seatNumber: 1,
-        seatStatus: "ممتلئ",
-        travelerName: "أحمد",
-        nationalID: "123456789",
-        rating: 4,
-        comment: "جيد",
-    },
-];
+export default function SeatsOnTrip() {
+    const locationState = useLocation().state;
+    const companyTripId = locationState ? (locationState as number) : null;
 
-const SeatsOnTrip = () => {
     const navigate = useNavigate();
+    const columns: GridColDef[] = [
+        { field: "id", headerName: "Id", width: 90, editable: false },
+        {
+            field: "reservationId",
+            headerName: "رقم الحجز",
+            width: 90,
+            editable: false,
+        },
+        {
+            field: "reservationOwnerName",
+            headerName: "اسم صاحب الحجز",
+            width: 90,
+            editable: false,
+        },
+        {
+            field: "seatOwnerName",
+            headerName: "اسم المسافر",
+            width: 90,
+            editable: false,
+        },
+        {
+            field: "seatNumber",
+            headerName: "رقم المقعد",
+            width: 90,
+            editable: false,
+        },
+        {
+            field: "seatStatusId",
+            headerName: "Seat Status Id",
+            width: 100,
+            editable: false,
+        },
+        {
+            field: "seatStatus",
+            headerName: "حالة المقعد",
+            width: 100,
+            editable: false,
+        },
+        {
+            field: "ُEditseat",
+            headerName: "تعديل حالة المقعد",
+            width: 150,
+            renderCell: (params) => (
+                <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() =>
+                        navigate(`/Company/Dashboard/EditSeatStatus/${params.row.id}`, {
+                            state: params.row.seatStatusId,
+                        })
+                    }
+                >
+                    تعديل{" "}
+                </Button>
+            ),
+        },
+    ];
+    
+    const [seatsState, setSeatsState] = useState<TripSeatInfo[]>([])
+    useEffect(() => {
+        async function fetchData() {
+            const apiResponse = (
+                await apiClient.get<GenericApiResponse<TripSeatInfo[]>>(
+                    `/API/UserReservationSeat/GetTripSeatsDashboard/${companyTripId}`
+                )
+            ).data;
+
+            if(apiResponse.isSuccess && apiResponse.payload)
+                setSeatsState(apiResponse.payload)
+            else
+            apiResponse.errors?.forEach(error => toast.error(error))
+        }
+
+        if (!companyTripId) navigate(-1);
+        else fetchData();
+    }, []);
+
+    if (!companyTripId) return null;
 
     return (
         <>
             <Header title="معلومات مقاعد الرحلة" subTitle="" />
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={() => navigate("/dashboard/addtraveler")}
-                style={{
-                    marginBottom: "2rem",
-                    marginTop: "0.2rem",
-                    direction: "rtl",
-                }}
-            >
-                <span>إضافة مسافر</span>
-            </Button>
-            <Box sx={{ height: 400 }}>
+            <Box sx={{ height: 650 }}>
                 <DataGrid
-                    rows={rows}
+                    rows={seatsState}
                     columns={columns}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
+                    initialState={{
+                        pagination: { paginationModel: { pageSize: 10 } },
+                    }}
                     checkboxSelection
-                    disableSelectionOnClick
+                    disableRowSelectionOnClick
                     sx={{ width: "100%", overflowX: "scroll" }}
+                    columnVisibilityModel={{
+                        seatStatusId: false,
+                    }}
                 />
             </Box>
         </>
     );
-};
-
-export default SeatsOnTrip;
+}

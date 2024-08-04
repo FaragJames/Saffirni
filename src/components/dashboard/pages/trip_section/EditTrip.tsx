@@ -130,6 +130,10 @@ export default function EditTrip() {
                     value: values.ticketPrice.toString(),
                 });
 
+            if (request.length === 0) {
+                toast.info("ليست هنالك أية تغييرات.");
+                return;
+            }
             const apiResponse = (
                 await apiClient.patch<ApiResponse>(
                     `/API/CompanyTrip/${params.id}`,

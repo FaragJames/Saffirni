@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { useContext, useEffect, useState } from "react";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
     Button,
@@ -7,44 +7,91 @@ import {
     TextField,
     Grid,
     Box,
-    Container
+    Container,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import Header from "../../dashboard_components/Header";
+import { apiClient } from "../../../../utilities/Axios";
+import { ApiResponse, GenericApiResponse, PatchRequest } from "../../../../utilities/Types";
+import { toast } from "react-toastify";
+import { EmployeeContext } from "../../../../utilities/Contexts/EmployeeContext";
+
+type CompanySettings = {
+    name: string;
+    email: string;
+    phoneNumber: string;
+};
 
 export default function Settings() {
-    const navigate = useNavigate();
-    const [isEditable, setIsEditable] = useState(false);
-
-    const validationSchema = Yup.object().shape({
-        NameOfCompany: Yup.string().required("اسم الشركة مطلوب"),
-        email: Yup.string()
-            .email("بريد إلكتروني غير صالح")
-            .required("البريد الإلكتروني مطلوب"),
-        phoneNumber: Yup.string()
-            .matches(
-                /^09\d{8}$/,
-                "رقم الجوال يجب أن يبدأ ب09 ويتكون من 10 أرقام"
-            )
-            .required("رقم الهاتف مطلوب"),
-        password: Yup.string()
-            .min(8, "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل")
-            .required("كلمة المرور مطلوبة"),
-        confirmPassword: Yup.string()
-            .oneOf([Yup.ref("password"), null], "يجب أن تتطابق كلمات المرور")
-            .required("تأكيد كلمة المرور مطلوب"),
+    const [companyState, setCompanyState] = useState<CompanySettings>({
+        name: "",
+        email: "",
+        phoneNumber: "",
     });
 
-    const handleEditClick = () => {
-        setIsEditable(true);
-    };
+    const context = useContext(EmployeeContext);
+    useEffect(() => {
+        async function fetchData() {
+            const apiResponse = (
+                await apiClient.get<GenericApiResponse<CompanySettings[]>>(
+                    `/API/Company/GetCompaniesInfo?id=${context.state.companyId}`
+                )
+            ).data;
 
-    const handleSubmit = (values) => {
-        console.log(values);
-        // Save the updated company information
-        setIsEditable(false);
-        navigate("/dashboard/sitting");
-    };
+            if (apiResponse.isSuccess && apiResponse.payload)
+                setCompanyState(apiResponse.payload[0]);
+            else apiResponse.errors?.forEach((error) => toast.error(error));
+        }
+
+        fetchData();
+    }, []);
+
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required("اسم الشركة مطلوب*"),
+        email: Yup.string()
+            .email("بريد إلكتروني غير صالح*")
+            .required("البريد الإلكتروني مطلوب*"),
+        phoneNumber: Yup.string()
+            .matches(
+                /^09[3,4,5,6,8,9]\d{7}$/,
+                "رقم الموبايل يجب أن يبدأ ب09 ويتكون من 10 أرقام*"
+            )
+            .required("رقم الموبايل مطلوب*"),
+    });
+
+    async function handleSubmit(values: CompanySettings) {
+        const request: PatchRequest[] = [];
+        if (values.name !== companyState.name)
+            request.push({
+                op: "replace",
+                path: "name",
+                value: values.name,
+            });
+        if (values.email !== companyState.email)
+            request.push({
+                op: "replace",
+                path: "email",
+                value: values.email,
+            });
+        if (values.phoneNumber !== companyState.phoneNumber)
+            request.push({
+                op: "replace",
+                path: "phoneNumber",
+                value: values.phoneNumber,
+            });
+        
+        if(request.length === 0) {
+            toast.info("ليست هنالك أية تغييرات.")
+            return;
+        }
+        const apiResponse = (
+            await apiClient.patch<ApiResponse>(`/API/Company/${context.state.companyId}`, request)
+        ).data;
+        if (apiResponse.isSuccess) {
+            if (apiResponse.message) toast.success(apiResponse.message);
+        } else apiResponse.errors?.forEach((error) => toast.error(error));
+        
+        location.reload();
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -63,44 +110,38 @@ export default function Settings() {
                     subTitle="تعديل معلومات الشركة"
                 />
                 <Formik
-                    initialValues={{
-                        NameOfCompany: "اسم الشركة الحالية",
-                        email: "example@example.com",
-                        phoneNumber: "0912345678",
-                        password: "",
-                        confirmPassword: "",
-                    }}
+                    enableReinitialize={true}
+                    initialValues={companyState}
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
-                    {({ errors, touched }) => (
+                    {({ errors, touched, values, handleChange }) => (
                         <Form>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Field
-                                        as={TextField}
-                                        name="NameOfCompany"
+                                    <TextField
+                                        name="name"
                                         variant="outlined"
                                         fullWidth
                                         label="اسم الشركة"
-                                        disabled={!isEditable}
+                                        value={values.name}
+                                        onChange={handleChange}
                                         error={
-                                            touched.NameOfCompany &&
-                                            Boolean(errors.NameOfCompany)
+                                            touched.name && Boolean(errors.name)
                                         }
                                         helperText={
-                                            <ErrorMessage name="NameOfCompany" />
+                                            <ErrorMessage name="name" />
                                         }
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Field
-                                        as={TextField}
+                                    <TextField
                                         name="email"
                                         variant="outlined"
                                         fullWidth
                                         label="البريد الإلكتروني"
-                                        disabled={!isEditable}
+                                        value={values.email}
+                                        onChange={handleChange}
                                         error={
                                             touched.email &&
                                             Boolean(errors.email)
@@ -111,13 +152,13 @@ export default function Settings() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Field
-                                        as={TextField}
+                                    <TextField
                                         name="phoneNumber"
                                         variant="outlined"
                                         fullWidth
-                                        label="رقم الجوال"
-                                        disabled={!isEditable}
+                                        label="رقم الموبايل"
+                                        value={values.phoneNumber}
+                                        onChange={handleChange}
                                         error={
                                             touched.phoneNumber &&
                                             Boolean(errors.phoneNumber)
@@ -127,67 +168,15 @@ export default function Settings() {
                                         }
                                     />
                                 </Grid>
-                                {isEditable && (
-                                    <>
-                                        <Grid item xs={12}>
-                                            <Field
-                                                as={TextField}
-                                                name="password"
-                                                variant="outlined"
-                                                fullWidth
-                                                label="كلمة المرور"
-                                                type="password"
-                                                error={
-                                                    touched.password &&
-                                                    Boolean(errors.password)
-                                                }
-                                                helperText={
-                                                    <ErrorMessage name="password" />
-                                                }
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Field
-                                                as={TextField}
-                                                name="confirmPassword"
-                                                variant="outlined"
-                                                fullWidth
-                                                label="تأكيد كلمة المرور"
-                                                type="password"
-                                                error={
-                                                    touched.confirmPassword &&
-                                                    Boolean(
-                                                        errors.confirmPassword
-                                                    )
-                                                }
-                                                helperText={
-                                                    <ErrorMessage name="confirmPassword" />
-                                                }
-                                            />
-                                        </Grid>
-                                    </>
-                                )}
                             </Grid>
-                            {!isEditable ? (
-                                <Button
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={handleEditClick}
-                                    sx={{ mt: 3, mb: 2 }}
-                                >
-                                    تعديل
-                                </Button>
-                            ) : (
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    sx={{ mt: 3, mb: 2 }}
-                                >
-                                    حفظ
-                                </Button>
-                            )}
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                حفظ
+                            </Button>
                         </Form>
                     )}
                 </Formik>

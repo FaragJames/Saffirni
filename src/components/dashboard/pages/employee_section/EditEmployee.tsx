@@ -5,9 +5,6 @@ import EmployeeForm from "./EmployeeForm";
 import { EmployeeInfo } from "./EmployeeSectionTypes";
 
 export default function EditEmployee() {
-    const context = useContext(EmployeeContext);
-    const navigate = useNavigate();
-
     async function handleSubmit(values: EmployeeInfo) {
         try {
             const apiResponse = (
@@ -15,7 +12,6 @@ export default function EditEmployee() {
                     "????",
                     {
                         employee: {
-                            companyId: context.state.companyId,
                             firstName: values.firstName,
                             lastName: values.lastName,
                             phoneNumber: values.phoneNumber,
@@ -29,7 +25,6 @@ export default function EditEmployee() {
             if (apiResponse.isSuccess) {
                 if (apiResponse.message) toast.success(apiResponse.message);
 
-                navigate("/Company/Dashboard/Employees");
             } else apiResponse.errors?.forEach((error) => toast.error(error));
         } catch (error) {
             console.error(error);
