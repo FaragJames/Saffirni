@@ -18,22 +18,22 @@ export default function AddTrip() {
                     "/API/CompanyTrip/AddDashboard",
                     {
                         employeeId: context.state.id,
-                        driverId: values.DriverId,
-                        busId: values.BusId,
+                        driverId: values.driverId,
+                        busId: values.busId,
                         trip: {
                             sourceBusStationId: parseInt(
-                                values.SourceBusStationId
+                                values.sourceBusStationId
                             ),
                             destinationBusStationId: parseInt(
-                                values.DestinationBusStationId
+                                values.destinationBusStationId
                             ),
                         },
-                        expectedArrivalTime: values.ExpectedArrivalTime,
-                        expectedDepartTime: values.ExpectedDepartTime,
-                        actualArrivalTime: values.ActualArrivalTime,
-                        actualDepartTime: values.ActualDepartTime,
-                        ticketPrice: values.TicketPrice,
-                        isActive: Boolean(values.IsActive),
+                        expectedArrivalTime: values.expectedArrivalTime,
+                        expectedDepartTime: values.expectedDepartTime,
+                        actualArrivalTime: values.actualArrivalTime,
+                        actualDepartTime: values.actualDepartTime,
+                        ticketPrice: values.ticketPrice,
+                        isActive: Boolean(values.isActive),
                     }
                 )
             ).data;

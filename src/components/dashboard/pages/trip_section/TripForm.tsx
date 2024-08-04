@@ -80,7 +80,7 @@ export default function TripForm(props: {
         expectedArrivalTime: Yup.date()
             .required("*وقت الوصول المتوقع مطلوب")
             .min(
-                Yup.ref("ExpectedDepartTime"),
+                Yup.ref("expectedDepartTime"),
                 "*وقت الوصول يجب أن يكون أكبر من وقت الانطلاق"
             ),
         ticketPrice: Yup.number()

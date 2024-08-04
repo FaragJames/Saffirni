@@ -8,6 +8,7 @@ export default function Header({ title = "", subTitle = "", isDashboard = false 
                 sx={{
                     color: theme.palette.info.light,
                     fontWeight: "bold",
+                    
                 }}
                 variant="h5"
             >
