@@ -154,7 +154,7 @@ export default function ShowEmployees() {
         <DataGrid
           rows={employeesState}
           columns={columns}
-          sx={{ width: "1250", overflowX: "scroll" }}
+          sx={{ width: "1250px", overflowX: "auto" }}
           initialState={{
             pagination: {
               paginationModel: {

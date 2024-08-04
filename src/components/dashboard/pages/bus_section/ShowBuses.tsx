@@ -129,8 +129,8 @@ export default function ShowBuses() {
                 <DataGrid
                     rows={busesState}
                     columns={columns}
-                    sx={{ width: "1250px", overflowX: "scroll" }}
-                    initialState={{
+                    sx={{ width: "1250px", overflowX: "auto" }}
+                                        initialState={{
                         pagination: { paginationModel: { pageSize: 5 } },
                     }}
                     pageSizeOptions={[5]}

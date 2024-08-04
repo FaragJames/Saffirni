@@ -108,12 +108,12 @@ export default function SeatsOnTrip() {
                 <DataGrid
                     rows={seatsState}
                     columns={columns}
+                    sx={{ width: "1250px", overflowX: "auto" }}
                     initialState={{
                         pagination: { paginationModel: { pageSize: 10 } },
                     }}
                     checkboxSelection
                     disableRowSelectionOnClick
-                    sx={{ width: "100%", overflowX: "scroll" }}
                     columnVisibilityModel={{
                         seatStatusId: false,
                     }}
