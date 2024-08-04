@@ -73,7 +73,7 @@ export default function TripForm(props: {
                 "not-equal",
                 "*يجب أن تكون الوجهة مختلفة عن نقطة الانطلاق",
                 function (value) {
-                    return this.parent.SourceBusStationId !== value;
+                    return this.parent.sourceBusStationId !== value;
                 }
             ),
         expectedDepartTime: Yup.date().required("*وقت الانطلاق المتوقع مطلوب"),
@@ -99,7 +99,10 @@ export default function TripForm(props: {
     });
 
     console.log(editValuesState)
-
+    const getCurrentDateTime = () => {
+        const currentDateTime = new Date();
+        return currentDateTime.toISOString().slice(0, 16);
+    };
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -209,6 +212,9 @@ export default function TripForm(props: {
                                         onChange={handleChange}
                                         InputLabelProps={{
                                             shrink: true,
+                                        }} 
+                                        inputProps={{
+                                            min: getCurrentDateTime(),
                                         }}
                                         error={
                                             touched.expectedDepartTime &&
@@ -230,6 +236,9 @@ export default function TripForm(props: {
                                         onChange={handleChange}
                                         InputLabelProps={{
                                             shrink: true,
+                                        }}
+                                        inputProps={{
+                                            min: getCurrentDateTime(),
                                         }}
                                         error={
                                             touched.expectedArrivalTime &&
