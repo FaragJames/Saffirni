@@ -10,7 +10,6 @@ import ShowBuses from "./components/dashboard/pages/bus_section/ShowBuses.tsx";
 import Settings from "./components/dashboard/pages/settings/Settings.tsx";
 import ShowEmployees from "./components/dashboard/pages/employee_section/ShowEmployees.tsx";
 import SeatsOnTrip from "./components/dashboard/pages/seatsOnTrip/SeatsOnTrip.tsx";
-import AddTraveler from "./components/dashboard/pages/add_traveler/AddTraveler.tsx";
 import Navbar from "./components/navbar/Navbar.tsx";
 import Bill from "./components/bill/Bill.tsx";
 import AddEmployee from "./components/dashboard/pages/employee_section/AddEmployee.tsx";
@@ -37,6 +36,7 @@ import DashboardSignIn from "./components/dashboard/DashboardSignIn.tsx";
 import EditBus from "./components/dashboard/pages/bus_section/EditBus.tsx";
 import EditTrip from "./components/dashboard/pages/trip_section/EditTrip.tsx";
 import EditEmployee from "./components/dashboard/pages/employee_section/EditEmployee.tsx";
+import EditSeatStatus from "./components/dashboard/pages/seatsOnTrip/EditSeatStatus.tsx";
 
 export default function App() {
     const userJson = sessionStorage.getItem("user");
@@ -172,8 +172,8 @@ export default function App() {
                                 element: <SeatsOnTrip />,
                             },
                             {
-                                path: "AddTraveler",
-                                element: <AddTraveler />,
+                                path: "EditSeatStatus/:id",
+                                element: <EditSeatStatus />,
                             },
                             {
                                 path: "Settings",

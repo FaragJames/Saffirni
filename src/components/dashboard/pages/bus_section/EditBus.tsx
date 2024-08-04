@@ -74,6 +74,10 @@ export default function EditBus() {
                     value: values.plateNumber.toString(),
                 });
 
+            if (request.length === 0) {
+                toast.info("ليست هنالك أية تغييرات.");
+                return;
+            }
             const apiResponse = (
                 await apiClient.patch<ApiResponse>(
                     `/API/Bus/${params.id}`,

@@ -136,9 +136,6 @@ export default function ShowBuses() {
                     pageSizeOptions={[5]}
                     checkboxSelection
                     disableRowSelectionOnClick
-                    // columnVisibilityModel={{
-                    //     statusName: false
-                    // }}
                 />
             </Box>
         </Box>

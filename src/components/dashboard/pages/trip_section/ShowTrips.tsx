@@ -148,7 +148,11 @@ export default function ShowTrips() {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => handleViewSeats(params.row.id)}
+                    onClick={() =>
+                        navigate(`/Company/Dashboard/SeatsOnTrip`, {
+                            state: params.row.id,
+                        })
+                    }
                 >
                     عرض المقاعد
                 </Button>
@@ -162,7 +166,9 @@ export default function ShowTrips() {
                 <Button
                     variant="contained"
                     color="success"
-                    onClick={() => navigate(`/Company/Dashboard/EditTrip/${params.row.id}`)}
+                    onClick={() =>
+                        navigate(`/Company/Dashboard/EditTrip/${params.row.id}`)
+                    }
                 >
                     تعديل{" "}
                 </Button>
@@ -185,10 +191,6 @@ export default function ShowTrips() {
             ),
         },
     ];
-
-    const handleViewSeats = (id: number) => {
-        navigate(`/Company/Dashboard/SeatsOnTrip?tripId=${id}`);
-    };
 
     return (
         <Box>
@@ -213,7 +215,6 @@ export default function ShowTrips() {
                     initialState={{
                         pagination: { paginationModel: { pageSize: 5 } },
                     }}
-                    pageSizeOptions={[5]}
                     checkboxSelection
                     disableRowSelectionOnClick
                 />

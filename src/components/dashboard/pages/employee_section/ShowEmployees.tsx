@@ -66,24 +66,24 @@ export default function ShowEmployees() {
             width: 250,
             editable: false,
         },
-        {
-            field: "ُEditEmployee",
-            headerName: "تعديل موظف",
-            width: 150,
-            renderCell: (params) => (
-                <Button
-                    variant="contained"
-                    color="success"
-                    onClick={() =>
-                        navigate(
-                            `/Company/Dashboard/EditEmployee/${params.row.id}`
-                        )
-                    }
-                >
-                    تعديل{" "}
-                </Button>
-            ),
-        },
+        // {
+        //     field: "ُEditEmployee",
+        //     headerName: "تعديل موظف",
+        //     width: 150,
+        //     renderCell: (params) => (
+        //         <Button
+        //             variant="contained"
+        //             color="success"
+        //             onClick={() =>
+        //                 navigate(
+        //                     `/Company/Dashboard/EditEmployee/${params.row.id}`
+        //                 )
+        //             }
+        //         >
+        //             تعديل{" "}
+        //         </Button>
+        //     ),
+        // },
         {
             field: "DeleteEmployee",
             headerName: "حذف موظف ",
